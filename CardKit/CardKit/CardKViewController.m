@@ -6,13 +6,13 @@
 //  Copyright © 2019 AnjLab. All rights reserved.
 //
 
-#import "CKitViewController.h"
+#import "CardKViewController.h"
 
-@interface CKitViewController ()
+@interface CardKViewController ()
 
 @end
 
-@implementation CKitViewController {
+@implementation CardKViewController {
   NSString *_pubKey;
   NSString *_mdOrder;
 }
@@ -21,7 +21,7 @@
   if (self = [super initWithStyle:UITableViewStyleGrouped]) {
     _pubKey = pubKey;
     _mdOrder = mdOrder;
-    _theme = [CKitTheme defaultTheme];
+    _theme = [CardKTheme defaultTheme];
   }
   
   return self;

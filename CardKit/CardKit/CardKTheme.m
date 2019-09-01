@@ -1,17 +1,17 @@
 //
-//  CKitTheme.m
+//  CardKTheme.m
 //  CardKit
 //
 //  Created by Yury Korolev on 01.09.2019.
 //  Copyright © 2019 AnjLab. All rights reserved.
 //
 
-#import "CKitTheme.h"
+#import "CardKTheme.h"
 #import <UIKit/UIKit.h>
-@implementation CKitTheme
+@implementation CardKTheme
 
-+ (CKitTheme *)defaultTheme {
-  CKitTheme *theme = [[CKitTheme alloc] init];
++ (CardKTheme *)defaultTheme {
+  CardKTheme *theme = [[CardKTheme alloc] init];
 
   theme.colorHeader = UIColor.grayColor;
   theme.colorLabel = UIColor.blackColor;
@@ -23,12 +23,12 @@
   return theme;
 }
 
-+ (CKitTheme *)darkTheme {
-  return [CKitTheme defaultTheme];
++ (CardKTheme *)darkTheme {
+  return [CardKTheme defaultTheme];
 }
 
-+ (CKitTheme *)lightTheme {
-  return [CKitTheme defaultTheme];
++ (CardKTheme *)lightTheme {
+  return [CardKTheme defaultTheme];
 }
 
 @end

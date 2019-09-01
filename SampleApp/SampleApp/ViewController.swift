@@ -23,14 +23,14 @@ TBSwAcNAizIvEY4wrqc4ARR3nTlwAxkye9bTNVNROMMiMtu1ERGyRFjI7wnSmRnN
 EwIDAQAB
 -----END PUBLIC KEY-----
 """
-    let controller = CKitViewController(publicKey: publicKey, mdOrder:"mdOrder")
+    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder")
     present(controller, animated: true)
   }
 
 }
 
-extension ViewController: CKitViewControllerDelegate {
-  func cardKitViewController(_ controller: CKitViewController, didCreateSeToken seToken: String) {
+extension ViewController: CardKViewControllerDelegate {
+  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {
     debugPrint(seToken)
     controller.dismiss(animated: true, completion: nil)
   }

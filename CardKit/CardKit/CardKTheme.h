@@ -1,5 +1,5 @@
 //
-//  CKitTheme.h
+//  CardKTheme.h
 //  CardKit
 //
 //  Created by Yury Korolev on 01.09.2019.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CKitTheme : NSObject
+@interface CardKTheme : NSObject
 
 @property (strong, nonatomic) UIColor *colorHeader;
 @property (strong, nonatomic) UIColor *colorLabel;
@@ -21,9 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIColor *colorCellBackground;
 
 
-+ (CKitTheme *)defaultTheme;
-+ (CKitTheme *)darkTheme;
-+ (CKitTheme *)lightTheme;
++ (CardKTheme *)defaultTheme;
++ (CardKTheme *)darkTheme;
++ (CardKTheme *)lightTheme;
 
 @end
 

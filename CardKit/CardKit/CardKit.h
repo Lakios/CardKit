@@ -16,5 +16,5 @@ FOUNDATION_EXPORT const unsigned char CardKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <CardKit/PublicHeader.h>
 
-#import <CardKit/CKitTheme.h>
-#import <CardKit/CKitViewController.h>
+#import <CardKit/CardKTheme.h>
+#import <CardKit/CardKViewController.h>
