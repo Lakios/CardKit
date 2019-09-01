@@ -17,6 +17,8 @@
 		D245ABC1231C4C2900369747 /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = D245ABBF231C4C2900369747 /* RSA.m */; };
 		D245ABC3231C4E5200369747 /* Luhn.h in Headers */ = {isa = PBXBuildFile; fileRef = D245ABC2231C4E5200369747 /* Luhn.h */; };
 		D245ABC5231C4E6700369747 /* Luhn.m in Sources */ = {isa = PBXBuildFile; fileRef = D245ABC4231C4E6700369747 /* Luhn.m */; };
+		D245ABC8231C529D00369747 /* CKitTheme.h in Headers */ = {isa = PBXBuildFile; fileRef = D245ABC6231C529D00369747 /* CKitTheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D245ABC9231C529D00369747 /* CKitTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D245ABC7231C529D00369747 /* CKitTheme.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +45,8 @@
 		D245ABBF231C4C2900369747 /* RSA.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSA.m; sourceTree = "<group>"; };
 		D245ABC2231C4E5200369747 /* Luhn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Luhn.h; sourceTree = "<group>"; };
 		D245ABC4231C4E6700369747 /* Luhn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Luhn.m; sourceTree = "<group>"; };
+		D245ABC6231C529D00369747 /* CKitTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CKitTheme.h; sourceTree = "<group>"; };
+		D245ABC7231C529D00369747 /* CKitTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CKitTheme.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,8 @@
 				D245ABC4231C4E6700369747 /* Luhn.m */,
 				D245ABBE231C4C2900369747 /* RSA.h */,
 				D245ABBF231C4C2900369747 /* RSA.m */,
+				D245ABC6231C529D00369747 /* CKitTheme.h */,
+				D245ABC7231C529D00369747 /* CKitTheme.m */,
 			);
 			path = CardKit;
 			sourceTree = "<group>";
@@ -115,6 +121,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D245ABC0231C4C2900369747 /* RSA.h in Headers */,
+				D245ABC8231C529D00369747 /* CKitTheme.h in Headers */,
 				D245ABBC231C449F00369747 /* CKitViewController.h in Headers */,
 				D245AB4A231C435E00369747 /* CardKit.h in Headers */,
 				D245ABC3231C4E5200369747 /* Luhn.h in Headers */,
@@ -218,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D245ABC9231C529D00369747 /* CKitTheme.m in Sources */,
 				D245ABC1231C4C2900369747 /* RSA.m in Sources */,
 				D245ABC5231C4E6700369747 /* Luhn.m in Sources */,
 				D245ABBD231C449F00369747 /* CKitViewController.m in Sources */,

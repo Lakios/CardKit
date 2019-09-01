@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, OLCreditCardType) {
-    OLCreditCardTypeAmex,
-    OLCreditCardTypeVisa,
-    OLCreditCardTypeMastercard,
-    OLCreditCardTypeDiscover,
-    OLCreditCardTypeDinersClub,
-    OLCreditCardTypeJCB,
-    OLCreditCardTypeUnsupported,
-    OLCreditCardTypeInvalid
+  OLCreditCardTypeAmex,
+  OLCreditCardTypeVisa,
+  OLCreditCardTypeMastercard,
+  OLCreditCardTypeDiscover,
+  OLCreditCardTypeDinersClub,
+  OLCreditCardTypeJCB,
+  OLCreditCardTypeUnsupported,
+  OLCreditCardTypeInvalid
 };
 
 @interface Luhn : NSObject

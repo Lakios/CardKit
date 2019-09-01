@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CKitTheme.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CKitViewController : UITableViewController
 
 @property (weak, nonatomic) id<CKitViewControllerDelegate> cKitDelegate;
+@property (strong) CKitTheme *theme;
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder;
 

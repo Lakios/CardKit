@@ -21,6 +21,7 @@
   if (self = [super initWithStyle:UITableViewStyleGrouped]) {
     _pubKey = pubKey;
     _mdOrder = mdOrder;
+    _theme = [CKitTheme defaultTheme];
   }
   
   return self;
