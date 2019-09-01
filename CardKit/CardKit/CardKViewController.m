@@ -7,6 +7,7 @@
 //
 
 #import "CardKViewController.h"
+#import "BankImageProvider.h"
 
 @interface CardKViewController ()
 
@@ -15,6 +16,7 @@
 @implementation CardKViewController {
   NSString *_pubKey;
   NSString *_mdOrder;
+  BankImageProvider *_bankImageProvider;
 }
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder {
@@ -22,6 +24,7 @@
     _pubKey = pubKey;
     _mdOrder = mdOrder;
     _theme = [CardKTheme defaultTheme];
+    _bankImageProvider = [[BankImageProvider alloc] init];
   }
   
   return self;
@@ -29,6 +32,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  [_bankImageProvider preloadData];
 }
 
 #pragma mark - Table view data source

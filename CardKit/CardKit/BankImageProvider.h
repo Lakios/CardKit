@@ -7,10 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SVGKit/usr/local/include/SVGKit.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BankImageProvider : NSObject
+
+- (void)preloadData;
+- (SVGKImage *)svgImageForNumber:(NSString *)number;
 
 @end
 
