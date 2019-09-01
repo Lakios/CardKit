@@ -19,6 +19,7 @@
 		D245ABC5231C4E6700369747 /* Luhn.m in Sources */ = {isa = PBXBuildFile; fileRef = D245ABC4231C4E6700369747 /* Luhn.m */; };
 		D245ABC8231C529D00369747 /* CKitTheme.h in Headers */ = {isa = PBXBuildFile; fileRef = D245ABC6231C529D00369747 /* CKitTheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D245ABC9231C529D00369747 /* CKitTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D245ABC7231C529D00369747 /* CKitTheme.m */; };
+		D245ABCB231C619300369747 /* svg in Resources */ = {isa = PBXBuildFile; fileRef = D245ABCA231C619300369747 /* svg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		D245ABC4231C4E6700369747 /* Luhn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Luhn.m; sourceTree = "<group>"; };
 		D245ABC6231C529D00369747 /* CKitTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CKitTheme.h; sourceTree = "<group>"; };
 		D245ABC7231C529D00369747 /* CKitTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CKitTheme.m; sourceTree = "<group>"; };
+		D245ABCA231C619300369747 /* svg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = svg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 		D245AB3B231C435E00369747 /* CardKit */ = {
 			isa = PBXGroup;
 			children = (
+				D245ABCA231C619300369747 /* svg */,
 				D245AB53231C437600369747 /* SVGKit */,
 				D245AB3C231C435E00369747 /* CardKit.h */,
 				D245AB3D231C435E00369747 /* Info.plist */,
@@ -208,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D245AB54231C437600369747 /* SVGKit in Resources */,
+				D245ABCB231C619300369747 /* svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
