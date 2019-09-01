@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BankImageProvider : NSObject
 
 - (void)preloadData;
-- (SVGKImage *)svgImageForNumber:(NSString *)number;
+- (nullable SVGKImage *)svgImageForNumber:(NSString *)number;
 
 @end
 

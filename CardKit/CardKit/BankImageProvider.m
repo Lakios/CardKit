@@ -42,12 +42,19 @@
 }
 
 - (NSString *)_prefixFromCardNumber:(NSString *)cardNumber {
+  // TODO: prefix from card
   return @"";
 }
 
-- (SVGKImage *)svgImageForNumber:(NSString *)number {
+- (nullable SVGKImage *)svgImageForNumber:(NSString *)number {
   
   NSString *prefix = [self _prefixFromCardNumber:number];
+  
+  if (!prefix) {
+    // or may be default image?
+    return nil;
+  }
+  
   // catching
   if ([prefix isEqual:_lastPrefix] && _lastImage) {
     return _lastImage;
@@ -56,6 +63,7 @@
   __block SVGKImage *result = nil;
   
   dispatch_sync(_queue, ^{
+    // TODO: Search in _banksJson
     result = nil;
   });
   
