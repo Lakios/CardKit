@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SVGKit/usr/local/include/SVGKit.h"
+#import <SVGKit/SVGKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

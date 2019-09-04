@@ -17,6 +17,7 @@
   NSString *_pubKey;
   NSString *_mdOrder;
   BankImageProvider *_bankImageProvider;
+  SVGKImageView *_svgImageView;
 }
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder {
@@ -25,6 +26,8 @@
     _mdOrder = mdOrder;
     _theme = [CardKTheme defaultTheme];
     _bankImageProvider = [[BankImageProvider alloc] init];
+    
+//    SVGKImage * image = [_bankImageProvider svgImageForNumber:@""];
   }
   
   return self;
@@ -33,6 +36,9 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [_bankImageProvider preloadData];
+  
+  _svgImageView = [[SVGKImageView alloc] init];
+  [self.view addSubview:_svgImageView];
 }
 
 #pragma mark - Table view data source

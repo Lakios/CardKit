@@ -10,7 +10,6 @@
 		D245AB43231C435E00369747 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; };
 		D245AB48231C435E00369747 /* CardKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D245AB47231C435E00369747 /* CardKitTests.m */; };
 		D245AB4A231C435E00369747 /* CardKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D245AB3C231C435E00369747 /* CardKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D245AB54231C437600369747 /* SVGKit in Resources */ = {isa = PBXBuildFile; fileRef = D245AB53231C437600369747 /* SVGKit */; };
 		D245ABBC231C449F00369747 /* CardKViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D245ABBA231C449F00369747 /* CardKViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D245ABBD231C449F00369747 /* CardKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D245ABBB231C449F00369747 /* CardKViewController.m */; };
 		D245ABC0231C4C2900369747 /* RSA.h in Headers */ = {isa = PBXBuildFile; fileRef = D245ABBE231C4C2900369747 /* RSA.h */; };
@@ -22,6 +21,10 @@
 		D245ABCB231C619300369747 /* svg in Resources */ = {isa = PBXBuildFile; fileRef = D245ABCA231C619300369747 /* svg */; };
 		D245ABD2231C65C300369747 /* BankImageProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = D245ABD0231C65C300369747 /* BankImageProvider.h */; };
 		D245ABD3231C65C300369747 /* BankImageProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D245ABD1231C65C300369747 /* BankImageProvider.m */; };
+		D2FF087A231F8BA60015800C /* SVGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2FF0878231F8BA50015800C /* SVGKit.framework */; };
+		D2FF087B231F8BA60015800C /* SVGKit.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = D2FF0879231F8BA60015800C /* SVGKit.framework.dSYM */; };
+		D2FF0881231F8E5C0015800C /* CocoaLumberjack.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = D2FF087F231F8E5C0015800C /* CocoaLumberjack.framework.dSYM */; };
+		D2FF0882231F8E5C0015800C /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2FF0880231F8E5C0015800C /* CocoaLumberjack.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +44,6 @@
 		D245AB42231C435E00369747 /* CardKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D245AB47231C435E00369747 /* CardKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKitTests.m; sourceTree = "<group>"; };
 		D245AB49231C435E00369747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D245AB53231C437600369747 /* SVGKit */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SVGKit; sourceTree = "<group>"; };
 		D245ABBA231C449F00369747 /* CardKViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKViewController.h; sourceTree = "<group>"; };
 		D245ABBB231C449F00369747 /* CardKViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKViewController.m; sourceTree = "<group>"; };
 		D245ABBE231C4C2900369747 /* RSA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSA.h; sourceTree = "<group>"; };
@@ -53,6 +55,10 @@
 		D245ABCA231C619300369747 /* svg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = svg; sourceTree = "<group>"; };
 		D245ABD0231C65C300369747 /* BankImageProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BankImageProvider.h; sourceTree = "<group>"; };
 		D245ABD1231C65C300369747 /* BankImageProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BankImageProvider.m; sourceTree = "<group>"; };
+		D2FF0878231F8BA50015800C /* SVGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SVGKit.framework; sourceTree = "<group>"; };
+		D2FF0879231F8BA60015800C /* SVGKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = SVGKit.framework.dSYM; sourceTree = "<group>"; };
+		D2FF087F231F8E5C0015800C /* CocoaLumberjack.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = CocoaLumberjack.framework.dSYM; sourceTree = "<group>"; };
+		D2FF0880231F8E5C0015800C /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CocoaLumberjack.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +66,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2FF0882231F8E5C0015800C /* CocoaLumberjack.framework in Frameworks */,
+				D2FF087A231F8BA60015800C /* SVGKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +85,7 @@
 		D245AB2F231C435E00369747 = {
 			isa = PBXGroup;
 			children = (
+				D2FF0877231F8B6D0015800C /* Frameworks */,
 				D245AB3B231C435E00369747 /* CardKit */,
 				D245AB46231C435E00369747 /* CardKitTests */,
 				D245AB3A231C435E00369747 /* Products */,
@@ -96,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				D245ABCA231C619300369747 /* svg */,
-				D245AB53231C437600369747 /* SVGKit */,
 				D245AB3C231C435E00369747 /* CardKit.h */,
 				D245AB3D231C435E00369747 /* Info.plist */,
 				D245ABBA231C449F00369747 /* CardKViewController.h */,
@@ -120,6 +128,17 @@
 				D245AB49231C435E00369747 /* Info.plist */,
 			);
 			path = CardKitTests;
+			sourceTree = "<group>";
+		};
+		D2FF0877231F8B6D0015800C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D2FF0880231F8E5C0015800C /* CocoaLumberjack.framework */,
+				D2FF087F231F8E5C0015800C /* CocoaLumberjack.framework.dSYM */,
+				D2FF0878231F8BA50015800C /* SVGKit.framework */,
+				D2FF0879231F8BA60015800C /* SVGKit.framework.dSYM */,
+			);
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,7 +236,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D245AB54231C437600369747 /* SVGKit in Resources */,
+				D2FF0881231F8E5C0015800C /* CocoaLumberjack.framework.dSYM in Resources */,
+				D2FF087B231F8BA60015800C /* SVGKit.framework.dSYM in Resources */,
 				D245ABCB231C619300369747 /* svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,6 +411,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				GCC_VERSION = "";
 				INFOPLIST_FILE = CardKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -398,7 +423,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.anjlab.CardKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -416,6 +441,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				GCC_VERSION = "";
 				INFOPLIST_FILE = CardKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -423,7 +453,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.anjlab.CardKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

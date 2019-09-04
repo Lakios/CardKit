@@ -20,9 +20,9 @@
   self = [super init];
   if (self) {
     _queue = dispatch_queue_create(
-      "bank.image.provider.queue",
-      DISPATCH_QUEUE_SERIAL
-    );
+                                   "bank.image.provider.queue",
+                                   DISPATCH_QUEUE_SERIAL
+                                   );
   }
   return self;
 }
@@ -35,23 +35,41 @@
   });
 }
 
+- (nullable SVGKImage *)_searchBank:(NSString *)curdNumberPrefix
+{
+  NSBundle *bundle = [NSBundle bundleForClass:[BankImageProvider class]];
+  NSDictionary *prefixes = [_banksJSON objectForKey:@"prefixes"];
+  NSString *bunkKey = [prefixes objectForKey:curdNumberPrefix];
+  
+  if (!bunkKey) {
+    bunkKey = @"";
+  }
+  
+  NSString *pathToImg = [NSString stringWithFormat:@"svg/bank-logos/color/%@", bunkKey];
+  NSString *imagePath = [[[bundle resourcePath] stringByAppendingPathComponent:pathToImg] stringByAppendingPathExtension:@"svg"];
+  
+  //    SVGKImage *img = [SVGKImage imageWithContentsOfFile:imagePath];
+  //    return img;
+  return nil;
+}
+
 - (void)_loadJson {
   NSBundle *bundle = [NSBundle bundleForClass:[BankImageProvider class]];
-  
-//  NSJSONSerialization 
+  NSString *path = [[[bundle resourcePath] stringByAppendingPathComponent:@"svg/bank-logos/banks"
+                     ] stringByAppendingPathExtension:@"json"];
+  NSData *data = [NSData dataWithContentsOfFile:path];
+  _banksJSON = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
 }
 
 - (NSString *)_prefixFromCardNumber:(NSString *)cardNumber {
-  // TODO: prefix from card
-  return @"";
+  return [cardNumber substringToIndex:5];
 }
 
 - (nullable SVGKImage *)svgImageForNumber:(NSString *)number {
   
   NSString *prefix = [self _prefixFromCardNumber:number];
   
-  if (!prefix) {
-    // or may be default image?
+  if (!prefix || [prefix length] < 6) {
     return nil;
   }
   
@@ -63,8 +81,7 @@
   __block SVGKImage *result = nil;
   
   dispatch_sync(_queue, ^{
-    // TODO: Search in _banksJson
-    result = nil;
+    result = [self _searchBank:prefix];
   });
   
   _lastPrefix = prefix;
