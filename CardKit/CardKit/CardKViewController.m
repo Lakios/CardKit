@@ -98,7 +98,6 @@ const NSString *CardKButtonCellID = @"button";
   } else if ([CardKButtonCellID isEqual:cellID]) {
     cell.contentView.backgroundColor = UIColor.brownColor;
   }
-  
   return cell;
 }
 

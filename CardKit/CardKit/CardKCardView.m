@@ -19,26 +19,25 @@
   CardKTextField *_focusedField;
 }
 
-- (instancetype)initWithFrame:(CGRect) frame {
+- (instancetype)init {
   
-  self = [super initWithFrame:frame];
+  self = [super init];
   
   if (self) {
-    _paymentSystemImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.backgroundColor = UIColor.orangeColor;
     [self addSubview:_paymentSystemImageView];
     
-    _numberTextField = [[CardKTextField alloc] initWithFrame:CGRectZero];
+    _numberTextField = [[CardKTextField alloc] init];
     _numberTextField.pattern = CardKTextFieldPatternCardNumber;
     _numberTextField.placeholder = @"Number";
-    _numberTextField.backgroundColor = UIColor.blueColor;
     
-    _expireDateTextField = [[CardKTextField alloc] initWithFrame:CGRectZero];
+    _expireDateTextField = [[CardKTextField alloc] init];
     _expireDateTextField.pattern = CardKTextFieldPatternExpirationDate;
     _expireDateTextField.placeholder = @"MM/YY";
     _expireDateTextField.format = @"  /  ";
     
-    _secureCodeTextField = [[CardKTextField alloc] initWithFrame:CGRectZero];
+    _secureCodeTextField = [[CardKTextField alloc] init];
     _secureCodeTextField.pattern = CardKTextFieldPatternSecureCode;
     _secureCodeTextField.placeholder = @"CVC";
     
@@ -85,7 +84,7 @@
 }
 
 - (void)layoutSubviews {
-  [super layoutSubviews];
+  
   
   CGRect bounds = self.bounds;
   
@@ -93,7 +92,6 @@
   
   if (_focusedField == _numberTextField) {
     _numberTextField.frame = CGRectMake(50, 0, _numberTextField.intrinsicContentSize.width, bounds.size.height);
-    
     _expireDateTextField.frame = CGRectMake( CGRectGetMaxX( _numberTextField.frame), 0, _expireDateTextField.intrinsicContentSize.width, bounds.size.height);
     _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX( _expireDateTextField.frame), 0, _secureCodeTextField.intrinsicContentSize.width, bounds.size.height);
   } else {
@@ -101,9 +99,12 @@
     _expireDateTextField.frame = CGRectMake(200, 0, 60, bounds.size.height);
     _secureCodeTextField.frame = CGRectMake(260, 0, 50, bounds.size.height);
   }
+  
   _paymentSystemImageView.frame = CGRectMake(0, 0, 50, bounds.size.height);
   
+  [super layoutSubviews];
   
+  NSLog(@"done");
   
 }
 

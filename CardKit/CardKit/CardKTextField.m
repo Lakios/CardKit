@@ -20,11 +20,13 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   UILabel *_patternLabel;
   UILabel *_formatLabel;
   UITextField *_textField;
+  
   NSString *_pattern;
+  CGSize _intrinsicContentSize;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
-  self = [super initWithFrame:frame];
+- (instancetype)init {
+  self = [super init];
   if (self) {
     UIViewAutoresizing mask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.autoresizingMask = mask;
@@ -32,7 +34,6 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     _patternLabel = [[UILabel alloc] init];
     _formatLabel = [[UILabel alloc] init];
     _textField = [[UITextField alloc] init];
-    _textField.backgroundColor = UIColor.redColor;
     [_textField addTarget:self action:@selector(_editingChange:) forControlEvents:UIControlEventEditingChanged];
     
     UIFont *font = [UIFont fontWithName:@"Menlo" size:_patternLabel.font.pointSize];
@@ -44,15 +45,30 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     _formatLabel.textColor = _textField.textColor;
     
     for (UIView *v in @[_patternLabel, _textField, _formatLabel]) {
-//      v.autoresizingMask = mask;
       [self addSubview:v];
     }
     
     _textField.delegate = self;
     
+    self.clipsToBounds = true;
   }
   
   return self;
+}
+
+- (NSString *)pattern {
+  return _pattern;
+}
+
+- (void)setPattern:(NSString *)pattern {
+  _pattern = pattern;
+  UILabel *label = [[UILabel alloc] init];
+  label.font = _patternLabel.font;
+  label.text = _pattern;
+  label.attributedText = [self _formatValue:label.attributedText];
+  CGSize size = label.intrinsicContentSize;
+  size.width += 12;
+  _intrinsicContentSize = size;
 }
 
 - (NSString *)placeholder {
@@ -108,13 +124,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 }
 
 - (CGSize)intrinsicContentSize {
-  UILabel *label = [[UILabel alloc] init];
-  label.font = _patternLabel.font;
-  label.text = _pattern;
-  label.attributedText = [self _formatValue:label.attributedText];
-  CGSize size = label.intrinsicContentSize;
-  size.width += 12;
-  return size;
+  return _intrinsicContentSize;
 }
 
 
@@ -195,24 +205,23 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 - (void)layoutSubviews {
   [super layoutSubviews];
   
-  CGSize size = [self intrinsicContentSize];
+  CGSize boundsSize = self.bounds.size;
   
-  CGFloat delta = self.bounds.size.width - size.width;
-  NSLog(@"Delta: %@", @(delta));
-  
-//  CGAffineTransform transform = CGAffineTransformIdentity;
-//  if (delta > 0) {
-//    delta = 0;
-//  }
-//
-////    transform = CGAffineTransformMakeTranslation(delta, 0);
-////  }
-//
-  for (UIView *v in @[_textField, _patternLabel, _formatLabel]) {
-    v.frame = CGRectMake(0, 0, size.width, self.bounds.size.height);
-////    v.layer.affineTransform = transform;
+  for (UIView *v in self.subviews) {
+    v.frame = CGRectMake(0, 0, MAX(_intrinsicContentSize.width, boundsSize.width), boundsSize.height);
+  }
+
+  if (_textField.text.length == 0) {
+    return;
   }
   
+  CGFloat delta = boundsSize.width - _intrinsicContentSize.width;
+  
+  if (delta < -6) {
+    for (UIView *v in self.subviews) {
+      v.frame = CGRectMake(delta, 0, _intrinsicContentSize.width, boundsSize.height);
+    }
+  }
 }
 
 @end
