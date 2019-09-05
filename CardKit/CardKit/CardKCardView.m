@@ -94,6 +94,10 @@
     return;
   }
   
+  if (_focusedField != _numberTextField && field != _numberTextField) {
+    _focusedField = field;
+    return;
+  }
   _focusedField = field;
   [UIView animateWithDuration:0.3 animations:^{
     [self setNeedsLayout];
@@ -105,17 +109,27 @@
   
   
   CGRect bounds = self.bounds;
+  CGFloat height = self.bounds.size.height;
   
-  CGFloat width = bounds.size.width;
+  CGFloat width = bounds.size.width - 10;
   
   if (_focusedField == _numberTextField) {
-    _numberTextField.frame = CGRectMake(50, 0, _numberTextField.intrinsicContentSize.width, bounds.size.height);
+    _numberTextField.frame = CGRectMake(50, 0, _numberTextField.intrinsicContentSize.width, height);
     _expireDateTextField.frame = CGRectMake( CGRectGetMaxX( _numberTextField.frame), 0, _expireDateTextField.intrinsicContentSize.width, bounds.size.height);
-    _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX( _expireDateTextField.frame), 0, _secureCodeTextField.intrinsicContentSize.width, bounds.size.height);
+    _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX( _expireDateTextField.frame), 0, _secureCodeTextField.intrinsicContentSize.width, height);
   } else {
-    _numberTextField.frame = CGRectMake(50, 0, 100, bounds.size.height);
-    _expireDateTextField.frame = CGRectMake(200, 0, 60, bounds.size.height);
-    _secureCodeTextField.frame = CGRectMake(260, 0, 50, bounds.size.height);
+    CGFloat numberWidth = _numberTextField.intrinsicContentSize.width;
+    CGFloat secCodeWidth = _secureCodeTextField.intrinsicContentSize.width;
+    CGFloat expireDateWidth = _expireDateTextField.intrinsicContentSize.width;
+    
+    CGFloat leftSpace = width - 50 - secCodeWidth - expireDateWidth;
+    if (leftSpace < numberWidth) {
+      numberWidth = leftSpace;
+    }
+    
+    _numberTextField.frame = CGRectMake(50, 0, numberWidth, height);
+    _expireDateTextField.frame = CGRectMake(CGRectGetMaxX(_numberTextField.frame), 0, expireDateWidth, height);
+    _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX(_expireDateTextField.frame), 0, secCodeWidth, height);
   }
   
   _paymentSystemImageView.frame = CGRectMake(0, 0, 50, bounds.size.height);

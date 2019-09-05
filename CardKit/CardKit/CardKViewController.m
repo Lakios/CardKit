@@ -27,6 +27,7 @@ const NSString *CardKButtonCellID = @"button";
   
   CardKTextField *_ownerTextField;
   CardKCardView *_cardView;
+  UIButton *_doneButton;
   NSArray *_sections;
 }
 
@@ -46,7 +47,10 @@ const NSString *CardKButtonCellID = @"button";
     [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
     
     _ownerTextField = [[CardKTextField alloc] init];
-    _ownerTextField.backgroundColor = UIColor.greenColor;
+    
+    _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [_doneButton setTitle:@"Purchase" forState:UIControlStateNormal];
+    _doneButton.frame = CGRectMake(0, 0, 200, 44);
     
     _sections = @[
       @{@"title": @"Card", @"rows": @[CardKCardCellID] },
@@ -103,7 +107,7 @@ const NSString *CardKButtonCellID = @"button";
     _ownerTextField.frame = cell.contentView.bounds;
     [cell.contentView addSubview:_ownerTextField];
   } else if ([CardKButtonCellID isEqual:cellID]) {
-    cell.contentView.backgroundColor = UIColor.brownColor;
+    [cell addSubview:_doneButton];
   }
   return cell;
 }
@@ -123,6 +127,13 @@ const NSString *CardKButtonCellID = @"button";
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
   return NO;
+}
+
+- (void)viewDidLayoutSubviews {
+  [super viewDidLayoutSubviews];
+  
+  CGRect bounds = _doneButton.superview.bounds;
+  _doneButton.center = CGPointMake(bounds.size.width * 0.5, bounds.size.height * 0.5);
 }
 
 

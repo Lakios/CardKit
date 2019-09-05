@@ -86,16 +86,8 @@
 - (void)userContentController:(WKUserContentController *)userContentController
       didReceiveScriptMessage:(WKScriptMessage *)message
 {
-  UIColor *color = UIColor.groupTableViewBackgroundColor;
-  CGFloat r,g,b,a;
-  [color getRed:&r green:&g blue:&b alpha:&a];
-  
-  long rn = r * 255;
-  long gn = g * 255;
-  long bn = b * 255;
-  
-  NSString *script = [NSString stringWithFormat:@"document.body.style.background = 'rgb(%li,%li,%li)';", rn, gn, bn];
-  [_webView evaluateJavaScript: script completionHandler:nil];
+  [_webView setOpaque:NO];
+  _webView.backgroundColor = UIColor.clearColor;
 }
 
 - (void)showNumber:(NSString *)number {

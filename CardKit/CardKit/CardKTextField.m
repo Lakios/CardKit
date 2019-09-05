@@ -44,6 +44,11 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     _patternLabel.textColor = [UIColor placeholderTextColor];
     _formatLabel.textColor = _textField.textColor;
     
+    _textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    _textField.leftViewMode = UITextFieldViewModeAlways;
+//    _textField.rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+//    _textField.rightViewMode = UITextFieldViewModeAlways;
+    
     for (UIView *v in @[_patternLabel, _textField, _formatLabel]) {
       [self addSubview:v];
     }
@@ -63,11 +68,11 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 - (void)setPattern:(NSString *)pattern {
   _pattern = pattern;
   UILabel *label = [[UILabel alloc] init];
-  label.font = _patternLabel.font;
+  label.font = _textField.font;
   label.text = _pattern;
   label.attributedText = [self _formatValue:label.attributedText];
   CGSize size = label.intrinsicContentSize;
-  size.width += 12;
+  size.width += _textField.leftView.frame.size.width + _textField.rightView.frame.size.width + 8;
   _intrinsicContentSize = size;
 }
 
@@ -211,8 +216,9 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   
   CGSize boundsSize = self.bounds.size;
   
-  for (UIView *v in self.subviews) {
-    v.frame = CGRectMake(0, 0, MAX(_intrinsicContentSize.width, boundsSize.width), boundsSize.height);
+  _textField.frame = CGRectMake(0, 0, MAX(_intrinsicContentSize.width, boundsSize.width), boundsSize.height);
+  for (UIView *v in @[_formatLabel, _patternLabel]) {
+    v.frame = CGRectMake(_textField.leftView.bounds.size.width, 0, MAX(_intrinsicContentSize.width, boundsSize.width), boundsSize.height);
   }
 
   if (_textField.text.length == 0) {
@@ -222,8 +228,12 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   CGFloat delta = boundsSize.width - _intrinsicContentSize.width;
   
   if (delta < -6) {
-    for (UIView *v in self.subviews) {
-      v.frame = CGRectMake(delta, 0, _intrinsicContentSize.width, boundsSize.height);
+//    for (UIView *v in self.subviews) {
+//      v.frame = CGRectMake(delta, 0, _intrinsicContentSize.width, boundsSize.height);
+//    }
+    _textField.frame = CGRectMake(delta, 0, _intrinsicContentSize.width, boundsSize.height);
+    for (UIView *v in @[_formatLabel, _patternLabel]) {
+      v.frame = CGRectMake(_textField.leftView.bounds.size.width + delta, 0, _intrinsicContentSize.width, boundsSize.height);
     }
   }
 }
