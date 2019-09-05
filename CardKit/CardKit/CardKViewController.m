@@ -9,6 +9,7 @@
 #import "CardKViewController.h"
 #import "CardKTextField.h"
 #import "CardKCardView.h"
+#import "CardKBankLogoView.h"
 
 const NSString *CardKCardCellID = @"card";
 const NSString *CardKOwnerCellID = @"owner";
@@ -22,7 +23,7 @@ const NSString *CardKButtonCellID = @"button";
   NSString *_pubKey;
   NSString *_mdOrder;
   
-  UIView *_bankLogoView;
+  CardKBankLogoView *_bankLogoView;
   
   CardKTextField *_ownerTextField;
   CardKCardView *_cardView;
@@ -36,12 +37,13 @@ const NSString *CardKButtonCellID = @"button";
     _theme = [CardKTheme defaultTheme];
     
     
-    _bankLogoView = [[UIView alloc] init];
-    _bankLogoView.backgroundColor = [UIColor redColor];
+    _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
     
     _cardView = [[CardKCardView alloc] init];
+    
+    [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
     
     _ownerTextField = [[CardKTextField alloc] init];
     _ownerTextField.backgroundColor = UIColor.greenColor;
@@ -56,10 +58,15 @@ const NSString *CardKButtonCellID = @"button";
   return self;
 }
 
+- (void)_cardChanged {
+  NSString * number = _cardView.number;
+  [_bankLogoView showNumber:number];
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 120);
+  _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
   self.tableView.tableHeaderView = _bankLogoView;
   
   for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
@@ -99,6 +106,10 @@ const NSString *CardKButtonCellID = @"button";
     cell.contentView.backgroundColor = UIColor.brownColor;
   }
   return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  return section == 0 ? 34 : 38;
 }
 
 

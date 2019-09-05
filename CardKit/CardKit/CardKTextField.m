@@ -202,6 +202,10 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   return [self _formatByPattern:strValue pattern:@[@(2),@(2)]];
 }
 
+- (NSString *)text {
+  return _textField.text;
+}
+
 - (void)layoutSubviews {
   [super layoutSubviews];
   

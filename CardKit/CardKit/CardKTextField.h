@@ -16,6 +16,7 @@ extern NSString *CardKTextFieldPatternSecureCode;
 
 @interface CardKTextField : UIControl
 
+@property (readonly) NSString *text;
 @property (strong) NSString * pattern;
 @property (strong) NSString * placeholder;
 @property (strong) NSString * format;

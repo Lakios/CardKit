@@ -10,7 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CardKCardView : UIView
+@interface CardKCardView : UIControl
+
+@property (readonly) NSString *number;
+@property (readonly) NSString *expirationDate;
+@property (readonly) NSString *secureCode;
 
 @end
 

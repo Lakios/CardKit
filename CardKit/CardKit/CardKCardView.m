@@ -50,10 +50,28 @@
     
     _numberTextField.textContentType = UITextContentTypeCreditCardNumber;
     
+    [_numberTextField addTarget:self action:@selector(_numberChanged) forControlEvents:UIControlEventValueChanged];
+    
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   }
   
   return self;
+}
+
+- (NSString *)number {
+  return _numberTextField.text;
+}
+
+- (NSString *)expirationDate {
+  return _expireDateTextField.text;
+}
+
+- (NSString *)secureCode {
+  return _secureCodeTextField.text;
+}
+
+- (void)_numberChanged {
+  [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
 - (void)_switchToNext:(UIView *)sender {
