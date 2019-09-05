@@ -8,7 +8,7 @@
 
 #import "CardKCardView.h"
 #import "CardKTextField.h"
-
+#import "PaymentSystemProvider.h"
 
 @implementation CardKCardView {
   UIImageView *_paymentSystemImageView;
@@ -25,7 +25,8 @@
   
   if (self) {
     _paymentSystemImageView = [[UIImageView alloc] init];
-    _paymentSystemImageView.backgroundColor = UIColor.orangeColor;
+    _paymentSystemImageView.contentMode = UIViewContentModeCenter;
+    _paymentSystemImageView.image = [PaymentSystemProvider getPaymentSystemImageByCardNumber:@""];
     [self addSubview:_paymentSystemImageView];
     
     _numberTextField = [[CardKTextField alloc] init];
@@ -72,6 +73,9 @@
 
 - (void)_numberChanged {
   [self sendActionsForControlEvents:UIControlEventValueChanged];
+//  UIImageView
+  UIImage *image = [PaymentSystemProvider getPaymentSystemImageByCardNumber: self.number];
+  [_paymentSystemImageView setImage:image];
 }
 
 - (void)_switchToNext:(UIView *)sender {

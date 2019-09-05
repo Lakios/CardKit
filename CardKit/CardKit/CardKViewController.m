@@ -47,6 +47,7 @@ const NSString *CardKButtonCellID = @"button";
     [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
     
     _ownerTextField = [[CardKTextField alloc] init];
+    _ownerTextField.placeholder = @"CARD OWNER";
     
     _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_doneButton setTitle:@"Purchase" forState:UIControlStateNormal];
