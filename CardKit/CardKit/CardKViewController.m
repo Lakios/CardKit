@@ -25,6 +25,7 @@ const NSString *CardKButtonCellID = @"button";
   
   CardKBankLogoView *_bankLogoView;
   
+  CardKTheme *_theme;
   CardKTextField *_ownerTextField;
   CardKCardView *_cardView;
   UIButton *_doneButton;
@@ -35,8 +36,10 @@ const NSString *CardKButtonCellID = @"button";
   if (self = [super initWithStyle:UITableViewStyleGrouped]) {
     _pubKey = pubKey;
     _mdOrder = mdOrder;
-    _theme = [CardKTheme defaultTheme];
-    
+    _theme = [CardKTheme shared];
+
+    self.tableView.separatorColor = _theme.separatarColor;
+    self.tableView.backgroundColor = _theme.colorTableBackground;
     
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -61,6 +64,14 @@ const NSString *CardKButtonCellID = @"button";
   }
   
   return self;
+}
+
+- (CardKTheme *)theme {
+  return _theme;
+}
+
+- (void)setTheme:(CardKTheme *)theme {
+  _theme = theme;
 }
 
 - (void)_cardChanged {
@@ -110,6 +121,9 @@ const NSString *CardKButtonCellID = @"button";
   } else if ([CardKButtonCellID isEqual:cellID]) {
     [cell addSubview:_doneButton];
   }
+  
+  cell.backgroundColor = _theme.colorCellBackground;
+  cell.textLabel.textColor = _theme.colorLabel;
   return cell;
 }
 

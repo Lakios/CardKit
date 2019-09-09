@@ -23,11 +23,14 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   
   NSString *_pattern;
   CGSize _intrinsicContentSize;
+  CardKTheme *_theme;
 }
 
 - (instancetype)init {
   self = [super init];
   if (self) {
+    _theme = [CardKTheme shared];
+    
     UIViewAutoresizing mask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.autoresizingMask = mask;
     
@@ -38,16 +41,17 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     
     UIFont *font = [UIFont fontWithName:@"Menlo" size:_patternLabel.font.pointSize];
     
-    _patternLabel.font = font;
+    _patternLabel.font =
     _textField.font = font;
     _formatLabel.font = font;
-    _patternLabel.textColor = [UIColor placeholderTextColor];
-    _formatLabel.textColor = _textField.textColor;
+    _patternLabel.textColor = _theme.colorPlaceholder;
+    _formatLabel.textColor = _theme.colorPlaceholder;
+    _textField.textColor = _theme.colorLabel;
     
     _textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
     _textField.leftViewMode = UITextFieldViewModeAlways;
-//    _textField.rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
-//    _textField.rightViewMode = UITextFieldViewModeAlways;
+
+    _textField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
     
     for (UIView *v in @[_patternLabel, _textField, _formatLabel]) {
       [self addSubview:v];
@@ -76,11 +80,22 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   _intrinsicContentSize = size;
 }
 
+
 - (NSString *)placeholder {
   return _textField.placeholder;
 }
 
+- (CardKTheme *)theme {
+  return _theme;
+}
+
+- (void)setTheme:(CardKTheme *)theme {
+  _theme = theme;
+}
+
+
 - (void)setPlaceholder:(NSString *)placeholder {
+  _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{NSForegroundColorAttributeName: _theme.colorPlaceholder}];
   _textField.placeholder = placeholder;
 }
 

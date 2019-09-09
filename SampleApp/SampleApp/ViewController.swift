@@ -9,10 +9,7 @@
 import UIKit
 import CardKit
 
-class ViewController: UIViewController {
-  
-  @IBAction @objc func _openController() {
-    let publicKey = """
+let publicKey = """
 -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiDgvGLU1dFQ0tA0Epbpj
 1gbbAz9/lvZdTyspHCPQ4zTYki1xER8Dy99jzxj83VIiamnwkHUsmcg5mxXfRI/Y
@@ -23,10 +20,19 @@ TBSwAcNAizIvEY4wrqc4ARR3nTlwAxkye9bTNVNROMMiMtu1ERGyRFjI7wnSmRnN
 EwIDAQAB
 -----END PUBLIC KEY-----
 """
-    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder")
+class ViewController: UIViewController {
+  
+  @IBAction @objc func _openController() {
+    CardKTheme.setTheme(CardKTheme.light());
+    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     present(controller, animated: true)
   }
-
+  
+  @IBAction func _openDark(_ sender: Any) {
+    CardKTheme.setTheme(CardKTheme.dark());
+    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+      present(controller, animated: true)
+  }
 }
 
 extension ViewController: CardKViewControllerDelegate {

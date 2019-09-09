@@ -8,7 +8,9 @@
 
 #import "PaymentSystemProvider.h"
 
-@implementation PaymentSystemProvider
+@implementation PaymentSystemProvider {
+  CardKTheme *_theme;
+}
 
 + (BOOL) checkCurdNumber:(NSString*)regEx cardNumber:(NSString*)cardNumber {
     NSError *error = NULL;
@@ -39,7 +41,7 @@
     NSInteger end[] = {3589, 3094, 3102, 3120, 3159, 3349};
     
     for (NSInteger i = 0; i < (sizeof start) / (sizeof start[0]); i++) {
-        if (start[i] >= cardNumberInt && cardNumberInt <= end[i]) {
+        if (start[i] <= cardNumberInt && cardNumberInt <= end[i]) {
             return true;
         }
     }
@@ -67,8 +69,19 @@
 
 + (UIImage *)getPaymentSystemImageByCardNumber:(NSString *)number {
   NSString *systemName = [self getPaymentSystemNameByCardNumber:number];
+  CardKTheme *theme = [CardKTheme shared];
+
+  NSString *imageName = [NSString stringWithFormat:@"%@-%@", systemName, theme.imageAppearance];
   
-  return [UIImage imageNamed:systemName inBundle:[NSBundle bundleForClass:[PaymentSystemProvider self]] compatibleWithTraitCollection:nil];
+  return [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[PaymentSystemProvider self]] compatibleWithTraitCollection:nil];
 }
+
+- (void)setTheme:(CardKTheme *)theme {
+  _theme = theme;
+}
+- (CardKTheme *)theme {
+  return _theme;
+}
+
 @end
 

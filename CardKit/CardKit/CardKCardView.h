@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CardKTheme.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSString *number;
 @property (readonly) NSString *expirationDate;
 @property (readonly) NSString *secureCode;
+@property (strong) CardKTheme *theme;
 
 @end
 

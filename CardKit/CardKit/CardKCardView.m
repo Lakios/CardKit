@@ -15,8 +15,9 @@
   CardKTextField *_numberTextField;
   CardKTextField *_expireDateTextField;
   CardKTextField *_secureCodeTextField;
-  
   CardKTextField *_focusedField;
+  
+  CardKTheme *_theme;
 }
 
 - (instancetype)init {
@@ -24,6 +25,8 @@
   self = [super init];
   
   if (self) {
+    _theme = [CardKTheme shared];
+
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
     _paymentSystemImageView.image = [PaymentSystemProvider getPaymentSystemImageByCardNumber:@""];
@@ -32,7 +35,7 @@
     _numberTextField = [[CardKTextField alloc] init];
     _numberTextField.pattern = CardKTextFieldPatternCardNumber;
     _numberTextField.placeholder = @"Number";
-    
+
     _expireDateTextField = [[CardKTextField alloc] init];
     _expireDateTextField.pattern = CardKTextFieldPatternExpirationDate;
     _expireDateTextField.placeholder = @"MM/YY";
@@ -59,6 +62,14 @@
   return self;
 }
 
+- (CardKTheme *)theme {
+  return _theme;
+}
+
+- (void)setTheme:(CardKTheme *)theme {
+  _theme = theme;
+}
+
 - (NSString *)number {
   return _numberTextField.text;
 }
@@ -73,7 +84,7 @@
 
 - (void)_numberChanged {
   [self sendActionsForControlEvents:UIControlEventValueChanged];
-//  UIImageView
+
   UIImage *image = [PaymentSystemProvider getPaymentSystemImageByCardNumber: self.number];
   [_paymentSystemImageView setImage:image];
 }

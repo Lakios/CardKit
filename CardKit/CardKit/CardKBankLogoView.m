@@ -79,7 +79,6 @@
 - (void)layoutSubviews {
   [super layoutSubviews];
   _webView.frame = CGRectMake(0, 20, self.bounds.size.width, self.bounds.size.height - 20);
-//  _webView.frame = self.bounds;
   _coverView.frame = self.bounds;
 }
 

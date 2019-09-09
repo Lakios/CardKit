@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CardKTheme.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,6 +23,7 @@ extern NSString *CardKTextFieldPatternSecureCode;
 @property (strong) NSString * format;
 @property UIKeyboardType keyboardType;
 @property(null_unspecified,nonatomic,copy) UITextContentType textContentType;
+@property (strong) CardKTheme *theme;
 
 @end
 

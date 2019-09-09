@@ -8,8 +8,27 @@
 
 #import "CardKTheme.h"
 #import <UIKit/UIKit.h>
-@implementation CardKTheme
 
+@interface UIColor (Debug)
+
+- (NSString *)printColor;
+
+@end
+
+@implementation UIColor (Debug)
+
+- (NSString *)printColor {
+  CGFloat r,g,b,a = 0;
+  
+  [self getRed: &r green: &g blue: &b alpha: &a];
+  return [NSString stringWithFormat:@"rgba(%@,%@,%@,%@)", @(r), @(g), @(b), @(a)];
+}
+
+@end
+
+static CardKTheme *__instance = nil;
+
+@implementation CardKTheme
 + (CardKTheme *)defaultTheme {
   CardKTheme *theme = [[CardKTheme alloc] init];
 
@@ -19,16 +38,66 @@
   theme.colorErrorLabel = UIColor.redColor;
   theme.colorTableBackground = UIColor.groupTableViewBackgroundColor;
   theme.colorCellBackground = UIColor.whiteColor;
+  theme.imageAppearance = @"dark";
+
+  return theme;
+}
+
++ (CardKTheme *)shared {
+  if (__instance == nil) {
+    __instance = [CardKTheme defaultTheme];
+  }
+
+  return __instance;
+}
+
++ (void)setTheme:(CardKTheme *)theme {
+  __instance = theme;
+}
+
++ (CardKTheme *)darkTheme {
+  CardKTheme *theme = [[CardKTheme alloc] init];
+
+  theme.colorLabel = [UIColor whiteColor];
+  theme.colorHeader = UIColor.grayColor;
+  theme.colorErrorLabel = UIColor.redColor;
+  theme.colorPlaceholder = [UIColor colorWithRed:0.39f green:0.39f blue:0.40f alpha:1.0f];
+  theme.colorTableBackground = [UIColor colorWithRed:0.10f green:0.10f blue:0.11f alpha:1.0f];
+  theme.colorCellBackground = [UIColor colorWithRed:0.17f green:0.17f blue:0.18f alpha:1.0f];
+  theme.separatarColor = [UIColor colorWithRed:0.10f green:0.10f blue:0.11f alpha:1.0f];
+  theme.imageAppearance = @"dark";
   
   return theme;
 }
 
-+ (CardKTheme *)darkTheme {
-  return [CardKTheme defaultTheme];
++ (CardKTheme *)lightTheme {
+  CardKTheme *theme = [CardKTheme defaultTheme];
+    
+  theme.colorHeader = UIColor.grayColor;
+  theme.colorLabel = UIColor.blackColor;
+  theme.colorPlaceholder = UIColor.grayColor;
+  theme.colorErrorLabel = UIColor.redColor;
+  theme.colorTableBackground = [UIColor colorWithRed:0.95f green:0.95f blue:0.97f alpha:1.0f];
+  theme.colorCellBackground = UIColor.whiteColor;
+  theme.separatarColor = [UIColor colorWithRed:0.24f green:0.24f blue:0.26f alpha:0.29f];
+  theme.imageAppearance = @"light";
+    
+  return theme;
 }
 
-+ (CardKTheme *)lightTheme {
-  return [CardKTheme defaultTheme];
++ (CardKTheme *)systemTheme {
+  CardKTheme *theme = [CardKTheme defaultTheme];
+  theme.colorHeader = UIColor.grayColor;
+  theme.colorLabel = UIColor.blackColor;
+  theme.colorPlaceholder = UIColor.grayColor;
+  theme.colorErrorLabel = UIColor.redColor;
+  theme.colorTableBackground = UIColor.groupTableViewBackgroundColor;
+  theme.separatarColor = UIColor.separatorColor;
+  
+  theme.imageAppearance = @"light";
+    
+  return theme;
 }
+
 
 @end

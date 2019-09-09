@@ -19,12 +19,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
+//@property(null_unspecified,nonatomic,copy) UITextContentType textContentType;
+
 @interface CardKViewController : UITableViewController
 
 @property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
 @property (strong) CardKTheme *theme;
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder;
+//- (void) didChangeCardTheme;
 
 @end
 
