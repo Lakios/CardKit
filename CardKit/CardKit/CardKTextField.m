@@ -107,6 +107,14 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   return _formatLabel.text;
 }
 
+- (BOOL)secureTextEntry {
+  return _textField.secureTextEntry;
+}
+
+- (void)setSecureTextEntry:(BOOL)secureTextEntry {
+  [_textField setSecureTextEntry:secureTextEntry];
+}
+
 - (UITextContentType)textContentType {
   return _textField.textContentType;
 }
