@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     CardKTheme.setTheme(CardKTheme.light());
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    controller.cKitDelegate = self
     controller.purchaseButtonTitle = "Custom purchase button";
     present(controller, animated: true)
   }
@@ -33,7 +34,8 @@ class ViewController: UIViewController {
   @IBAction func _openDark(_ sender: Any) {
     CardKTheme.setTheme(CardKTheme.dark());
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
-      present(controller, animated: true)
+    controller.cKitDelegate = self
+    present(controller, animated: true)
   }
   
   @IBAction func _openSystemTheme(_ sender: Any) {
@@ -44,14 +46,20 @@ class ViewController: UIViewController {
     };
     
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
-      present(controller, animated: true)
+    controller.cKitDelegate = self
+    present(controller, animated: true)
   }
+  
 }
 
 extension ViewController: CardKViewControllerDelegate {
   func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {
     debugPrint(seToken)
-    controller.dismiss(animated: true, completion: nil)
+
+    let alert = UIAlertController(title: "SeToken", message: seToken, preferredStyle: UIAlertController.Style.alert)
+    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+//    controller.dismiss(animated: true, completion: nil)
   }
 }
 

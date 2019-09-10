@@ -10,6 +10,7 @@
 #import "CardKTextField.h"
 #import "CardKCardView.h"
 #import "CardKBankLogoView.h"
+#import "RSA.h"
 
 const NSString *CardKCardCellID = @"card";
 const NSString *CardKOwnerCellID = @"owner";
@@ -54,6 +55,9 @@ const NSString *CardKButtonCellID = @"button";
     [_doneButton setTitle:@"Purchase" forState:UIControlStateNormal];
     _doneButton.frame = CGRectMake(0, 0, 200, 44);
     
+    [_doneButton addTarget:self action:@selector(buttonPressed:)
+    forControlEvents:UIControlEventTouchUpInside];
+  
     _sections = @[
       @{@"title": @"Card", @"rows": @[CardKCardCellID] },
       @{@"title": @"Owner", @"rows": @[CardKOwnerCellID] },
@@ -62,6 +66,16 @@ const NSString *CardKButtonCellID = @"button";
   }
   
   return self;
+}
+
+- (void)buttonPressed:(UIButton *)button {
+  NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+  NSString *uuid = [[NSUUID UUID] UUIDString];
+  
+  NSString *cardData = [[NSString alloc] initWithFormat:@"%f/%@/%@/%@//%@", timeStamp, uuid, _cardView.number, _cardView.secureCode, _mdOrder];
+
+  NSString *seToken = [RSA encryptString:cardData publicKey:_pubKey];
+  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken];
 }
 
 - (void)_cardChanged {
@@ -77,7 +91,7 @@ const NSString *CardKButtonCellID = @"button";
   self.tableView.tableHeaderView = _bankLogoView;
   self.tableView.separatorColor = _theme.separatarColor;
   self.tableView.backgroundColor = _theme.colorTableBackground;
-  
+
   for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
