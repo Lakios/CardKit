@@ -64,14 +64,6 @@
   return self;
 }
 
-- (CardKTheme *)theme {
-  return _theme;
-}
-
-- (void)setTheme:(CardKTheme *)theme {
-  _theme = theme;
-}
-
 - (NSString *)number {
   return _numberTextField.text;
 }

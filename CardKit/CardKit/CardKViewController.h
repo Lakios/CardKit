@@ -23,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CardKViewController : UITableViewController
 
 @property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
-@property (strong) CardKTheme *theme;
 @property (strong) NSString * purchaseButtonTitle;
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder;

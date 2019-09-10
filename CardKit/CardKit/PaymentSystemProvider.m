@@ -77,18 +77,10 @@
   } else if (imageAppearance == nil && traitCollectionStyle == UIUserInterfaceStyleLight) {
     imageAppearance = @"light";
   }
-  
 
   NSString *imageName = [NSString stringWithFormat:@"%@-%@", systemName, imageAppearance];
   
   return [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[PaymentSystemProvider self]] compatibleWithTraitCollection:nil];
-}
-
-- (void)setTheme:(CardKTheme *)theme {
-  _theme = theme;
-}
-- (CardKTheme *)theme {
-  return _theme;
 }
 
 @end

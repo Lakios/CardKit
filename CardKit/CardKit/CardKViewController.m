@@ -38,8 +38,6 @@ const NSString *CardKButtonCellID = @"button";
     _mdOrder = mdOrder;
     _theme = [CardKTheme shared];
 
-    self.tableView.separatorColor = _theme.separatarColor;
-    self.tableView.backgroundColor = _theme.colorTableBackground;
     
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -66,14 +64,6 @@ const NSString *CardKButtonCellID = @"button";
   return self;
 }
 
-- (CardKTheme *)theme {
-  return _theme;
-}
-
-- (void)setTheme:(CardKTheme *)theme {
-  _theme = theme;
-}
-
 - (void)_cardChanged {
   NSString * number = _cardView.number;
   [_bankLogoView showNumber:number];
@@ -81,9 +71,12 @@ const NSString *CardKButtonCellID = @"button";
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
+
   self.tableView.tableHeaderView = _bankLogoView;
+  self.tableView.separatorColor = _theme.separatarColor;
+  self.tableView.backgroundColor = _theme.colorTableBackground;
   
   for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];

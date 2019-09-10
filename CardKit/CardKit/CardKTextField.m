@@ -50,7 +50,6 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     
     _textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
     _textField.leftViewMode = UITextFieldViewModeAlways;
-
     _textField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
     
     for (UIView *v in @[_patternLabel, _textField, _formatLabel]) {
@@ -84,15 +83,6 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 - (NSString *)placeholder {
   return _textField.placeholder;
 }
-
-- (CardKTheme *)theme {
-  return _theme;
-}
-
-- (void)setTheme:(CardKTheme *)theme {
-  _theme = theme;
-}
-
 
 - (void)setPlaceholder:(NSString *)placeholder {
   _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{NSForegroundColorAttributeName: _theme.colorPlaceholder}];
