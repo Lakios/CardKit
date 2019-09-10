@@ -20,8 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-//@property(null_unspecified,nonatomic,copy) UITextContentType textContentType;
-
 @interface CardKViewController : UITableViewController
 
 @property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
@@ -29,7 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) NSString * purchaseButtonTitle;
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder;
-//- (void) didChangeCardTheme;
 
 @end
 

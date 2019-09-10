@@ -18,14 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIColor *colorPlaceholder;
 @property (strong, nonatomic) UIColor *colorErrorLabel;
 @property (strong, nonatomic) UIColor *colorTableBackground;
-@property (strong, nonatomic) UIColor *colorCellBackground;
+@property (strong, nonatomic, nullable) UIColor *colorCellBackground;
 @property (strong, nonatomic) UIColor *separatarColor;
-@property (strong, nonatomic) NSString *imageAppearance;
+@property (strong, nonatomic, nullable) NSString *imageAppearance;
 
 + (CardKTheme *)defaultTheme;
 + (CardKTheme *)darkTheme;
 + (CardKTheme *)lightTheme;
-+ (CardKTheme *)systemTheme;
++ (CardKTheme *)systemTheme API_AVAILABLE(ios(13.0));
 + (CardKTheme *)shared;
 + (void)setTheme:(CardKTheme *)theme;
 @end

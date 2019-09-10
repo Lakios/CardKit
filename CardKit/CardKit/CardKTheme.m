@@ -45,7 +45,11 @@ static CardKTheme *__instance = nil;
 
 + (CardKTheme *)shared {
   if (__instance == nil) {
-    __instance = [CardKTheme defaultTheme];
+    if (@available(iOS 13.0, *)) {
+      __instance = [CardKTheme systemTheme];
+    } else {
+      __instance = [CardKTheme defaultTheme];
+    }
   }
 
   return __instance;
@@ -71,7 +75,7 @@ static CardKTheme *__instance = nil;
 }
 
 + (CardKTheme *)lightTheme {
-  CardKTheme *theme = [CardKTheme defaultTheme];
+  CardKTheme *theme = [[CardKTheme alloc] init];
     
   theme.colorHeader = UIColor.grayColor;
   theme.colorLabel = UIColor.blackColor;
@@ -86,16 +90,16 @@ static CardKTheme *__instance = nil;
 }
 
 + (CardKTheme *)systemTheme {
-  CardKTheme *theme = [CardKTheme defaultTheme];
+  CardKTheme *theme = [[CardKTheme alloc] init];
   theme.colorHeader = UIColor.grayColor;
-  theme.colorLabel = UIColor.blackColor;
-  theme.colorPlaceholder = UIColor.grayColor;
+  theme.colorLabel = UIColor.labelColor;
+  theme.colorPlaceholder = UIColor.placeholderTextColor;
   theme.colorErrorLabel = UIColor.redColor;
   theme.colorTableBackground = UIColor.groupTableViewBackgroundColor;
+  theme.colorCellBackground = nil;
   theme.separatarColor = UIColor.separatorColor;
-  
-  theme.imageAppearance = @"light";
-    
+  theme.imageAppearance = nil;
+
   return theme;
 }
 

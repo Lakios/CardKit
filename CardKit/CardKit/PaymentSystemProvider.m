@@ -67,11 +67,19 @@
     return @"unknown";
 }
 
-+ (UIImage *)getPaymentSystemImageByCardNumber:(NSString *)number {
++ (UIImage *)getPaymentSystemImageByCardNumber:(NSString *)number traitCollectionStyle:(UIUserInterfaceStyle *) traitCollectionStyle {
   NSString *systemName = [self getPaymentSystemNameByCardNumber:number];
   CardKTheme *theme = [CardKTheme shared];
 
-  NSString *imageName = [NSString stringWithFormat:@"%@-%@", systemName, theme.imageAppearance];
+  NSString *imageAppearance = theme.imageAppearance;
+  if (imageAppearance == nil && traitCollectionStyle == UIUserInterfaceStyleDark) {
+    imageAppearance = @"dark";
+  } else if (imageAppearance == nil && traitCollectionStyle == UIUserInterfaceStyleLight) {
+    imageAppearance = @"light";
+  }
+  
+
+  NSString *imageName = [NSString stringWithFormat:@"%@-%@", systemName, imageAppearance];
   
   return [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[PaymentSystemProvider self]] compatibleWithTraitCollection:nil];
 }

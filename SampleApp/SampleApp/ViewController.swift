@@ -29,9 +29,20 @@ class ViewController: UIViewController {
     controller.purchaseButtonTitle = "Custom purchase button";
     present(controller, animated: true)
   }
-  
+
   @IBAction func _openDark(_ sender: Any) {
     CardKTheme.setTheme(CardKTheme.dark());
+    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+      present(controller, animated: true)
+  }
+  
+  @IBAction func _openSystemTheme(_ sender: Any) {
+    if #available(iOS 13.0, *) {
+      CardKTheme.setTheme(CardKTheme.system())
+    } else {
+      CardKTheme.setTheme(CardKTheme.default())
+    };
+    
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
       present(controller, animated: true)
   }

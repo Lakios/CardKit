@@ -29,7 +29,8 @@
 
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
-    _paymentSystemImageView.image = [PaymentSystemProvider getPaymentSystemImageByCardNumber:@""];
+//    self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark
+    _paymentSystemImageView.image = [PaymentSystemProvider getPaymentSystemImageByCardNumber:@"" traitCollectionStyle: self.traitCollection.userInterfaceStyle];
     [self addSubview:_paymentSystemImageView];
     
     _numberTextField = [[CardKTextField alloc] init];
@@ -86,7 +87,7 @@
 - (void)_numberChanged {
   [self sendActionsForControlEvents:UIControlEventValueChanged];
 
-  UIImage *image = [PaymentSystemProvider getPaymentSystemImageByCardNumber: self.number];
+  UIImage *image = [PaymentSystemProvider getPaymentSystemImageByCardNumber: self.number traitCollectionStyle: self.traitCollection.userInterfaceStyle];
   [_paymentSystemImageView setImage:image];
 }
 
@@ -101,6 +102,11 @@
   if (index < fields.count) {
     [fields[index] becomeFirstResponder];
   }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+  [super traitCollectionDidChange:previousTraitCollection];
+  [self _numberChanged];
 }
 
 - (void)_editingDidBegin:(UIView *)sender {

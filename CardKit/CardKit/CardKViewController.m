@@ -122,7 +122,9 @@ const NSString *CardKButtonCellID = @"button";
     [cell addSubview:_doneButton];
   }
   
-  cell.backgroundColor = _theme.colorCellBackground;
+  if (_theme.colorCellBackground != nil) {
+    cell.backgroundColor = _theme.colorCellBackground;
+  }
   cell.textLabel.textColor = _theme.colorLabel;
   return cell;
 }

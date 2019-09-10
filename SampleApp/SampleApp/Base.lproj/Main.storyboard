@@ -30,12 +30,21 @@
                                     <action selector="_openDark:" destination="BYZ-38-t0r" eventType="touchUpInside" id="z6Q-P4-bsU"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RAd-oC-kTG">
+                                <rect key="frame" x="135" y="533" width="144" height="30"/>
+                                <state key="normal" title="Open System Theme"/>
+                                <connections>
+                                    <action selector="_openSystemTheme:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ycK-Ht-kZc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="2kZ-0y-AJM" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="4Gs-Yy-9Bx"/>
+                            <constraint firstItem="RAd-oC-kTG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="834-OE-jRX"/>
                             <constraint firstItem="2kZ-0y-AJM" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="9dj-dG-Z90"/>
                             <constraint firstItem="SNn-IO-cAA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IUV-v3-Kuv"/>
+                            <constraint firstItem="RAd-oC-kTG" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="100" id="TjM-Ma-bNU"/>
                             <constraint firstItem="SNn-IO-cAA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="50" id="WCo-ij-Veb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
