@@ -90,7 +90,6 @@
 }
 
 - (void)showNumber:(NSString *)number {
-  NSLog(@"%@", number);
   if (number.length < 6) {
     [_coverView setHidden:NO];
     return;

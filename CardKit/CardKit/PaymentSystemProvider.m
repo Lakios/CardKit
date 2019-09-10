@@ -67,15 +67,28 @@
     return @"unknown";
 }
 
-+ (UIImage *)getPaymentSystemImageByCardNumber:(NSString *)number traitCollectionStyle:(UIUserInterfaceStyle *) traitCollectionStyle {
++ (NSString *)getImageAppearanceByTraitCollection:(UITraitCollection *) traitCollection imageAppearance:(nullable NSString *)imageAppearance {
+  if (imageAppearance != nil) {
+    return imageAppearance;
+  }
+
+  if (imageAppearance == nil && traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+    return  @"dark";
+  } else if (imageAppearance == nil &&  traitCollection.userInterfaceStyle  == UIUserInterfaceStyleLight) {
+    return @"light";
+  }
+  
+  return imageAppearance;
+};
+
++ (UIImage *)getPaymentSystemImageByCardNumber:(NSString *)number traitCollection:(UITraitCollection *) traitCollection {
   NSString *systemName = [self getPaymentSystemNameByCardNumber:number];
   CardKTheme *theme = [CardKTheme shared];
 
   NSString *imageAppearance = theme.imageAppearance;
-  if (imageAppearance == nil && traitCollectionStyle == UIUserInterfaceStyleDark) {
-    imageAppearance = @"dark";
-  } else if (imageAppearance == nil && traitCollectionStyle == UIUserInterfaceStyleLight) {
-    imageAppearance = @"light";
+
+  if (@available(iOS 13.0, *)) {
+    imageAppearance = [self getImageAppearanceByTraitCollection:traitCollection imageAppearance:imageAppearance];
   }
 
   NSString *imageName = [NSString stringWithFormat:@"%@-%@", systemName, imageAppearance];
