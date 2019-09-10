@@ -144,6 +144,14 @@ const NSString *CardKButtonCellID = @"button";
   return NO;
 }
 
+- (NSString *)purchaseButtonTitle {
+  return _doneButton.currentTitle;
+}
+
+- (void)setPurchaseButtonTitle:(NSString *)purchaseButtonTitle {
+  [_doneButton setTitle:purchaseButtonTitle forState:UIControlStateNormal];
+}
+
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
   

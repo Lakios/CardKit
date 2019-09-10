@@ -24,7 +24,9 @@ class ViewController: UIViewController {
   
   @IBAction @objc func _openController() {
     CardKTheme.setTheme(CardKTheme.light());
+
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    controller.purchaseButtonTitle = "Custom purchase button";
     present(controller, animated: true)
   }
   

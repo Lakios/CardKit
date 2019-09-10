@@ -44,7 +44,8 @@
     _secureCodeTextField = [[CardKTextField alloc] init];
     _secureCodeTextField.pattern = CardKTextFieldPatternSecureCode;
     _secureCodeTextField.placeholder = @"CVC";
-    
+    _secureCodeTextField.secureTextEntry = YES;
+  
     for (CardKTextField *v in @[_numberTextField, _expireDateTextField, _secureCodeTextField]) {
       [self addSubview:v];
       v.keyboardType = UIKeyboardTypeNumberPad;
