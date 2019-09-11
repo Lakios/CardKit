@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSString *number;
 @property (readonly) NSString *expirationDate;
 @property (readonly) NSString *secureCode;
+-(NSString *)getMonthFromExpirationDate;
+-(NSString *)getFullYearFromExpirationDate;
 
 @end
 

@@ -59,7 +59,7 @@ extension ViewController: CardKViewControllerDelegate {
     let alert = UIAlertController(title: "SeToken", message: seToken, preferredStyle: UIAlertController.Style.alert)
     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
-//    controller.dismiss(animated: true, completion: nil)
+    controller.present(alert, animated: true)
   }
 }
 

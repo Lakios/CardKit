@@ -71,8 +71,13 @@ const NSString *CardKButtonCellID = @"button";
 - (void)buttonPressed:(UIButton *)button {
   NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
   NSString *uuid = [[NSUUID UUID] UUIDString];
+  NSString *cardNumber = _cardView.number;
+  NSString *secureCode = _cardView.secureCode;
+  NSString *fullYear = _cardView.getFullYearFromExpirationDate;
+  NSString *month = _cardView.getMonthFromExpirationDate;
+  NSString *expirationDate = [NSString stringWithFormat:@"%@%@", fullYear, month];
   
-  NSString *cardData = [[NSString alloc] initWithFormat:@"%f/%@/%@/%@//%@", timeStamp, uuid, _cardView.number, _cardView.secureCode, _mdOrder];
+  NSString *cardData = [[NSString alloc] initWithFormat:@"%f/%@/%@/%@/%@/%@", timeStamp, uuid, cardNumber, secureCode, expirationDate, _mdOrder];
 
   NSString *seToken = [RSA encryptString:cardData publicKey:_pubKey];
   [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken];
@@ -91,7 +96,7 @@ const NSString *CardKButtonCellID = @"button";
   self.tableView.tableHeaderView = _bankLogoView;
   self.tableView.separatorColor = _theme.separatarColor;
   self.tableView.backgroundColor = _theme.colorTableBackground;
-
+  
   for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }

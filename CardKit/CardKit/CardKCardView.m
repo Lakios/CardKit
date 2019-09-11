@@ -29,7 +29,6 @@
 
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
-//    self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark
     _paymentSystemImageView.image = [PaymentSystemProvider getPaymentSystemImageByCardNumber:@"" traitCollection: self.traitCollection];
     [self addSubview:_paymentSystemImageView];
     
@@ -62,6 +61,21 @@
   }
   
   return self;
+}
+
+-(NSString *)getFullYearFromExpirationDate {
+  NSString *expireDateTextField = _expireDateTextField.text;
+  NSString *year = [expireDateTextField substringFromIndex:2];
+  NSString *fullYear = [NSString stringWithFormat:@"20%@", year];
+  
+  return fullYear;
+}
+
+- (NSString *)getMonthFromExpirationDate {
+  NSString *expireDateTextField = _expireDateTextField.text;
+  NSString *month = [expireDateTextField substringToIndex:2];
+  
+  return month;
 }
 
 - (NSString *)number {
