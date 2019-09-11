@@ -9,27 +9,11 @@
 #import "CardKTheme.h"
 #import <UIKit/UIKit.h>
 
-@interface UIColor (Debug)
-
-- (NSString *)printColor;
-
-@end
-
-@implementation UIColor (Debug)
-
-- (NSString *)printColor {
-  CGFloat r,g,b,a = 0;
-  
-  [self getRed: &r green: &g blue: &b alpha: &a];
-  return [NSString stringWithFormat:@"rgba(%@,%@,%@,%@)", @(r), @(g), @(b), @(a)];
-}
-
-@end
-
 static CardKTheme *__instance = nil;
 
 @implementation CardKTheme
 + (CardKTheme *)defaultTheme {
+  
   CardKTheme *theme = [[CardKTheme alloc] init];
 
   theme.colorHeader = UIColor.grayColor;

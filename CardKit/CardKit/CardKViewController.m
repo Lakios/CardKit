@@ -15,6 +15,7 @@
 const NSString *CardKCardCellID = @"card";
 const NSString *CardKOwnerCellID = @"owner";
 const NSString *CardKButtonCellID = @"button";
+const NSString *CardKRows = @"rows";
 
 @interface CardKViewController ()
 
@@ -61,7 +62,7 @@ const NSString *CardKButtonCellID = @"button";
     _sections = @[
       @{@"title": @"Card", @"rows": @[CardKCardCellID] },
       @{@"title": @"Owner", @"rows": @[CardKOwnerCellID] },
-      @{@"rows": @[CardKButtonCellID] },
+      @{CardKRows: @[CardKButtonCellID] },
     ];
   }
   
@@ -77,7 +78,7 @@ const NSString *CardKButtonCellID = @"button";
   NSString *month = _cardView.getMonthFromExpirationDate;
   NSString *expirationDate = [NSString stringWithFormat:@"%@%@", fullYear, month];
   
-  NSString *cardData = [[NSString alloc] initWithFormat:@"%f/%@/%@/%@/%@/%@", timeStamp, uuid, cardNumber, secureCode, expirationDate, _mdOrder];
+  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@/%@", timeStamp, uuid, cardNumber, secureCode, expirationDate, _mdOrder];
 
   NSString *seToken = [RSA encryptString:cardData publicKey:_pubKey];
   [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken];
@@ -100,7 +101,21 @@ const NSString *CardKButtonCellID = @"button";
   for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
+}
+
+- (NSString *)purchaseButtonTitle {
+  return _doneButton.currentTitle;
+}
+
+- (void)setPurchaseButtonTitle:(NSString *)purchaseButtonTitle {
+  [_doneButton setTitle:purchaseButtonTitle forState:UIControlStateNormal];
+}
+
+- (void)viewDidLayoutSubviews {
+  [super viewDidLayoutSubviews];
   
+  CGRect bounds = _doneButton.superview.bounds;
+  _doneButton.center = CGPointMake(bounds.size.width * 0.5, bounds.size.height * 0.5);
 }
 
 #pragma mark - Table view data source
@@ -110,7 +125,7 @@ const NSString *CardKButtonCellID = @"button";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [_sections[section][@"rows"] count];
+  return [_sections[section][CardKRows] count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -119,7 +134,7 @@ const NSString *CardKButtonCellID = @"button";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
-  NSString *cellID = _sections[indexPath.section][@"rows"][indexPath.row] ?: @"unknown";
+  NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
   
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
@@ -145,7 +160,6 @@ const NSString *CardKButtonCellID = @"button";
   return section == 0 ? 34 : 38;
 }
 
-
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
   return NO;
 }
@@ -156,21 +170,6 @@ const NSString *CardKButtonCellID = @"button";
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
   return NO;
-}
-
-- (NSString *)purchaseButtonTitle {
-  return _doneButton.currentTitle;
-}
-
-- (void)setPurchaseButtonTitle:(NSString *)purchaseButtonTitle {
-  [_doneButton setTitle:purchaseButtonTitle forState:UIControlStateNormal];
-}
-
-- (void)viewDidLayoutSubviews {
-  [super viewDidLayoutSubviews];
-  
-  CGRect bounds = _doneButton.superview.bounds;
-  _doneButton.center = CGPointMake(bounds.size.width * 0.5, bounds.size.height * 0.5);
 }
 
 

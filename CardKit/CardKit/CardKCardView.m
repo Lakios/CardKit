@@ -29,7 +29,7 @@
 
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
-    _paymentSystemImageView.image = [PaymentSystemProvider getPaymentSystemImageByCardNumber:@"" traitCollection: self.traitCollection];
+    _paymentSystemImageView.image = [PaymentSystemProvider imageByCardNumber:@"" compatibleWithTraitCollection: self.traitCollection];
     [self addSubview:_paymentSystemImageView];
     
     _numberTextField = [[CardKTextField alloc] init];
@@ -93,7 +93,7 @@
 - (void)_numberChanged {
   [self sendActionsForControlEvents:UIControlEventValueChanged];
 
-  UIImage *image = [PaymentSystemProvider getPaymentSystemImageByCardNumber: self.number traitCollection: self.traitCollection];
+  UIImage *image = [PaymentSystemProvider imageByCardNumber:self.number compatibleWithTraitCollection: self.traitCollection];
   [_paymentSystemImageView setImage:image];
 }
 

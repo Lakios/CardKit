@@ -8,92 +8,95 @@
 
 #import "PaymentSystemProvider.h"
 
-@implementation PaymentSystemProvider {
-  CardKTheme *_theme;
-}
-
-+ (BOOL) checkCurdNumber:(NSString*)regEx cardNumber:(NSString*)cardNumber {
-    NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regEx options:NSRegularExpressionCaseInsensitive error:&error];
-    
-    NSUInteger matches = [regex numberOfMatchesInString:cardNumber options:regex range:NSMakeRange(0, [cardNumber length])];
-    
-    if (error) {
-        return NO;
-    }
-
-    if (matches && matches > 0) {
-        return YES;
-    }
-    
+BOOL __checkNumberPattern(NSString *pattern, NSString *cardNumber) {
+  NSError *error = NULL;
+  
+  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+  
+  if (error) {
     return NO;
+  }
+  
+  NSUInteger matches = [regex numberOfMatchesInString:cardNumber
+                                              options:kNilOptions
+                                                range:NSMakeRange(0, [cardNumber length])];
+  
+  if (matches && matches > 0) {
+    return YES;
+  }
+  
+  return NO;
 }
 
-+ (BOOL) isJCB:(NSString *)cardNumber {
-    if ((cardNumber && [cardNumber  isEqual: @""]) || [cardNumber length] < 4) {
-        return false;
-    }
-    
-    NSString *cardNumberPrefix = [cardNumber substringToIndex:4];
-    NSInteger cardNumberInt = [cardNumberPrefix integerValue];
-    
-    NSInteger start[] = {3528, 3088, 3096, 3112, 3158, 3337};
-    NSInteger end[] = {3589, 3094, 3102, 3120, 3159, 3349};
-    
-    for (NSInteger i = 0; i < (sizeof start) / (sizeof start[0]); i++) {
-        if (start[i] <= cardNumberInt && cardNumberInt <= end[i]) {
-            return true;
-        }
-    }
-    
+BOOL __isJCB(NSString * cardNumber) {
+  if ((cardNumber && [cardNumber  isEqual: @""]) || [cardNumber length] < 4) {
     return false;
-}
-
-+ (NSString *)getPaymentSystemNameByCardNumber:(NSString *)number {
-    if ([number hasPrefix: @"4"]) {
-        return @"visa";
-    } else if ([number hasPrefix: @"220"]) {
-        return @"mir";
-    } else if ([self checkCurdNumber: @"^(5[1-5]|2(22[1-9]|2[3-9][0-9]|[3-6][0-9]{2}|7([01][0-9]|20)))" cardNumber:number]) {
-        return @"mastercard";
-    } else if ([self checkCurdNumber: @"^(50|5[6-8]|6)" cardNumber:number]) {
-        return @"maestro";
-    } else if ([self checkCurdNumber: @"^(34|37)" cardNumber:number]) {
-        return @"amex";
-    } else if ([self isJCB:number]) {
-        return @"jsb";
+  }
+  
+  NSString *cardNumberPrefix = [cardNumber substringToIndex:4];
+  NSInteger cardNumberInt = [cardNumberPrefix integerValue];
+  
+  NSInteger start[] = {3528, 3088, 3096, 3112, 3158, 3337};
+  NSInteger end[] = {3589, 3094, 3102, 3120, 3159, 3349};
+  
+  for (NSInteger i = 0; i < (sizeof start) / (sizeof start[0]); i++) {
+    if (start[i] <= cardNumberInt && cardNumberInt <= end[i]) {
+      return true;
     }
-    
-    return @"unknown";
+  }
+  
+  return false;
 }
 
-+ (NSString *)getImageAppearanceByTraitCollection:(UITraitCollection *) traitCollection imageAppearance:(nullable NSString *)imageAppearance {
-  if (imageAppearance != nil) {
-    return imageAppearance;
-  }
-
-  if (imageAppearance == nil && traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-    return  @"dark";
-  } else if (imageAppearance == nil &&  traitCollection.userInterfaceStyle  == UIUserInterfaceStyleLight) {
-    return @"light";
+NSString * __systemNameByCardNumber(NSString *number) {
+  if ([number hasPrefix: @"4"]) {
+    return @"visa";
+  } else if ([number hasPrefix: @"220"]) {
+    return @"mir";
+  } else if (__checkNumberPattern(@"^(5[1-5]|2(22[1-9]|2[3-9][0-9]|[3-6][0-9]{2}|7([01][0-9]|20)))", number)) {
+    return @"mastercard";
+  } else if (__checkNumberPattern(@"^(50|5[6-8]|6)", number)) {
+    return @"maestro";
+  } else if (__checkNumberPattern(@"^(34|37)", number)) {
+    return @"amex";
+  } else if (__isJCB(number)) {
+    return @"jsb";
   }
   
-  return imageAppearance;
-};
+  return @"unknown";
+}
 
-+ (UIImage *)getPaymentSystemImageByCardNumber:(NSString *)number traitCollection:(UITraitCollection *) traitCollection {
-  NSString *systemName = [self getPaymentSystemNameByCardNumber:number];
+
+@implementation PaymentSystemProvider
+
++ (UIImage *)imageByCardNumber:(NSString *)number compatibleWithTraitCollection:(UITraitCollection *) traitCollection {
+  NSString *systemName = __systemNameByCardNumber(number);
+  
   CardKTheme *theme = [CardKTheme shared];
-
   NSString *imageAppearance = theme.imageAppearance;
-
-  if (@available(iOS 13.0, *)) {
-    imageAppearance = [self getImageAppearanceByTraitCollection:traitCollection imageAppearance:imageAppearance];
-  }
-
-  NSString *imageName = [NSString stringWithFormat:@"%@-%@", systemName, imageAppearance];
   
-  return [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[PaymentSystemProvider self]] compatibleWithTraitCollection:nil];
+  if (imageAppearance == nil) {
+    if (@available(iOS 12.0, *)) {
+      if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+        imageAppearance = @"dark";
+      } else {
+        imageAppearance = @"light";
+      }
+    } else {
+      imageAppearance = @"light";
+    }
+  }
+  
+  NSString *imageName = [NSString stringWithFormat:@"%@-%@", systemName, imageAppearance];
+  NSBundle *bundle = [NSBundle bundleForClass:[PaymentSystemProvider self]];
+  
+  UIImage *image = [UIImage imageNamed:imageName inBundle:bundle compatibleWithTraitCollection:nil];
+  
+  if (image) {
+    return image;
+  }
+  // Point of extension. Fallback to main bundle
+  return [UIImage imageNamed:imageName inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:traitCollection];
 }
 
 @end
