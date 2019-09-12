@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CardKTheme.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CardKBankLogoView : UIView
 
 - (void)showNumber:(NSString *)number;
+@property (strong) CardKTheme *theme;
 
 @end
 

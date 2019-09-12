@@ -54,24 +54,26 @@
 @implementation CardKBankLogoView {
   CardKWebView *_webView;
   UIView *_coverView;
+  CardKTheme *_theme;
 }
 
 - (instancetype)init {
+  
   if (self = [super init]) {
+     _theme = [CardKTheme shared];
     _coverView = [[UIView alloc] init];
     WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
     [configuration.userContentController addScriptMessageHandler:self name:@"interOp"];
     _webView = [[CardKWebView alloc] initWithFrame:CGRectZero configuration: configuration];
     [self addSubview:_webView];
-    _coverView.backgroundColor = UIColor.groupTableViewBackgroundColor;
-    _webView.backgroundColor = UIColor.groupTableViewBackgroundColor;
+    _coverView.backgroundColor = _theme.colorTableBackground;
+    _webView.backgroundColor = _theme.colorTableBackground;
     [self addSubview:_coverView];
     
     NSBundle *bundle = [NSBundle bundleForClass:[CardKBankLogoView class]];
     NSString *path = [bundle pathForResource:@"index" ofType:@"html" inDirectory:@"banks-info"];
     NSURL *url = [NSURL fileURLWithPath:path];
     [_webView loadFileURL:url allowingReadAccessToURL:url];
-    
   }
   return self;
 }
@@ -94,9 +96,22 @@
     [_coverView setHidden:NO];
     return;
   }
+  NSString *imageAppearance = _theme.imageAppearance;
+
+  if (imageAppearance == nil) {
+    if (@available(iOS 12.0, *)) {
+      if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+        imageAppearance = @"dark";
+      } else {
+        imageAppearance = @"light";
+      }
+    } else {
+      imageAppearance = @"light";
+    }
+  }
   
+  NSString *script = [NSString stringWithFormat:@"__showBank(\"%@\", %d);", number, [imageAppearance isEqualToString:@"dark"]];
   
-  NSString *script = [NSString stringWithFormat:@"__showBank(\"%@\");", number];
   UIView *coverView = _coverView;
   
   [_webView evaluateJavaScript:script completionHandler:^(id _Nullable obj, NSError * _Nullable error) {
@@ -105,3 +120,4 @@
 }
 
 @end
+
