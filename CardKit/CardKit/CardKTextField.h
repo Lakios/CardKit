@@ -25,6 +25,7 @@ extern NSString *CardKTextFieldPatternSecureCode;
 @property UIKeyboardType keyboardType;
 @property(null_unspecified,nonatomic,copy) UITextContentType textContentType;
 @property (strong) CardKTheme *theme;
+@property BOOL showError;
 
 @end
 

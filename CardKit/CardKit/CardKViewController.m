@@ -10,6 +10,7 @@
 #import "CardKTextField.h"
 #import "CardKCardView.h"
 #import "CardKBankLogoView.h"
+#import "CardKFooterView.h"
 #import "RSA.h"
 
 const NSString *CardKCardCellID = @"card";
@@ -32,6 +33,7 @@ const NSString *CardKRows = @"rows";
   CardKCardView *_cardView;
   UIButton *_doneButton;
   NSArray *_sections;
+  CardKFooterView *_cardFooterView;
 }
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder {
@@ -40,15 +42,13 @@ const NSString *CardKRows = @"rows";
     _mdOrder = mdOrder;
     _theme = [CardKTheme shared];
 
-    
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
-    
     _cardView = [[CardKCardView alloc] init];
-    
     [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
-    
+    [_cardView addTarget:self action:@selector(_reloadSectionByIndexPathOfYourCell) forControlEvents:UIControlEventEditingDidEnd];
+
     _ownerTextField = [[CardKTextField alloc] init];
     _ownerTextField.placeholder = @"CARD OWNER";
     
@@ -97,10 +97,13 @@ const NSString *CardKRows = @"rows";
   self.tableView.tableHeaderView = _bankLogoView;
   self.tableView.separatorColor = _theme.separatarColor;
   self.tableView.backgroundColor = _theme.colorTableBackground;
-  
+  self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
+
   for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
+  
+  [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"footer"];
 }
 
 - (NSString *)purchaseButtonTitle {
@@ -160,6 +163,10 @@ const NSString *CardKRows = @"rows";
   return section == 0 ? 34 : 38;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+  return section == 0 ? 34 : 38;
+}
+
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
   return NO;
 }
@@ -172,5 +179,28 @@ const NSString *CardKRows = @"rows";
   return NO;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+  UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"footer"];
+  if (view == nil) {
+    view = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:@"footer"];
+  }
+
+  if(section == 0)
+  {
+    _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.bounds];
+    _cardFooterView.errorMessages = _cardView.errorMessages;
+
+    [view.contentView addSubview:_cardFooterView];
+  }
+
+  return view;
+}
+
+- (void)_reloadSectionByIndexPathOfYourCell {
+  [self.tableView beginUpdates];
+  _cardFooterView.errorMessages = _cardView.errorMessages;
+  [self.tableView endUpdates];
+}
 
 @end

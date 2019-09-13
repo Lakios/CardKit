@@ -24,6 +24,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   NSString *_pattern;
   CGSize _intrinsicContentSize;
   CardKTheme *_theme;
+  BOOL _showError;
 }
 
 - (instancetype)init {
@@ -38,6 +39,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     _formatLabel = [[UILabel alloc] init];
     _textField = [[UITextField alloc] init];
     [_textField addTarget:self action:@selector(_editingChange:) forControlEvents:UIControlEventEditingChanged];
+  
     
     UIFont *font = [UIFont fontWithName:@"Menlo" size:_patternLabel.font.pointSize];
     
@@ -66,6 +68,23 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 
 - (NSString *)pattern {
   return _pattern;
+}
+
+- (void)setShowError:(BOOL)showError {
+  _showError = showError;
+
+  if (showError) {
+    _textField.textColor = _theme.colorErrorLabel;
+    _patternLabel.textColor = _theme.colorErrorLabel;
+    return;
+  }
+  
+  _textField.textColor = _theme.colorLabel;
+  _patternLabel.textColor = _theme.colorLabel;
+}
+
+- (BOOL)showError {
+  return _showError;
 }
 
 - (void)setPattern:(NSString *)pattern {
@@ -125,6 +144,10 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
   [self sendActionsForControlEvents:UIControlEventEditingDidBegin];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+  [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

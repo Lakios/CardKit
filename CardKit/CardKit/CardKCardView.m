@@ -16,7 +16,7 @@
   CardKTextField *_expireDateTextField;
   CardKTextField *_secureCodeTextField;
   CardKTextField *_focusedField;
-  
+  NSArray *_errorMessages;
   CardKTheme *_theme;
 }
 
@@ -78,6 +78,15 @@
   return month;
 }
 
+
+- (NSArray *)errorMessages {
+  return _errorMessages;
+}
+
+- (void)setErrorMessages:(NSArray *)errorMessages{
+  _errorMessages = errorMessages;
+}
+
 - (NSString *)number {
   return _numberTextField.text;
 }
@@ -90,14 +99,105 @@
   return _secureCodeTextField.text;
 }
 
+- (void)deleteErrorByErrorName:(NSString *)errorName {
+  NSInteger index = 0;
+  NSInteger indexOFCurrentError = 0;
+  for (NSString *message in _errorMessages) {
+    if ([message isEqual:errorName]) {
+      indexOFCurrentError = index;
+    }
+    index++;
+  }
+
+  if ([_errorMessages count] > 0) {
+    NSMutableArray *_currentErrors = [[NSMutableArray alloc] initWithArray:_errorMessages];
+    [_currentErrors removeObjectAtIndex:indexOFCurrentError];
+    [self setErrorMessages:_currentErrors];
+  }
+}
+
+- (void)cleanErrors {
+  NSArray *emptyArray = [[NSArray alloc] init];
+  _errorMessages = emptyArray;
+}
+
+- (BOOL)_validateCardNumber:(NSString *)cardNumber {
+  [self deleteErrorByErrorName:@"Номер карты"];
+  if ([cardNumber length] < 16) {
+    NSArray *errors = [NSArray arrayWithObjects: @"Номер карты", nil];
+    
+    [self setErrorMessages:errors];
+    [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+
+    return YES;
+  }
+  [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+
+  return NO;
+}
+
+- (BOOL)_validateExpireDate:(NSString *)expireDate {
+  [self deleteErrorByErrorName:@"Дата"];
+
+  if ([expireDate length] < 4) {
+    NSArray *errors = [NSArray arrayWithObjects: @"Дата", nil];
+    [self setErrorMessages:[errors arrayByAddingObjectsFromArray:_errorMessages]];
+    [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+    return YES;
+  }
+  
+  [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+
+  return NO;
+}
+
+- (BOOL)_validateSecureCode:(NSString *)secureCode {
+  [self deleteErrorByErrorName:@"CVC"];
+  if ([secureCode length] < 3) {
+    NSArray *errors = [NSArray arrayWithObjects: @"CVC", nil];
+    
+    [self setErrorMessages:[errors arrayByAddingObjectsFromArray:_errorMessages]];
+    [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+    
+    return YES;
+  }
+  
+  [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+
+  return NO;
+}
+
+- (void)_validateField:(UIView *)sender {
+  CardKTextField * field = (CardKTextField *)sender;
+  
+  if (field == _numberTextField) {
+    _numberTextField.showError = [self _validateCardNumber:field.text];
+    return;
+  }
+  
+  if (field == _expireDateTextField) {
+    _expireDateTextField.showError = [self _validateExpireDate:field.text];
+    return;
+  }
+  
+  if (field == _secureCodeTextField) {
+    _secureCodeTextField.showError = [self _validateSecureCode:field.text];
+    return;
+  }
+  
+   field.showError = NO;
+}
+
 - (void)_numberChanged {
   [self sendActionsForControlEvents:UIControlEventValueChanged];
-
+  
   UIImage *image = [PaymentSystemProvider imageByCardNumber:self.number compatibleWithTraitCollection: self.traitCollection];
   [_paymentSystemImageView setImage:image];
 }
 
 - (void)_switchToNext:(UIView *)sender {
+  [self _validateField:sender];
+  
   NSArray *fields = @[_numberTextField, _expireDateTextField, _secureCodeTextField];
   NSInteger index = [fields indexOfObject:sender];
   if (index == NSNotFound) {
@@ -117,8 +217,15 @@
 
 - (void)_editingDidBegin:(UIView *)sender {
   CardKTextField * field = (CardKTextField *)sender;
-  
+
+  if (field.showError) {
+    field.showError = false;
+    [self cleanErrors];
+    [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+  }
+
   if (field == _focusedField) {
+    
     return;
   }
   
@@ -134,8 +241,6 @@
 }
 
 - (void)layoutSubviews {
-  
-  
   CGRect bounds = self.bounds;
   CGFloat height = self.bounds.size.height;
   

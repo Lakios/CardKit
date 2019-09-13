@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9219F465232B8EF100841B98 /* CardKFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9219F463232B8EF100841B98 /* CardKFooterView.h */; };
+		9219F466232B8EF100841B98 /* CardKFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9219F464232B8EF100841B98 /* CardKFooterView.m */; };
 		D245AB43231C435E00369747 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; };
 		D245AB48231C435E00369747 /* CardKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D245AB47231C435E00369747 /* CardKitTests.m */; };
 		D245AB4A231C435E00369747 /* CardKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D245AB3C231C435E00369747 /* CardKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9219F463232B8EF100841B98 /* CardKFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKFooterView.h; sourceTree = "<group>"; };
+		9219F464232B8EF100841B98 /* CardKFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKFooterView.m; sourceTree = "<group>"; };
 		D245AB39231C435E00369747 /* CardKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CardKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D245AB3C231C435E00369747 /* CardKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKit.h; sourceTree = "<group>"; };
 		D245AB3D231C435E00369747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -127,6 +131,8 @@
 				D2D0B35D2320E3AC0007B3B9 /* CardKBankLogoView.m */,
 				D2D0B365232122620007B3B9 /* PaymentSystemProvider.h */,
 				D2D0B366232122620007B3B9 /* PaymentSystemProvider.m */,
+				9219F463232B8EF100841B98 /* CardKFooterView.h */,
+				9219F464232B8EF100841B98 /* CardKFooterView.m */,
 			);
 			path = CardKit;
 			sourceTree = "<group>";
@@ -151,6 +157,7 @@
 				D245ABC8231C529D00369747 /* CardKTheme.h in Headers */,
 				D2D0B367232122620007B3B9 /* PaymentSystemProvider.h in Headers */,
 				D2690811231FB000001CB863 /* CardKCardView.h in Headers */,
+				9219F465232B8EF100841B98 /* CardKFooterView.h in Headers */,
 				D269080D231FA894001CB863 /* CardKTextField.h in Headers */,
 				D2D0B35E2320E3AC0007B3B9 /* CardKBankLogoView.h in Headers */,
 				D245ABBC231C449F00369747 /* CardKViewController.h in Headers */,
@@ -260,6 +267,7 @@
 			files = (
 				D2D0B368232122620007B3B9 /* PaymentSystemProvider.m in Sources */,
 				D2D0B35F2320E3AC0007B3B9 /* CardKBankLogoView.m in Sources */,
+				9219F466232B8EF100841B98 /* CardKFooterView.m in Sources */,
 				D269080E231FA894001CB863 /* CardKTextField.m in Sources */,
 				D2690812231FB000001CB863 /* CardKCardView.m in Sources */,
 				D245ABC9231C529D00369747 /* CardKTheme.m in Sources */,
