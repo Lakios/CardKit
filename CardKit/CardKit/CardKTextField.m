@@ -23,14 +23,13 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   
   NSString *_pattern;
   CGSize _intrinsicContentSize;
-  CardKTheme *_theme;
   BOOL _showError;
 }
 
 - (instancetype)init {
   self = [super init];
   if (self) {
-    _theme = [CardKTheme shared];
+    CardKTheme *theme = [CardKTheme shared];
     
     UIViewAutoresizing mask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.autoresizingMask = mask;
@@ -40,15 +39,13 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     _textField = [[UITextField alloc] init];
     [_textField addTarget:self action:@selector(_editingChange:) forControlEvents:UIControlEventEditingChanged];
   
-    
-    UIFont *font = [UIFont fontWithName:@"Menlo" size:_patternLabel.font.pointSize];
-    
-    _patternLabel.font =
+    UIFont *font = [self _font];
+    _patternLabel.font = font;
     _textField.font = font;
     _formatLabel.font = font;
-    _patternLabel.textColor = _theme.colorPlaceholder;
-    _formatLabel.textColor = _theme.colorPlaceholder;
-    _textField.textColor = _theme.colorLabel;
+    _patternLabel.textColor = theme.colorPlaceholder;
+    _formatLabel.textColor = theme.colorPlaceholder;
+    _textField.textColor = theme.colorLabel;
     
     _textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
     _textField.leftViewMode = UITextFieldViewModeAlways;
@@ -66,21 +63,27 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   return self;
 }
 
+- (UIFont *)_font {
+  return [UIFont fontWithName:@"Menlo" size:_patternLabel.font.pointSize];
+}
+
 - (NSString *)pattern {
   return _pattern;
 }
 
 - (void)setShowError:(BOOL)showError {
+  CardKTheme *theme = [CardKTheme shared];
+  
   _showError = showError;
 
   if (showError) {
-    _textField.textColor = _theme.colorErrorLabel;
-    _patternLabel.textColor = _theme.colorErrorLabel;
+    _textField.textColor = theme.colorErrorLabel;
+    _patternLabel.textColor = [theme.colorErrorLabel colorWithAlphaComponent:0.5];
     return;
   }
   
-  _textField.textColor = _theme.colorLabel;
-  _patternLabel.textColor = _theme.colorLabel;
+  _textField.textColor = theme.colorLabel;
+  _patternLabel.textColor = theme.colorPlaceholder;
 }
 
 - (BOOL)showError {
@@ -104,7 +107,11 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 }
 
 - (void)setPlaceholder:(NSString *)placeholder {
-  _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{NSForegroundColorAttributeName: _theme.colorPlaceholder}];
+  CardKTheme *theme = [CardKTheme shared];
+  _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{
+    NSForegroundColorAttributeName: theme.colorPlaceholder,
+    NSFontAttributeName: [self _font]
+  }];
   _textField.placeholder = placeholder;
 }
 
@@ -172,19 +179,17 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 - (void)_editingChange:(UITextField *)textField
 {
   NSUInteger targetCursorPosition = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.selectedTextRange.start];
-  
   textField.attributedText = [self _formatValue:textField.attributedText];
-  
   UITextPosition *targetPosition = [textField positionFromPosition:[textField beginningOfDocument] offset:targetCursorPosition];
-     [textField setSelectedTextRange:[textField textRangeFromPosition:targetPosition toPosition:targetPosition]];
+  [textField setSelectedTextRange:[textField textRangeFromPosition:targetPosition toPosition:targetPosition]];
   
   NSInteger len = textField.text.length;
   [_patternLabel setHidden: len == 0];
   
   NSMutableString *pattern = [_pattern mutableCopy];
-  [pattern replaceOccurrencesOfString:@"X" withString:@" " options:NSCaseInsensitiveSearch range:NSMakeRange(0, MIN(len, pattern.length))];
-  [pattern replaceOccurrencesOfString:@"M" withString:@" " options:NSCaseInsensitiveSearch range:NSMakeRange(0, MIN(len, pattern.length))];
-  [pattern replaceOccurrencesOfString:@"Y" withString:@" " options:NSCaseInsensitiveSearch range:NSMakeRange(0, MIN(len, pattern.length))];
+  for (NSString *ch in @[@"X", @"M", @"Y"]) {
+    [pattern replaceOccurrencesOfString:ch withString:@" " options:NSCaseInsensitiveSearch range:NSMakeRange(0, MIN(len, pattern.length))];
+  }
   _patternLabel.text = pattern;
   _patternLabel.attributedText = [self _formatValue:_patternLabel.attributedText];
   

@@ -74,6 +74,7 @@
     NSString *path = [bundle pathForResource:@"index" ofType:@"html" inDirectory:@"banks-info"];
     NSURL *url = [NSURL fileURLWithPath:path];
     [_webView loadFileURL:url allowingReadAccessToURL:url];
+    [_webView setUserInteractionEnabled:NO];
   }
   return self;
 }
@@ -85,8 +86,7 @@
 }
 
 - (void)userContentController:(WKUserContentController *)userContentController
-      didReceiveScriptMessage:(WKScriptMessage *)message
-{
+      didReceiveScriptMessage:(WKScriptMessage *)message {
   [_webView setOpaque:NO];
   _webView.backgroundColor = UIColor.clearColor;
 }

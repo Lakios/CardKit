@@ -16,8 +16,7 @@
   CardKTextField *_expireDateTextField;
   CardKTextField *_secureCodeTextField;
   CardKTextField *_focusedField;
-  NSArray *_errorMessages;
-  CardKTheme *_theme;
+  NSMutableArray *_errorMessagesArray;
 }
 
 - (instancetype)init {
@@ -25,8 +24,9 @@
   self = [super init];
   
   if (self) {
-    _theme = [CardKTheme shared];
 
+    _errorMessagesArray = [[NSMutableArray alloc] init];
+    
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
     _paymentSystemImageView.image = [PaymentSystemProvider imageByCardNumber:@"" compatibleWithTraitCollection: self.traitCollection];
@@ -80,11 +80,11 @@
 
 
 - (NSArray *)errorMessages {
-  return _errorMessages;
+  return [_errorMessagesArray copy];
 }
 
 - (void)setErrorMessages:(NSArray *)errorMessages{
-  _errorMessages = errorMessages;
+  _errorMessagesArray = [errorMessages mutableCopy];
 }
 
 - (NSString *)number {
@@ -99,34 +99,14 @@
   return _secureCodeTextField.text;
 }
 
-- (void)deleteErrorByErrorName:(NSString *)errorName {
-  NSInteger index = 0;
-  NSInteger indexOFCurrentError = 0;
-  for (NSString *message in _errorMessages) {
-    if ([message isEqual:errorName]) {
-      indexOFCurrentError = index;
-    }
-    index++;
-  }
-
-  if ([_errorMessages count] > 0) {
-    NSMutableArray *_currentErrors = [[NSMutableArray alloc] initWithArray:_errorMessages];
-    [_currentErrors removeObjectAtIndex:indexOFCurrentError];
-    [self setErrorMessages:_currentErrors];
-  }
-}
-
 - (void)cleanErrors {
-  NSArray *emptyArray = [[NSArray alloc] init];
-  _errorMessages = emptyArray;
+  [_errorMessagesArray removeAllObjects];
 }
 
 - (BOOL)_validateCardNumber:(NSString *)cardNumber {
-  [self deleteErrorByErrorName:@"Номер карты"];
+  [_errorMessagesArray removeObject:@"Номер карты"];
   if ([cardNumber length] < 16) {
-    NSArray *errors = [NSArray arrayWithObjects: @"Номер карты", nil];
-    
-    [self setErrorMessages:errors];
+    [_errorMessagesArray addObject:@"Номер карты"];
     [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
 
     return YES;
@@ -137,11 +117,10 @@
 }
 
 - (BOOL)_validateExpireDate:(NSString *)expireDate {
-  [self deleteErrorByErrorName:@"Дата"];
+  [_errorMessagesArray removeObject:@"Дата"];
 
   if ([expireDate length] < 4) {
-    NSArray *errors = [NSArray arrayWithObjects: @"Дата", nil];
-    [self setErrorMessages:[errors arrayByAddingObjectsFromArray:_errorMessages]];
+    [_errorMessagesArray addObject:@"Дата"];
     [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
     return YES;
   }
@@ -152,11 +131,9 @@
 }
 
 - (BOOL)_validateSecureCode:(NSString *)secureCode {
-  [self deleteErrorByErrorName:@"CVC"];
+  [_errorMessagesArray removeObject:@"CVC"];
   if ([secureCode length] < 3) {
-    NSArray *errors = [NSArray arrayWithObjects: @"CVC", nil];
-    
-    [self setErrorMessages:[errors arrayByAddingObjectsFromArray:_errorMessages]];
+    [_errorMessagesArray addObject:@"CVC"];
     [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
     
     return YES;

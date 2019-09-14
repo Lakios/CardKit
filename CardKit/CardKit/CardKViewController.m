@@ -17,10 +17,8 @@ const NSString *CardKCardCellID = @"card";
 const NSString *CardKOwnerCellID = @"owner";
 const NSString *CardKButtonCellID = @"button";
 const NSString *CardKRows = @"rows";
-
-@interface CardKViewController ()
-
-@end
+const NSString *CardKSectionTitle = @"title";
+NSString *CardKFooterID = @"footer";
 
 @implementation CardKViewController {
   NSString *_pubKey;
@@ -60,8 +58,8 @@ const NSString *CardKRows = @"rows";
     forControlEvents:UIControlEventTouchUpInside];
   
     _sections = @[
-      @{@"title": @"Card", @"rows": @[CardKCardCellID] },
-      @{@"title": @"Owner", @"rows": @[CardKOwnerCellID] },
+      @{CardKSectionTitle: @"Card", CardKRows: @[CardKCardCellID] },
+      @{CardKSectionTitle: @"Owner", CardKRows: @[CardKOwnerCellID] },
       @{CardKRows: @[CardKButtonCellID] },
     ];
   }
@@ -85,7 +83,7 @@ const NSString *CardKRows = @"rows";
 }
 
 - (void)_cardChanged {
-  NSString * number = _cardView.number;
+  NSString *number = _cardView.number;
   [_bankLogoView showNumber:number];
 }
 
@@ -103,7 +101,7 @@ const NSString *CardKRows = @"rows";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
   
-  [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"footer"];
+  [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:CardKFooterID];
 }
 
 - (NSString *)purchaseButtonTitle {
@@ -132,7 +130,7 @@ const NSString *CardKRows = @"rows";
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  return _sections[section][@"title"];
+  return _sections[section][CardKSectionTitle];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -179,15 +177,13 @@ const NSString *CardKRows = @"rows";
   return NO;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-  UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"footer"];
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+  UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:CardKFooterID];
   if (view == nil) {
-    view = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:@"footer"];
+    view = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:CardKFooterID];
   }
 
-  if(section == 0)
-  {
+  if(section == 0) {
     _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.bounds];
     _cardFooterView.errorMessages = _cardView.errorMessages;
 

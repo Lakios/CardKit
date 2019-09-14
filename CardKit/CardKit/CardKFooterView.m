@@ -33,14 +33,13 @@
 }
 
 - (void)setErrorMessages:(NSArray *)errorMessages{
-  if ([errorMessages count] > 0) {
-    _label.frame = CGRectMake(10, 0, self.frame.size.width-20, self.frame.size.height);
-    [_label setText:errorMessages[0]];
-  } else {
-    [_label setText:@""];
-  }
+  [_label setText:[errorMessages firstObject]];
   _errorMessages = errorMessages;
 }
 
+- (void)layoutSubviews {
+  [super layoutSubviews];
+  _label.frame = CGRectInset(self.bounds, 10, 0);
+}
 
 @end
