@@ -219,13 +219,13 @@
 
 - (void)layoutSubviews {
   CGRect bounds = self.bounds;
-  CGFloat height = self.bounds.size.height;
+  CGFloat height = bounds.size.height;
   
   CGFloat width = bounds.size.width - 10;
   
   if (_focusedField == _numberTextField) {
     _numberTextField.frame = CGRectMake(50, 0, _numberTextField.intrinsicContentSize.width, height);
-    _expireDateTextField.frame = CGRectMake( CGRectGetMaxX( _numberTextField.frame), 0, _expireDateTextField.intrinsicContentSize.width, bounds.size.height);
+    _expireDateTextField.frame = CGRectMake(CGRectGetMaxX( _numberTextField.frame), 0, _expireDateTextField.intrinsicContentSize.width, bounds.size.height);
     _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX( _expireDateTextField.frame), 0, _secureCodeTextField.intrinsicContentSize.width, height);
   } else {
     CGFloat numberWidth = _numberTextField.intrinsicContentSize.width;
@@ -245,9 +245,6 @@
   _paymentSystemImageView.frame = CGRectMake(0, 0, 50, bounds.size.height);
   
   [super layoutSubviews];
-  
-  NSLog(@"done");
-  
 }
 
 @end

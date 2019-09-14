@@ -72,8 +72,7 @@ NSString * __systemNameByCardNumber(NSString *number) {
 + (UIImage *)imageByCardNumber:(NSString *)number compatibleWithTraitCollection:(UITraitCollection *) traitCollection {
   NSString *systemName = __systemNameByCardNumber(number);
   
-  CardKTheme *theme = [CardKTheme shared];
-  NSString *imageAppearance = theme.imageAppearance;
+  NSString *imageAppearance = CardKTheme.shared.imageAppearance;
   
   if (imageAppearance == nil) {
     if (@available(iOS 12.0, *)) {

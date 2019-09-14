@@ -54,20 +54,19 @@
 @implementation CardKBankLogoView {
   CardKWebView *_webView;
   UIView *_coverView;
-  CardKTheme *_theme;
 }
 
 - (instancetype)init {
-  
   if (self = [super init]) {
-     _theme = [CardKTheme shared];
+    CardKTheme *theme = [CardKTheme shared];
+    
     _coverView = [[UIView alloc] init];
     WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
     [configuration.userContentController addScriptMessageHandler:self name:@"interOp"];
     _webView = [[CardKWebView alloc] initWithFrame:CGRectZero configuration: configuration];
     [self addSubview:_webView];
-    _coverView.backgroundColor = _theme.colorTableBackground;
-    _webView.backgroundColor = _theme.colorTableBackground;
+    _coverView.backgroundColor = theme.colorTableBackground;
+    _webView.backgroundColor = theme.colorTableBackground;
     [self addSubview:_coverView];
     
     NSBundle *bundle = [NSBundle bundleForClass:[CardKBankLogoView class]];
@@ -96,7 +95,8 @@
     [_coverView setHidden:NO];
     return;
   }
-  NSString *imageAppearance = _theme.imageAppearance;
+
+  NSString *imageAppearance = CardKTheme.shared.imageAppearance;
 
   if (imageAppearance == nil) {
     if (@available(iOS 12.0, *)) {

@@ -26,7 +26,6 @@ NSString *CardKFooterID = @"footer";
   
   CardKBankLogoView *_bankLogoView;
   
-  CardKTheme *_theme;
   CardKTextField *_ownerTextField;
   CardKCardView *_cardView;
   UIButton *_doneButton;
@@ -38,7 +37,6 @@ NSString *CardKFooterID = @"footer";
   if (self = [super initWithStyle:UITableViewStyleGrouped]) {
     _pubKey = pubKey;
     _mdOrder = mdOrder;
-    _theme = [CardKTheme shared];
 
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -90,11 +88,12 @@ NSString *CardKFooterID = @"footer";
 - (void)viewDidLoad {
   [super viewDidLoad];
 
+  CardKTheme *theme = CardKTheme.shared;
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
 
   self.tableView.tableHeaderView = _bankLogoView;
-  self.tableView.separatorColor = _theme.separatarColor;
-  self.tableView.backgroundColor = _theme.colorTableBackground;
+  self.tableView.separatorColor = theme.separatarColor;
+  self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
 
   for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
@@ -135,8 +134,9 @@ NSString *CardKFooterID = @"footer";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
-  NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
+  CardKTheme *theme = CardKTheme.shared;
   
+  NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
 
@@ -150,10 +150,10 @@ NSString *CardKFooterID = @"footer";
     [cell addSubview:_doneButton];
   }
   
-  if (_theme.colorCellBackground != nil) {
-    cell.backgroundColor = _theme.colorCellBackground;
+  if (theme.colorCellBackground != nil) {
+    cell.backgroundColor = theme.colorCellBackground;
   }
-  cell.textLabel.textColor = _theme.colorLabel;
+  cell.textLabel.textColor = theme.colorLabel;
   return cell;
 }
 
