@@ -41,7 +41,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
                     imageByCardNumber:_allowedCardScaner ? nil : @""
                     compatibleWithTraitCollection: self.traitCollection];
     
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(callScanCard:)];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(_callScanCard:)];
 
     [_paymentSystemImageView addGestureRecognizer:tapGestureRecognizer];
     _paymentSystemImageView.userInteractionEnabled = YES;
@@ -86,7 +86,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   return self;
 }
 
-- (void)callScanCard:(UITapGestureRecognizer *)gestureRecognizer{
+- (void)_callScanCard:(UITapGestureRecognizer *)gestureRecognizer{
   if (_allowedCardScaner && [_numberTextField.text length] == 0) {
     NSLog(@"You can call it");
     return;
