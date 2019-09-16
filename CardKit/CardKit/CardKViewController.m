@@ -50,6 +50,7 @@ NSString *CardKFooterID = @"footer";
 
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"Title", nil, _bundle, @"Title");
     
     _cardView = [[CardKCardView alloc] init];
     [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
