@@ -69,7 +69,13 @@ NSString * __systemNameByCardNumber(NSString *number) {
 
 @implementation PaymentSystemProvider
 
-+ (UIImage *)imageByCardNumber:(NSString *)number compatibleWithTraitCollection:(UITraitCollection *) traitCollection {
++ (UIImage *)imageByCardNumber:(nullable NSString *)number compatibleWithTraitCollection:(UITraitCollection *) traitCollection {
+  
+  if (number == nil) {
+    NSBundle *bundle = [NSBundle bundleForClass:[PaymentSystemProvider self]];
+    return [UIImage imageNamed:@"scan-card" inBundle:bundle compatibleWithTraitCollection:nil];
+  }
+
   NSString *systemName = __systemNameByCardNumber(number);
   
   NSString *imageAppearance = CardKTheme.shared.imageAppearance;

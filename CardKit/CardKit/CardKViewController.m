@@ -95,6 +95,14 @@ NSString *CardKFooterID = @"footer";
   [[_doneButton layer] addAnimation:animation forKey:@"position"];
 }
 
+- (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
+  _cardView.allowedCardScaner = allowedCardScaner;
+}
+
+- (BOOL)allowedCardScaner {
+  return _cardView.allowedCardScaner;
+}
+
 
 - (void)_cardChanged {
   NSString *number = _cardView.number;
