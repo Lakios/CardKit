@@ -50,18 +50,18 @@ NSString *CardKFooterID = @"footer";
 
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"Title", nil, _bundle, @"Title");
+    _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _bundle, @"Title");
     
     _cardView = [[CardKCardView alloc] init];
     [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
 
     _ownerTextField = [[CardKTextField alloc] init];
-    _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"CARD OWNER", nil, _bundle, @"Card owner placeholder");
+    _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"cardholderPlaceholder", nil, _bundle, @"Card holde placeholder");
     [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventEditingDidBegin];
     
     _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_doneButton
-      setTitle: NSLocalizedStringFromTableInBundle(@"Submit Payment", nil, _bundle, "Submit payment button")
+      setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _bundle, "Submit payment button")
       forState: UIControlStateNormal];
     _doneButton.frame = CGRectMake(0, 0, 200, 44);
     
@@ -69,8 +69,8 @@ NSString *CardKFooterID = @"footer";
     forControlEvents:UIControlEventTouchUpInside];
   
     _sections = @[
-      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"Card", nil, _bundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
-      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"Cardholder", nil, _bundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
+      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _bundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
+      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _bundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
       @{CardKRows: @[CardKButtonCellID] },
     ];
   }

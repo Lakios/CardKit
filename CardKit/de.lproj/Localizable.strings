@@ -6,16 +6,19 @@
   Copyright © 2019 AnjLab. All rights reserved.
 */
 
-"Title" = "Enter card details";
-"Card" = "Karten";
-"Cardholder" = "Karteninhaber";
+"title" = "Enter card details";
+"card" = "Karten";
+"cardholder" = "Karteninhaber";
+"cardholderPlaceholder" = "Karteninhaber";
 "Card Number" = "Card Number";
 "MM/YY" = "MM/YY";
-"Submit Payment" = "Bezahlen";
+"doneButton" = "Bezahlen";
+"expiry" = "Ablaufdatum der Karte";
+"cvc" = "Drei Endziffern der Code";
+
 "incorrectLength" = "Card number length should be 16-19 digits";
 "incorrectCardNumber" = "Kartennummer falsch eingegeben";
 "incorrectExpiry" = "Ablaufdatum der Karte falsch e";
 "incorrectCvc" = "CVC2/CVV2 falsch eingegeben";
 "incorrectCardholder" = "Ungültiger Karteninhaber";
-"expiry" = "Ablaufdatum der Karte";
-"cvc" = "Drei Endziffern der Code";
+
