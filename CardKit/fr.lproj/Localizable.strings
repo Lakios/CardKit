@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  CardKit
+
+  Created by Yury Korolev on 9/16/19.
+  Copyright © 2019 AnjLab. All rights reserved.
+*/
+
+"Title" = "Enter card details";
+"Card" = "Card";
+"Cardholder" = "Le nom du détenteur";
+"Card Number" = "Numéro de la carte";
+"MM/YY" = "MM/YY";
+"Submit Payment" = "Paiement";
+"incorrectLength" = "Card number length should be 16-19 digits";
+"incorrectCardNumber" = "Numéro incorrect";
+"incorrectExpiry" = "Durée de valabilité de la carte incorrecte";
+"incorrectCvc" = "Code de sûreté incorrect";
+"expiry" = "Valable jusqu'au";
+"cvc" = "Les trois derniers chiffres du code";

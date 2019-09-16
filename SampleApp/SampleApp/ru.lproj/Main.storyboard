@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kZ-0y-AJM">
+                                <rect key="frame" x="169" y="414" width="76" height="30"/>
+                                <state key="normal" title="Светлая тема"/>
+                                <connections>
+                                    <action selector="_openController" destination="BYZ-38-t0r" eventType="touchUpInside" id="otb-rJ-bmq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SNn-IO-cAA">
+                                <rect key="frame" x="170" y="483" width="74" height="30"/>
+                                <state key="normal" title="Open Dark"/>
+                                <connections>
+                                    <action selector="_openDark:" destination="BYZ-38-t0r" eventType="touchUpInside" id="z6Q-P4-bsU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RAd-oC-kTG">
+                                <rect key="frame" x="135" y="533" width="144" height="30"/>
+                                <state key="normal" title="Open System Theme"/>
+                                <connections>
+                                    <action selector="_openSystemTheme:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ycK-Ht-kZc"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="2kZ-0y-AJM" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="4Gs-Yy-9Bx"/>
+                            <constraint firstItem="RAd-oC-kTG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="834-OE-jRX"/>
+                            <constraint firstItem="2kZ-0y-AJM" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="9dj-dG-Z90"/>
+                            <constraint firstItem="SNn-IO-cAA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IUV-v3-Kuv"/>
+                            <constraint firstItem="RAd-oC-kTG" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="100" id="TjM-Ma-bNU"/>
+                            <constraint firstItem="SNn-IO-cAA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="50" id="WCo-ij-Veb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="138"/>
+        </scene>
+    </scenes>
+</document>

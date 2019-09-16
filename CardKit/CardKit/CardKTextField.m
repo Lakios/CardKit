@@ -67,6 +67,14 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   return [UIFont fontWithName:@"Menlo" size:_patternLabel.font.pointSize];
 }
 
+- (nullable NSString *)accessibilityLabel {
+  return _textField.accessibilityLabel;
+}
+
+- (void)setAccessibilityLabel:(nullable NSString *)accessibilityLabel {
+  _textField.accessibilityLabel = accessibilityLabel;
+}
+
 - (NSString *)pattern {
   return _pattern;
 }
@@ -112,6 +120,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     NSForegroundColorAttributeName: theme.colorPlaceholder,
     NSFontAttributeName: [self _font]
   }];
+  [self setAccessibilityLabel:placeholder];
   _textField.placeholder = placeholder;
 }
 
@@ -175,9 +184,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   return _intrinsicContentSize;
 }
 
-
-- (void)_editingChange:(UITextField *)textField
-{
+- (void)_editingChange:(UITextField *)textField {
   NSUInteger targetCursorPosition = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.selectedTextRange.start];
   textField.attributedText = [self _formatValue:textField.attributedText];
   UITextPosition *targetPosition = [textField positionFromPosition:[textField beginningOfDocument] offset:targetCursorPosition];
@@ -187,8 +194,20 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   [_patternLabel setHidden: len == 0];
   
   NSMutableString *pattern = [_pattern mutableCopy];
-  for (NSString *ch in @[@"X", @"M", @"Y"]) {
-    [pattern replaceOccurrencesOfString:ch withString:@" " options:NSCaseInsensitiveSearch range:NSMakeRange(0, MIN(len, pattern.length))];
+  
+  if ([_pattern isEqualToString:CardKTextFieldPatternExpirationDate]) {
+    pattern = [_textField.placeholder mutableCopy];
+    [pattern replaceOccurrencesOfString:@"/" withString:@"" options:kNilOptions range:NSMakeRange(0, pattern.length)];
+    [pattern replaceOccurrencesOfString:@"." withString:@"" options:kNilOptions range:NSMakeRange(0, pattern.length)];
+  }
+  
+  for (int i = 0; i < MIN(len, pattern.length); i++) {
+    NSRange range = NSMakeRange(i, 1);
+    NSString *s = [pattern substringWithRange:range];
+    if ([s isEqualToString:@"/"] || [s isEqualToString:@" "]){
+      continue;
+    }
+    [pattern replaceCharactersInRange:range withString:@" "];
   }
   _patternLabel.text = pattern;
   _patternLabel.attributedText = [self _formatValue:_patternLabel.attributedText];

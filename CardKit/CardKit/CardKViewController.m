@@ -31,10 +31,14 @@ NSString *CardKFooterID = @"footer";
   UIButton *_doneButton;
   NSArray *_sections;
   CardKFooterView *_cardFooterView;
+  NSBundle *_bundle;
+  NSString *_lastAnouncment;
 }
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder {
   if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+    _bundle = [NSBundle bundleForClass:[CardKViewController class]];
+    
     _pubKey = pubKey;
     _mdOrder = mdOrder;
 
@@ -46,18 +50,20 @@ NSString *CardKFooterID = @"footer";
     [_cardView addTarget:self action:@selector(_reloadSectionByIndexPathOfYourCell) forControlEvents:UIControlEventEditingDidEnd];
 
     _ownerTextField = [[CardKTextField alloc] init];
-    _ownerTextField.placeholder = @"CARD OWNER";
+    _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"CARD OWNER", nil, _bundle, @"Card owner placeholder");
     
     _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [_doneButton setTitle:@"Purchase" forState:UIControlStateNormal];
+    [_doneButton
+      setTitle: NSLocalizedStringFromTableInBundle(@"Submit Payment", nil, _bundle, "Submit payment button")
+      forState: UIControlStateNormal];
     _doneButton.frame = CGRectMake(0, 0, 200, 44);
     
     [_doneButton addTarget:self action:@selector(buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
   
     _sections = @[
-      @{CardKSectionTitle: @"Card", CardKRows: @[CardKCardCellID] },
-      @{CardKSectionTitle: @"Owner", CardKRows: @[CardKOwnerCellID] },
+      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"Card", nil, _bundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
+      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"Cardholder", nil, _bundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
       @{CardKRows: @[CardKButtonCellID] },
     ];
   }
@@ -197,6 +203,12 @@ NSString *CardKFooterID = @"footer";
   [self.tableView beginUpdates];
   _cardFooterView.errorMessages = _cardView.errorMessages;
   [self.tableView endUpdates];
+  
+  NSString *errorMessage = [_cardView.errorMessages firstObject];
+  if (errorMessage.length > 0 && ![_lastAnouncment isEqualToString:errorMessage]) {
+    _lastAnouncment = errorMessage;
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, _lastAnouncment);
+  }
 }
 
 @end

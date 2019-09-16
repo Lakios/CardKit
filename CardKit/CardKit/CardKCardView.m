@@ -9,6 +9,7 @@
 #import "CardKCardView.h"
 #import "CardKTextField.h"
 #import "PaymentSystemProvider.h"
+#import "Luhn.h"
 
 @implementation CardKCardView {
   UIImageView *_paymentSystemImageView;
@@ -17,6 +18,7 @@
   CardKTextField *_secureCodeTextField;
   CardKTextField *_focusedField;
   NSMutableArray *_errorMessagesArray;
+  NSBundle *_bundle;
 }
 
 - (instancetype)init {
@@ -25,26 +27,32 @@
   
   if (self) {
 
+    _bundle = [NSBundle bundleForClass:[CardKCardView class]];
+
     _errorMessagesArray = [[NSMutableArray alloc] init];
     
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
-    _paymentSystemImageView.image = [PaymentSystemProvider imageByCardNumber:@"" compatibleWithTraitCollection: self.traitCollection];
+    _paymentSystemImageView.image = [PaymentSystemProvider
+                                     imageByCardNumber:@""
+                                     compatibleWithTraitCollection: self.traitCollection];
     [self addSubview:_paymentSystemImageView];
     
     _numberTextField = [[CardKTextField alloc] init];
     _numberTextField.pattern = CardKTextFieldPatternCardNumber;
-    _numberTextField.placeholder = @"Number";
-
+    _numberTextField.placeholder = NSLocalizedStringFromTableInBundle(@"Card Number", nil, _bundle, @"Card number placeholder");
+    _numberTextField.accessibilityLabel = nil;
     _expireDateTextField = [[CardKTextField alloc] init];
     _expireDateTextField.pattern = CardKTextFieldPatternExpirationDate;
-    _expireDateTextField.placeholder = @"MM/YY";
+    _expireDateTextField.placeholder = NSLocalizedStringFromTableInBundle(@"MM/YY", nil, _bundle, @"Expiration date placeholder");
     _expireDateTextField.format = @"  /  ";
+    _expireDateTextField.accessibilityLabel = NSLocalizedStringFromTableInBundle(@"expiry", nil, _bundle, @"Expiration date accessiblity label");
     
     _secureCodeTextField = [[CardKTextField alloc] init];
     _secureCodeTextField.pattern = CardKTextFieldPatternSecureCode;
-    _secureCodeTextField.placeholder = @"CVC";
+    _secureCodeTextField.placeholder = NSLocalizedStringFromTableInBundle(@"CVC", nil, _bundle, @"CVC placeholder");
     _secureCodeTextField.secureTextEntry = YES;
+    _secureCodeTextField.accessibilityLabel = NSLocalizedStringFromTableInBundle(@"cvc", nil, _bundle, @"CVC accessibility");
   
     for (CardKTextField *v in @[_numberTextField, _expireDateTextField, _secureCodeTextField]) {
       [self addSubview:v];
@@ -63,19 +71,21 @@
   return self;
 }
 
--(NSString *)getFullYearFromExpirationDate {
-  NSString *expireDateTextField = _expireDateTextField.text;
-  NSString *year = [expireDateTextField substringFromIndex:2];
-  NSString *fullYear = [NSString stringWithFormat:@"20%@", year];
-  
-  return fullYear;
+- (nullable NSString *)getFullYearFromExpirationDate {
+  NSString *text = _expireDateTextField.text;
+  if (text.length < 4) {
+    return nil;
+  }
+  NSString *year = [text substringFromIndex:2];
+  return [NSString stringWithFormat:@"20%@", year];
 }
 
-- (NSString *)getMonthFromExpirationDate {
-  NSString *expireDateTextField = _expireDateTextField.text;
-  NSString *month = [expireDateTextField substringToIndex:2];
-  
-  return month;
+- (nullable NSString *)getMonthFromExpirationDate {
+  NSString *text = _expireDateTextField.text;
+  if (text.length < 4) {
+    return nil;
+  }
+  return [text substringToIndex:2];
 }
 
 
@@ -104,61 +114,72 @@
 }
 
 - (BOOL)_validateCardNumber:(NSString *)cardNumber {
-  [_errorMessagesArray removeObject:@"Номер карты"];
-  if ([cardNumber length] < 16) {
-    [_errorMessagesArray addObject:@"Номер карты"];
-    [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
-
-    return YES;
+  BOOL result = YES;
+  NSString *incorrectLength = NSLocalizedStringFromTableInBundle(@"incorrectLength", nil, _bundle, @"Incorrect card length");
+  NSString *incorrectCardNumber = NSLocalizedStringFromTableInBundle(@"incorrectCardNumber", nil, _bundle, @"Incorrect card number");
+  
+  [_errorMessagesArray removeObject:incorrectLength];
+  [_errorMessagesArray removeObject:incorrectCardNumber];
+  
+  NSInteger len = [cardNumber length];
+  if (len < 16 || len > 19) {
+    [_errorMessagesArray addObject:incorrectLength];
+    result = NO;
+  } else if (![cardNumber isValidCreditCardNumber]) {
+    [_errorMessagesArray addObject:incorrectCardNumber];
+    result = NO;
   }
+  
   [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
 
-  return NO;
+  return result;
 }
 
 - (BOOL)_validateExpireDate:(NSString *)expireDate {
-  [_errorMessagesArray removeObject:@"Дата"];
+  BOOL result = YES;
+  NSString *incorrectExpiry = NSLocalizedStringFromTableInBundle(@"incorrectExpiry", nil, _bundle, @"incorrectExpiry");
+  [_errorMessagesArray removeObject:incorrectExpiry];
 
   if ([expireDate length] < 4) {
-    [_errorMessagesArray addObject:@"Дата"];
-    [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
-    return YES;
+    [_errorMessagesArray addObject:incorrectExpiry];
+    result = NO;
   }
   
   [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
 
-  return NO;
+  return result;
 }
 
 - (BOOL)_validateSecureCode:(NSString *)secureCode {
-  [_errorMessagesArray removeObject:@"CVC"];
+  BOOL result = YES;
+  NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _bundle, @"incorrectCvc");
+  
+  [_errorMessagesArray removeObject:incorrectCvc];
   if ([secureCode length] < 3) {
-    [_errorMessagesArray addObject:@"CVC"];
-    [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
-    
-    return YES;
+    [_errorMessagesArray addObject:incorrectCvc];
+    result = NO;
   }
   
   [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
 
-  return NO;
+  return result;
 }
 
 - (void)_validateField:(UIView *)sender {
   CardKTextField * field = (CardKTextField *)sender;
   
   if (field == _numberTextField) {
-    _numberTextField.showError = [self _validateCardNumber:field.text];
+    _numberTextField.showError = ![self _validateCardNumber:field.text];
     return;
   }
   
   if (field == _expireDateTextField) {
-    _expireDateTextField.showError = [self _validateExpireDate:field.text];
+    _expireDateTextField.showError = ![self _validateExpireDate:field.text];
     return;
   }
   
   if (field == _secureCodeTextField) {
-    _secureCodeTextField.showError = [self _validateSecureCode:field.text];
+    _secureCodeTextField.showError =! [self _validateSecureCode:field.text];
     return;
   }
   
@@ -222,9 +243,10 @@
   CGFloat height = bounds.size.height;
   
   CGFloat width = bounds.size.width - 10;
+  CGFloat imageWidth = 50;
   
   if (_focusedField == _numberTextField) {
-    _numberTextField.frame = CGRectMake(50, 0, _numberTextField.intrinsicContentSize.width, height);
+    _numberTextField.frame = CGRectMake(imageWidth, 0, _numberTextField.intrinsicContentSize.width, height);
     _expireDateTextField.frame = CGRectMake(CGRectGetMaxX( _numberTextField.frame), 0, _expireDateTextField.intrinsicContentSize.width, bounds.size.height);
     _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX( _expireDateTextField.frame), 0, _secureCodeTextField.intrinsicContentSize.width, height);
   } else {
@@ -232,17 +254,17 @@
     CGFloat secCodeWidth = _secureCodeTextField.intrinsicContentSize.width;
     CGFloat expireDateWidth = _expireDateTextField.intrinsicContentSize.width;
     
-    CGFloat leftSpace = width - 50 - secCodeWidth - expireDateWidth;
+    CGFloat leftSpace = width - imageWidth - secCodeWidth - expireDateWidth;
     if (leftSpace < numberWidth) {
       numberWidth = leftSpace;
     }
     
-    _numberTextField.frame = CGRectMake(50, 0, numberWidth, height);
+    _numberTextField.frame = CGRectMake(imageWidth, 0, numberWidth, height);
     _expireDateTextField.frame = CGRectMake(CGRectGetMaxX(_numberTextField.frame), 0, expireDateWidth, height);
     _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX(_expireDateTextField.frame), 0, secCodeWidth, height);
   }
   
-  _paymentSystemImageView.frame = CGRectMake(0, 0, 50, bounds.size.height);
+  _paymentSystemImageView.frame = CGRectMake(0, 0, imageWidth, bounds.size.height);
   
   [super layoutSubviews];
 }
