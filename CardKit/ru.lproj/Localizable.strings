@@ -9,7 +9,7 @@
 "title" = "Введите данные карты";
 "card" = "Карта";
 "cardholder" = "Владелец карты";
-"cardholderPlaceholder" = "ИМЯ";
+"cardholderPlaceholder" = "ИМЯ ФАМИЛИЯ";
 "Card Number" = "Номер карты";
 "MM/YY" = "ММ/ГГ";
 "doneButton" = "Оплатить";

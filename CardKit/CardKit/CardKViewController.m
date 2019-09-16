@@ -58,6 +58,7 @@ NSString *CardKFooterID = @"footer";
     _ownerTextField = [[CardKTextField alloc] init];
     _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"cardholderPlaceholder", nil, _bundle, @"Card holde placeholder");
     [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventEditingDidBegin];
+    [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventEditingChanged];
     
     _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_doneButton
@@ -238,7 +239,7 @@ NSString *CardKFooterID = @"footer";
   
   NSString *owner = _ownerTextField.text;
   NSInteger len = owner.length;
-  if (len == 0 || len > 50) {
+  if (len == 0 || len > 40) {
     _ownerTextField.showError = YES;
     [_ownerErrors addObject:incorrectCardholder];
   }
