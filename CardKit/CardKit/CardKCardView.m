@@ -11,6 +11,8 @@
 #import "PaymentSystemProvider.h"
 #import "Luhn.h"
 
+NSInteger EXPIRE_YEARS_DIFF = 20;
+
 @implementation CardKCardView {
   UIImageView *_paymentSystemImageView;
   CardKTextField *_numberTextField;
@@ -75,19 +77,36 @@
 
 - (nullable NSString *)getFullYearFromExpirationDate {
   NSString *text = _expireDateTextField.text;
-  if (text.length < 4) {
+  if (text.length != 4) {
     return nil;
   }
   NSString *year = [text substringFromIndex:2];
-  return [NSString stringWithFormat:@"20%@", year];
+  NSString *fullYearStr = [NSString stringWithFormat:@"20%@", year];
+  
+  NSInteger fullYear = [fullYearStr integerValue];
+  
+  NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:[NSDate date]];
+  
+  if (fullYear < comps.year || fullYear >= comps.year + EXPIRE_YEARS_DIFF) {
+    return nil;
+  }
+  
+  return fullYearStr;
 }
 
 - (nullable NSString *)getMonthFromExpirationDate {
   NSString *text = _expireDateTextField.text;
-  if (text.length < 4) {
+  if (text.length != 4) {
     return nil;
   }
-  return [text substringToIndex:2];
+  NSString *monthStr = [text substringToIndex:2];
+  
+  NSInteger month = [monthStr integerValue];
+  if (month < 1 || month > 12) {
+    return nil;
+  }
+  
+  return monthStr;
 }
 
 
@@ -140,13 +159,28 @@
 
 - (void)_validateExpireDate {
   BOOL isValid = YES;
-  NSString * expireDate = _expireDateTextField.text;
   NSString *incorrectExpiry = NSLocalizedStringFromTableInBundle(@"incorrectExpiry", nil, _bundle, @"incorrectExpiry");
   [_errorMessagesArray removeObject:incorrectExpiry];
 
-  if ([expireDate length] < 4) {
+  NSString * month = [self getMonthFromExpirationDate];
+  NSString * year = [self getFullYearFromExpirationDate];
+  if (month == nil || year == nil) {
     [_errorMessagesArray addObject:incorrectExpiry];
     isValid = NO;
+  } else {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    comps.day = 1;
+    comps.month = [month integerValue] + 1;
+    comps.year = [year integerValue];
+    
+    NSDate *expDate = [calendar dateFromComponents:comps];
+    
+    if ([[NSDate date] compare:expDate] != NSOrderedAscending) {
+      [_errorMessagesArray addObject:incorrectExpiry];
+      isValid = NO;
+    }
   }
   
   _expireDateTextField.showError = !isValid;

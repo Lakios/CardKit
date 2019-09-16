@@ -131,19 +131,19 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   _showError = showError;
   NSString *placeholder = _textField.placeholder;
   
-  if (showError) {
-    _textField.textColor = theme.colorErrorLabel;
-    _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{
-      NSForegroundColorAttributeName: [theme.colorErrorLabel colorWithAlphaComponent:0.5],
-      NSFontAttributeName: [self _font]
-    }];
-    _patternLabel.textColor = [theme.colorErrorLabel colorWithAlphaComponent:0.5];
+  if (!showError) {
+    _textField.textColor = theme.colorLabel;
+    [self setPlaceholder:placeholder];
+    _patternLabel.textColor = theme.colorPlaceholder;
     return;
+    
   }
-  
-  _textField.textColor = theme.colorLabel;
-  [self setPlaceholder:placeholder];
-  _patternLabel.textColor = theme.colorPlaceholder;
+  _textField.textColor = theme.colorErrorLabel;
+  _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{
+    NSForegroundColorAttributeName: [theme.colorErrorLabel colorWithAlphaComponent:0.5],
+    NSFontAttributeName: [self _font]
+  }];
+  _patternLabel.textColor = [theme.colorErrorLabel colorWithAlphaComponent:0.5];
 }
 
 - (BOOL)showError {
