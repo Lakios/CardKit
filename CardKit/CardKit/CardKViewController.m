@@ -239,7 +239,7 @@ NSString *CardKFooterID = @"footer";
   
   NSString *owner = _ownerTextField.text;
   NSInteger len = owner.length;
-  if (len == 0 || len > 50) {
+  if (len == 0 || len > 40) {
     _ownerTextField.showError = YES;
     [_ownerErrors addObject:incorrectCardholder];
   }
