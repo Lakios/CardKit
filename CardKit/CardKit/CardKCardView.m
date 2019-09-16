@@ -11,7 +11,7 @@
 #import "PaymentSystemProvider.h"
 #import "Luhn.h"
 
-NSInteger EXPIRE_YEARS_DIFF = 20;
+NSInteger EXPIRE_YEARS_DIFF = 10;
 
 @implementation CardKCardView {
   UIImageView *_paymentSystemImageView;
@@ -193,7 +193,7 @@ NSInteger EXPIRE_YEARS_DIFF = 20;
   NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _bundle, @"incorrectCvc");
   
   [_errorMessagesArray removeObject:incorrectCvc];
-  if ([secureCode length] < 3) {
+  if ([secureCode length] != 3) {
     [_errorMessagesArray addObject:incorrectCvc];
     isValid = NO;
   }
