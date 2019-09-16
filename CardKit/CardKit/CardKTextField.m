@@ -7,7 +7,7 @@
 //
 
 #import "CardKTextField.h"
-
+#import <AudioToolbox/AudioServices.h>
 
 NSString *CardKTextFieldPatternCardNumber = @"XXXXXXXXXXXXXXXX";
 NSString *CardKTextFieldPatternExpirationDate = @"MMYY";
@@ -229,6 +229,28 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   NSUInteger rangeLength = range.length;
   NSUInteger newLength = currentLength - rangeLength + replacementLength;
   
+  if (string.length == 1) {
+    if (!isnumber(string.UTF8String[0])) {
+      [self animateError];
+      return NO;
+    }
+    NSInteger num = [string integerValue];
+    if (_pattern == CardKTextFieldPatternExpirationDate) {
+      if (range.location == 0 && (num != 0 && num != 1)) {
+        UITextField *textField = _textField;
+        dispatch_async(dispatch_get_main_queue(), ^{
+          textField.text = [NSString stringWithFormat:@"0%@", string];
+          [self _editingChange:textField];
+        });
+        return YES;
+      }
+      if (range.location == 1 && ([_textField.text integerValue] == 1 && num > 2)) {
+        [self animateError];
+        return NO;
+      }
+    }
+  }
+  
   return _pattern.length >= newLength;
 }
 
@@ -354,6 +376,25 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   }
   
   [_coverView setHidden:NO];
+}
+
+@end
+
+@implementation UIView (Shake)
+
+- (void) animateError {
+  CABasicAnimation *animation =
+                           [CABasicAnimation animationWithKeyPath:@"position"];
+  [animation setDuration:0.05];
+  [animation setRepeatCount:1];
+  [animation setAutoreverses:YES];
+  [animation setFromValue:[NSValue valueWithCGPoint:
+                 CGPointMake([self center].x - 8.0f, [self center].y)]];
+  [animation setToValue:[NSValue valueWithCGPoint:
+                 CGPointMake([self center].x + 8.0f, [self center].y)]];
+  [animation setRemovedOnCompletion:YES];
+  [[self layer] addAnimation:animation forKey:@"position"];
+  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 @end

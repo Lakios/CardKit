@@ -12,7 +12,6 @@
 #import "CardKBankLogoView.h"
 #import "CardKFooterView.h"
 #import "RSA.h"
-#import <AudioToolbox/AudioServices.h>
 
 const NSString *CardKCardCellID = @"card";
 const NSString *CardKOwnerCellID = @"owner";
@@ -81,19 +80,7 @@ NSString *CardKFooterID = @"footer";
 }
 
 - (void)_animateError {
-  
-  
-  CABasicAnimation *animation =
-                           [CABasicAnimation animationWithKeyPath:@"position"];
-  [animation setDuration:0.05];
-  [animation setRepeatCount:2];
-  [animation setAutoreverses:YES];
-  [animation setFromValue:[NSValue valueWithCGPoint:
-                 CGPointMake([_doneButton center].x - 10.0f, [_doneButton center].y)]];
-  [animation setToValue:[NSValue valueWithCGPoint:
-                 CGPointMake([_doneButton center].x + 10.0f, [_doneButton center].y)]];
-  [animation setRemovedOnCompletion:YES];
-  [[_doneButton layer] addAnimation:animation forKey:@"position"];
+  [_doneButton animateError];
 }
 
 - (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
@@ -282,7 +269,6 @@ NSString *CardKFooterID = @"footer";
 - (void)_buttonPressed:(UIButton *)button {
   [_cardView resetLeftImage];
   if (![self _isFormValid]) {
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     [self _animateError];
     _lastAnouncment = nil;
     [self _announceError];

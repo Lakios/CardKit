@@ -15,6 +15,12 @@ extern NSString *CardKTextFieldPatternCardNumber;
 extern NSString *CardKTextFieldPatternExpirationDate;
 extern NSString *CardKTextFieldPatternSecureCode;
 
+@interface UIView (Shake)
+
+- (void) animateError;
+
+@end
+
 @interface CardKTextField : UIControl
 
 @property (readonly) NSString *text;
