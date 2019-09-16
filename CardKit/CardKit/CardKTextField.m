@@ -87,7 +87,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     _formatLabel.textColor = theme.colorPlaceholder;
     _textField.textColor = theme.colorLabel;
     
-    _textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    _textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
     _textField.leftViewMode = UITextFieldViewModeAlways;
     _textField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
     
@@ -268,7 +268,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   
   // TODO: check valid value
   if (len == _pattern.length) {
-    [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+    [self sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
   }
 }
 

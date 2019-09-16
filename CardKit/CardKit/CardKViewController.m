@@ -54,11 +54,12 @@ NSString *CardKFooterID = @"footer";
     
     _cardView = [[CardKCardView alloc] init];
     [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
+    [_cardView addTarget:self action:@selector(_switchToOwner) forControlEvents:UIControlEventEditingDidEndOnExit];
 
     _ownerTextField = [[CardKTextField alloc] init];
     _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"cardholderPlaceholder", nil, _bundle, @"Card holde placeholder");
     [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventEditingDidBegin];
-    [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventEditingChanged];
+    [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventValueChanged];
     
     _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_doneButton
@@ -107,6 +108,7 @@ NSString *CardKFooterID = @"footer";
 - (void)_cardChanged {
   NSString *number = _cardView.number;
   [_bankLogoView showNumber:number];
+  [self _refreshErrors];
 }
 
 - (void)viewDidLoad {
@@ -226,7 +228,13 @@ NSString *CardKFooterID = @"footer";
   return view;
 }
 
+- (void)_switchToOwner {
+  [_ownerTextField becomeFirstResponder];
+  [_cardView resetLeftImage];
+}
+
 - (void)_clearOwnerError {
+  [_cardView resetLeftImage];
   [_ownerErrors removeAllObjects];
   _ownerTextField.showError = NO;
   [self _refreshErrors];
@@ -237,7 +245,7 @@ NSString *CardKFooterID = @"footer";
   _ownerTextField.showError = NO;
   NSString *incorrectCardholder = NSLocalizedStringFromTableInBundle(@"incorrectCardholder", nil, _bundle, @"incorrectCardholder");
   
-  NSString *owner = _ownerTextField.text;
+  NSString *owner = [_ownerTextField.text  stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   NSInteger len = owner.length;
   if (len == 0 || len > 40) {
     _ownerTextField.showError = YES;
@@ -268,10 +276,11 @@ NSString *CardKFooterID = @"footer";
   [_cardView validate];
   [self _validateOwner];
   [self _refreshErrors];
-  return _cardFooterView.errorMessages.count == 0 && _ownerErrors == 0;
+  return _cardFooterView.errorMessages.count == 0 && _ownerErrors.count == 0;
 }
 
 - (void)_buttonPressed:(UIButton *)button {
+  [_cardView resetLeftImage];
   if (![self _isFormValid]) {
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     [self _animateError];

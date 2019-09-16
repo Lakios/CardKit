@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(nullable NSString *)getMonthFromExpirationDate;
 -(nullable NSString *)getFullYearFromExpirationDate;
 -(void)validate;
+- (void)resetLeftImage;
 
 @end
 

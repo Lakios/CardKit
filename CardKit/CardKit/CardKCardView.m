@@ -23,6 +23,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   NSBundle *_bundle;
   BOOL _allowedCardScaner;
   NSString *_leftIconImageName;
+  UIViewAnimationOptions _leftIconAnimationOptions;
 }
 
 - (instancetype)init {
@@ -38,6 +39,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
+    _leftIconAnimationOptions = UIViewAnimationOptionTransitionCrossDissolve;
     _leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:_allowedCardScaner ? nil : @"" compatibleWithTraitCollection: self.traitCollection];
 
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(_callScanCard:)];
@@ -69,7 +71,8 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     for (CardKTextField *v in @[_numberTextField, _expireDateTextField, _secureCodeTextField]) {
       [self addSubview:v];
       v.keyboardType = UIKeyboardTypeNumberPad;
-      [v addTarget:self action:@selector(_switchToNext:) forControlEvents:UIControlEventEditingDidEnd];
+      [v addTarget:self action:@selector(_switchToNext:) forControlEvents:UIControlEventEditingDidEndOnExit];
+      [v addTarget:self action:@selector(_clearErrors:) forControlEvents:UIControlEventValueChanged];
       [v addTarget:self action:@selector(_editingDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
     }
     
@@ -93,7 +96,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 }
 
 - (nullable NSString *)getFullYearFromExpirationDate {
-  NSString *text = _expireDateTextField.text;
+  NSString *text = [_expireDateTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   if (text.length != 4) {
     return nil;
   }
@@ -112,7 +115,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 }
 
 - (nullable NSString *)getMonthFromExpirationDate {
-  NSString *text = _expireDateTextField.text;
+  NSString *text = [_expireDateTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   if (text.length != 4) {
     return nil;
   }
@@ -131,7 +134,11 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     return;
   }
   _leftIconImageName = name;
-  _paymentSystemImageView.image = [PaymentSystemProvider namedImage:_leftIconImageName inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
+  UIImage *image = [PaymentSystemProvider namedImage:_leftIconImageName inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
+  UIImageView *imageView = _paymentSystemImageView;
+  [UIView transitionWithView:imageView duration:0.3 options:_leftIconAnimationOptions animations:^{
+    [imageView setImage:image];
+  } completion:nil];
 }
 
 - (NSArray *)errorMessages {
@@ -151,29 +158,36 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   return _allowedCardScaner;
 }
 - (NSString *)number {
-  return _numberTextField.text;
+  return [_numberTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (NSString *)expirationDate {
-  return _expireDateTextField.text;
+  return [_expireDateTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (NSString *)secureCode {
-  return _secureCodeTextField.text;
+  return [_secureCodeTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (void)cleanErrors {
   [_errorMessagesArray removeAllObjects];
 }
 
-- (void)_validateCardNumber {
-  BOOL isValid = YES;
-  NSString *cardNumber = _numberTextField.text;
+- (void)_clearCardNumberErrors {
   NSString *incorrectLength = NSLocalizedStringFromTableInBundle(@"incorrectLength", nil, _bundle, @"Incorrect card length");
   NSString *incorrectCardNumber = NSLocalizedStringFromTableInBundle(@"incorrectCardNumber", nil, _bundle, @"Incorrect card number");
   
   [_errorMessagesArray removeObject:incorrectLength];
   [_errorMessagesArray removeObject:incorrectCardNumber];
+}
+
+- (void)_validateCardNumber {
+  BOOL isValid = YES;
+  NSString *cardNumber = [_numberTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  NSString *incorrectLength = NSLocalizedStringFromTableInBundle(@"incorrectLength", nil, _bundle, @"Incorrect card length");
+  NSString *incorrectCardNumber = NSLocalizedStringFromTableInBundle(@"incorrectCardNumber", nil, _bundle, @"Incorrect card number");
+  
+  [self _clearCardNumberErrors];
   
   NSInteger len = [cardNumber length];
   if (len < 16 || len > 19) {
@@ -189,10 +203,15 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   _numberTextField.showError = !isValid;
 }
 
+- (void)_clearExpireDateErrors {
+  NSString *incorrectExpiry = NSLocalizedStringFromTableInBundle(@"incorrectExpiry", nil, _bundle, @"incorrectExpiry");
+  [_errorMessagesArray removeObject:incorrectExpiry];
+}
+
 - (void)_validateExpireDate {
   BOOL isValid = YES;
   NSString *incorrectExpiry = NSLocalizedStringFromTableInBundle(@"incorrectExpiry", nil, _bundle, @"incorrectExpiry");
-  [_errorMessagesArray removeObject:incorrectExpiry];
+  [self _clearExpireDateErrors];
 
   NSString * month = [self getMonthFromExpirationDate];
   NSString * year = [self getFullYearFromExpirationDate];
@@ -219,12 +238,18 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
 }
 
-- (void)_validateSecureCode {
-  BOOL isValid = YES;
-  NSString *secureCode = _secureCodeTextField.text;
+- (void)_clearSecureCodeErrors {
   NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _bundle, @"incorrectCvc");
   
   [_errorMessagesArray removeObject:incorrectCvc];
+}
+
+- (void)_validateSecureCode {
+  BOOL isValid = YES;
+  NSString *secureCode = [_secureCodeTextField.text  stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _bundle, @"incorrectCvc");
+  [self _clearSecureCodeErrors];
+  
   if ([secureCode length] != 3) {
     [_errorMessagesArray addObject:incorrectCvc];
     isValid = NO;
@@ -245,13 +270,12 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   if (_allowedCardScaner && number.length == 0) {
     number = nil;
   }
-
+  
   self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:number compatibleWithTraitCollection:self.traitCollection];
 }
 
 - (void)_numberChanged {
   [self sendActionsForControlEvents:UIControlEventValueChanged];
-  
   [self _showPaymentSystemProviderIcon];
 }
 
@@ -269,6 +293,8 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   index += 1;
   if (index < fields.count) {
     [fields[index] becomeFirstResponder];
+  } else {
+    [self sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
   }
 }
 
@@ -277,12 +303,47 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   [self _numberChanged];
 }
 
+- (void)_clearErrors: (UIView *)sender {
+  CardKTextField * field = (CardKTextField *)sender;
+
+  if (field == _numberTextField) {
+    [self _clearCardNumberErrors];
+  } else if (field == _expireDateTextField) {
+    [self _clearExpireDateErrors];
+  } else if (field == _secureCodeTextField) {
+    [self _clearSecureCodeErrors];
+    self.leftIconImageName = [PaymentSystemProvider imageNameForCVCWithTraitCollection:self.traitCollection];
+  }
+  field.showError = NO;
+  [self sendActionsForControlEvents:UIControlEventValueChanged];
+}
+
+- (void)resetLeftImage {
+  _focusedField = nil;
+  _leftIconAnimationOptions = UIViewAnimationOptionTransitionFlipFromBottom;
+  [self _showPaymentSystemProviderIcon];
+}
+
 - (void)_editingDidBegin:(UIView *)sender {
   CardKTextField * field = (CardKTextField *)sender;
 
+  [self _clearErrors:sender];
+  
   if (field == _secureCodeTextField) {
+    if (_focusedField == _numberTextField || _focusedField == _expireDateTextField) {
+      _leftIconAnimationOptions = UIViewAnimationOptionTransitionFlipFromLeft;
+    } else if (_focusedField == nil) {
+      _leftIconAnimationOptions = UIViewAnimationOptionTransitionFlipFromTop;
+    } else {
+      _leftIconAnimationOptions = UIViewAnimationOptionTransitionCrossDissolve;
+    }
     self.leftIconImageName = [PaymentSystemProvider imageNameForCVCWithTraitCollection:self.traitCollection];
   } else {
+    if (_focusedField == _secureCodeTextField) {
+      _leftIconAnimationOptions = UIViewAnimationOptionTransitionFlipFromRight;
+    } else {
+      _leftIconAnimationOptions = UIViewAnimationOptionTransitionCrossDissolve;
+    }
     [self _showPaymentSystemProviderIcon];
   }
 
