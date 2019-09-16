@@ -8,9 +8,49 @@
 
 #import "CardKTextField.h"
 
+
 NSString *CardKTextFieldPatternCardNumber = @"XXXXXXXXXXXXXXXX";
 NSString *CardKTextFieldPatternExpirationDate = @"MMYY";
 NSString *CardKTextFieldPatternSecureCode = @"XXX";
+
+@interface CoverView : UIView
+
+@end
+
+@implementation CoverView
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+  self = [super initWithFrame:frame];
+  if (self) {
+    
+    CardKTheme *theme = [CardKTheme shared];
+    
+    self.backgroundColor = theme.colorCellBackground;
+//    self.backgroundColor = theme.separatarColor;
+    
+    CAGradientLayer *mask = [[CAGradientLayer alloc] init];
+    
+    mask.startPoint = CGPointMake(0.0, 0.5);
+    mask.endPoint = CGPointMake(1.0, 0.5);
+    
+    
+    mask.colors = @[(id)UIColor.whiteColor.CGColor, (id)[UIColor.whiteColor colorWithAlphaComponent:0].CGColor];
+    mask.locations = @[@(0), @(1)];
+    mask.frame = self.bounds;
+    self.layer.mask = mask;
+
+  }
+  return self;
+}
+
+- (void)layoutSubviews {
+  [super layoutSubviews];
+  self.layer.mask.frame = self.bounds;
+  
+}
+
+@end
 
 @interface CardKTextField () <UITextFieldDelegate>
 
@@ -24,6 +64,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   NSString *_pattern;
   CGSize _intrinsicContentSize;
   BOOL _showError;
+  CoverView *_coverView;
 }
 
 - (instancetype)init {
@@ -61,6 +102,12 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   }
   
   return self;
+}
+
+- (void)showCoverView {
+  _coverView = [[CoverView alloc] initWithFrame:CGRectMake(0, 0, 5, 44)];
+  
+  [self addSubview:_coverView];
 }
 
 - (UIFont *)_font {
@@ -280,8 +327,11 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   for (UIView *v in @[_formatLabel, _patternLabel]) {
     v.frame = CGRectMake(_textField.leftView.bounds.size.width, 0, MAX(_intrinsicContentSize.width, boundsSize.width), boundsSize.height);
   }
+  
+  _coverView.frame = CGRectMake(0, 10, 6, boundsSize.height - 20);
 
   if (_textField.text.length == 0) {
+    [_coverView setHidden:YES];
     return;
   }
   
@@ -296,6 +346,8 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
       v.frame = CGRectMake(_textField.leftView.bounds.size.width + delta, 0, _intrinsicContentSize.width, boundsSize.height);
     }
   }
+  
+  [_coverView setHidden:NO];
 }
 
 @end

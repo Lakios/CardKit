@@ -42,6 +42,8 @@
     _numberTextField.pattern = CardKTextFieldPatternCardNumber;
     _numberTextField.placeholder = NSLocalizedStringFromTableInBundle(@"Card Number", nil, _bundle, @"Card number placeholder");
     _numberTextField.accessibilityLabel = nil;
+    [_numberTextField showCoverView];
+    
     _expireDateTextField = [[CardKTextField alloc] init];
     _expireDateTextField.pattern = CardKTextFieldPatternExpirationDate;
     _expireDateTextField.placeholder = NSLocalizedStringFromTableInBundle(@"MM/YY", nil, _bundle, @"Expiration date placeholder");

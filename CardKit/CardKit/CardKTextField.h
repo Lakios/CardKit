@@ -27,6 +27,8 @@ extern NSString *CardKTextFieldPatternSecureCode;
 @property(null_unspecified,nonatomic,copy) UITextContentType textContentType;
 @property BOOL showError;
 
+- (void)showCoverView;
+
 @end
 
 NS_ASSUME_NONNULL_END

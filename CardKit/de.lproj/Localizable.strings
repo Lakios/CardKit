@@ -9,7 +9,7 @@
 "Title" = "Enter card details";
 "Card" = "Karten";
 "Cardholder" = "Karteninhaber";
-"Card Number" = "Kartennummer falsch eingegeben";
+"Card Number" = "Card Number";
 "MM/YY" = "MM/YY";
 "Submit Payment" = "Bezahlen";
 "incorrectLength" = "Card number length should be 16-19 digits";
