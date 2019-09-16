@@ -30,6 +30,7 @@ extern NSString *CardKTextFieldPatternSecureCode;
 @property (strong, nullable) NSString * accessibilityLabel;
 @property BOOL secureTextEntry;
 @property UIKeyboardType keyboardType;
+@property UIReturnKeyType returnKeyType;
 @property(null_unspecified,nonatomic,copy) UITextContentType textContentType;
 @property BOOL showError;
 

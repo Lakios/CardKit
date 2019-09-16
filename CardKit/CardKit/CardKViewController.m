@@ -59,6 +59,9 @@ NSString *CardKFooterID = @"footer";
     _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"cardholderPlaceholder", nil, _bundle, @"Card holde placeholder");
     [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventEditingDidBegin];
     [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventValueChanged];
+    [_ownerTextField addTarget:self action:@selector(_buttonPressed:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    
+    _ownerTextField.returnKeyType = UIReturnKeyContinue;
     
     _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_doneButton

@@ -208,6 +208,14 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   _textField.keyboardType = keyboardType;
 }
 
+- (void)setReturnKeyType:(UIReturnKeyType)returnKeyType {
+  _textField.returnKeyType = returnKeyType;
+}
+
+- (UIReturnKeyType)returnKeyType {
+  return _textField.returnKeyType;
+}
+
 #pragma mark UITextFieldDelegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -254,6 +262,13 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   return _pattern.length >= newLength;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
+  });
+  return YES;
+}
+
 - (CGSize)intrinsicContentSize {
   return _intrinsicContentSize;
 }
@@ -289,7 +304,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   [self sendActionsForControlEvents:UIControlEventValueChanged];
   
   // TODO: check valid value
-  if (len == _pattern.length) {
+  if (_pattern && (len == _pattern.length)) {
     [self sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
   }
 }
