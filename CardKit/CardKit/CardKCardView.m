@@ -22,6 +22,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   NSMutableArray *_errorMessagesArray;
   NSBundle *_bundle;
   BOOL _allowedCardScaner;
+  NSString *_leftIconImageName;
 }
 
 - (instancetype)init {
@@ -37,17 +38,13 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
-    UIImage *img = [PaymentSystemProvider
-                    imageByCardNumber:_allowedCardScaner ? nil : @""
-                    compatibleWithTraitCollection: self.traitCollection];
+    _leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:_allowedCardScaner ? nil : @"" compatibleWithTraitCollection: self.traitCollection];
 
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(_callScanCard:)];
 
     [_paymentSystemImageView addGestureRecognizer:tapGestureRecognizer];
-    _paymentSystemImageView.userInteractionEnabled = YES;
-    _paymentSystemImageView.image = img;
-    [_paymentSystemImageView setTintColor: theme.colorLabel];
     
+    [_paymentSystemImageView setTintColor: theme.colorLabel];
 
     [self addSubview:_paymentSystemImageView];
 
@@ -129,6 +126,13 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   return monthStr;
 }
 
+- (void)setLeftIconImageName:(NSString *)name {
+  if ([_leftIconImageName isEqualToString:name]) {
+    return;
+  }
+  _leftIconImageName = name;
+  _paymentSystemImageView.image = [PaymentSystemProvider namedImage:_leftIconImageName inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
+}
 
 - (NSArray *)errorMessages {
   return [_errorMessagesArray copy];
@@ -140,6 +144,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 
 - (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
   _allowedCardScaner = allowedCardScaner;
+  _paymentSystemImageView.userInteractionEnabled = allowedCardScaner;
 }
 
 - (BOOL)allowedCardScaner {
@@ -241,8 +246,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     number = nil;
   }
 
-  UIImage *image = [PaymentSystemProvider imageByCardNumber:number compatibleWithTraitCollection: self.traitCollection];
-  [_paymentSystemImageView setImage:image];
+  self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:number compatibleWithTraitCollection:self.traitCollection];
 }
 
 - (void)_numberChanged {
@@ -277,8 +281,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   CardKTextField * field = (CardKTextField *)sender;
 
   if (field == _secureCodeTextField) {
-    UIImage *img = [PaymentSystemProvider getCVCImageWithTraitCollection:self.traitCollection];
-    _paymentSystemImageView.image = img;
+    self.leftIconImageName = [PaymentSystemProvider imageNameForCVCWithTraitCollection:self.traitCollection];
   } else {
     [self _showPaymentSystemProviderIcon];
   }

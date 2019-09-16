@@ -66,7 +66,7 @@ NSString * __systemNameByCardNumber(NSString *number) {
   return @"unknown";
 }
 
-NSString * __getImageWithTraitCollection(UITraitCollection *traitCollection) {
+NSString * __getImageAppearanceWithTraitCollection(UITraitCollection *traitCollection) {
   if (@available(iOS 12.0, *)) {
     if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
       return @"dark";
@@ -79,44 +79,42 @@ NSString * __getImageWithTraitCollection(UITraitCollection *traitCollection) {
 }
 
 @implementation PaymentSystemProvider
-+ (UIImage *)imageByCardNumber:(nullable NSString *)number compatibleWithTraitCollection:(UITraitCollection *) traitCollection {
-  
-  if (number == nil) {
-    NSBundle *bundle = [NSBundle bundleForClass:[PaymentSystemProvider self]];
-    return [UIImage imageNamed:@"scan-card" inBundle:bundle compatibleWithTraitCollection:nil];
-  }
 
++ (NSString *)imageNameByCardNumber:(nullable NSString *) number compatibleWithTraitCollection:(UITraitCollection *) traitCollection {
+  if (number == nil) {
+    return @"scan-card";
+  }
+  
   NSString *systemName = __systemNameByCardNumber(number);
   NSString *imageAppearance = CardKTheme.shared.imageAppearance;
   
   if (imageAppearance == nil) {
-    imageAppearance = __getImageWithTraitCollection(traitCollection);
+    imageAppearance = __getImageAppearanceWithTraitCollection(traitCollection);
   }
   
   NSString *imageName = [NSString stringWithFormat:@"%@-%@", systemName, imageAppearance];
-  NSBundle *bundle = [NSBundle bundleForClass:[PaymentSystemProvider self]];
-  UIImage *image = [UIImage imageNamed:imageName inBundle:bundle compatibleWithTraitCollection:nil];
+  return imageName;
+}
+
++ (UIImage *)namedImage:(NSString *)imageName inBundle: (NSBundle *)bundle compatibleWithTraitCollection:(UITraitCollection *) traitCollection {
   
+  UIImage *image = [UIImage imageNamed:imageName inBundle:bundle compatibleWithTraitCollection:nil];
   if (image) {
     return image;
   }
-  // Point of extension. Fallback to main bundle
+  
   return [UIImage imageNamed:imageName inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:traitCollection];
 }
 
-+ (UIImage *)getCVCImageWithTraitCollection:(UITraitCollection *) traitCollection {
-
++ (NSString *)imageNameForCVCWithTraitCollection:(UITraitCollection *) traitCollection {
   NSString *imageAppearance = CardKTheme.shared.imageAppearance;
   
   if (imageAppearance == nil) {
-    imageAppearance = __getImageWithTraitCollection(traitCollection);
+    imageAppearance = __getImageAppearanceWithTraitCollection(traitCollection);
   }
   
   NSString *imageName = [NSString stringWithFormat:@"%@-%@", @"cvc", imageAppearance];
-  NSBundle *bundle = [NSBundle bundleForClass:[PaymentSystemProvider self]];
-  UIImage *image = [UIImage imageNamed:imageName inBundle:bundle compatibleWithTraitCollection:nil];
-  
-  return image;
+  return imageName;
 }
 
 @end
