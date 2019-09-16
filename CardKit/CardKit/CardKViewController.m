@@ -12,6 +12,7 @@
 #import "CardKBankLogoView.h"
 #import "CardKFooterView.h"
 #import "RSA.h"
+#import <AudioToolbox/AudioServices.h>
 
 const NSString *CardKCardCellID = @"card";
 const NSString *CardKOwnerCellID = @"owner";
@@ -19,6 +20,7 @@ const NSString *CardKButtonCellID = @"button";
 const NSString *CardKRows = @"rows";
 const NSString *CardKSectionTitle = @"title";
 NSString *CardKFooterID = @"footer";
+
 
 @implementation CardKViewController {
   NSString *_pubKey;
@@ -31,9 +33,10 @@ NSString *CardKFooterID = @"footer";
   UIButton *_doneButton;
   NSArray *_sections;
   CardKFooterView *_cardFooterView;
+  CardKFooterView *_ownerFooterView;
   NSBundle *_bundle;
   NSString *_lastAnouncment;
-  BOOL _allowedCardScaner;
+  NSMutableArray *_ownerErrors;
 }
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder {
@@ -42,29 +45,32 @@ NSString *CardKFooterID = @"footer";
     
     _pubKey = pubKey;
     _mdOrder = mdOrder;
+    
+    _ownerErrors = [[NSMutableArray alloc] init];
 
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _bundle, @"Title");
     
     _cardView = [[CardKCardView alloc] init];
     [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
-    [_cardView addTarget:self action:@selector(_reloadSectionByIndexPathOfYourCell) forControlEvents:UIControlEventEditingDidEnd];
-    
+
     _ownerTextField = [[CardKTextField alloc] init];
-    _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"CARD OWNER", nil, _bundle, @"Card owner placeholder");
+    _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"cardholderPlaceholder", nil, _bundle, @"Card holde placeholder");
+    [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventEditingDidBegin];
     
     _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_doneButton
-      setTitle: NSLocalizedStringFromTableInBundle(@"Submit Payment", nil, _bundle, "Submit payment button")
+      setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _bundle, "Submit payment button")
       forState: UIControlStateNormal];
     _doneButton.frame = CGRectMake(0, 0, 200, 44);
     
-    [_doneButton addTarget:self action:@selector(buttonPressed:)
+    [_doneButton addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
   
     _sections = @[
-      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"Card", nil, _bundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
-      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"Cardholder", nil, _bundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
+      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _bundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
+      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _bundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
       @{CardKRows: @[CardKButtonCellID] },
     ];
   }
@@ -72,29 +78,30 @@ NSString *CardKFooterID = @"footer";
   return self;
 }
 
-- (void)buttonPressed:(UIButton *)button {
-  NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
-  NSString *uuid = [[NSUUID UUID] UUIDString];
-  NSString *cardNumber = _cardView.number;
-  NSString *secureCode = _cardView.secureCode;
-  NSString *fullYear = _cardView.getFullYearFromExpirationDate;
-  NSString *month = _cardView.getMonthFromExpirationDate;
-  NSString *expirationDate = [NSString stringWithFormat:@"%@%@", fullYear, month];
+- (void)_animateError {
   
-  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@/%@", timeStamp, uuid, cardNumber, secureCode, expirationDate, _mdOrder];
-
-  NSString *seToken = [RSA encryptString:cardData publicKey:_pubKey];
-  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken];
+  
+  CABasicAnimation *animation =
+                           [CABasicAnimation animationWithKeyPath:@"position"];
+  [animation setDuration:0.05];
+  [animation setRepeatCount:2];
+  [animation setAutoreverses:YES];
+  [animation setFromValue:[NSValue valueWithCGPoint:
+                 CGPointMake([_doneButton center].x - 10.0f, [_doneButton center].y)]];
+  [animation setToValue:[NSValue valueWithCGPoint:
+                 CGPointMake([_doneButton center].x + 10.0f, [_doneButton center].y)]];
+  [animation setRemovedOnCompletion:YES];
+  [[_doneButton layer] addAnimation:animation forKey:@"position"];
 }
 
 - (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
   _cardView.allowedCardScaner = allowedCardScaner;
-  _allowedCardScaner = allowedCardScaner;
 }
 
 - (BOOL)allowedCardScaner {
-  return _allowedCardScaner;
+  return _cardView.allowedCardScaner;
 }
+
 
 - (void)_cardChanged {
   NSString *number = _cardView.number;
@@ -200,25 +207,90 @@ NSString *CardKFooterID = @"footer";
   }
 
   if(section == 0) {
-    _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.bounds];
+    if (_cardFooterView == nil) {
+      _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.bounds];
+    }
     _cardFooterView.errorMessages = _cardView.errorMessages;
 
     [view.contentView addSubview:_cardFooterView];
+  } else if (section == 1) {
+    if (_ownerFooterView == nil) {
+      _ownerFooterView = [[CardKFooterView alloc] initWithFrame:view.bounds];
+    }
+    
+    _ownerFooterView = [[CardKFooterView alloc] initWithFrame:view.bounds];
+    [view.contentView addSubview:_ownerFooterView];
   }
 
   return view;
 }
 
-- (void)_reloadSectionByIndexPathOfYourCell {
+- (void)_clearOwnerError {
+  [_ownerErrors removeAllObjects];
+  _ownerTextField.showError = NO;
+  [self _refreshErrors];
+}
+
+- (void)_validateOwner {
+  [_ownerErrors removeAllObjects];
+  _ownerTextField.showError = NO;
+  NSString *incorrectCardholder = NSLocalizedStringFromTableInBundle(@"incorrectCardholder", nil, _bundle, @"incorrectCardholder");
+  
+  NSString *owner = _ownerTextField.text;
+  NSInteger len = owner.length;
+  if (len == 0 || len > 50) {
+    _ownerTextField.showError = YES;
+    [_ownerErrors addObject:incorrectCardholder];
+  }
+  
+  [self _refreshErrors];
+}
+
+- (void)_refreshErrors {
   [self.tableView beginUpdates];
   _cardFooterView.errorMessages = _cardView.errorMessages;
+  _ownerFooterView.errorMessages = _ownerErrors;
   [self.tableView endUpdates];
   
-  NSString *errorMessage = [_cardView.errorMessages firstObject];
+  [self _announceError];
+}
+
+- (void)_announceError {
+  NSString *errorMessage = [_cardView.errorMessages firstObject] ?: [_ownerErrors firstObject];
   if (errorMessage.length > 0 && ![_lastAnouncment isEqualToString:errorMessage]) {
     _lastAnouncment = errorMessage;
     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, _lastAnouncment);
   }
+}
+
+- (BOOL)_isFormValid {
+  [_cardView validate];
+  [self _validateOwner];
+  [self _refreshErrors];
+  return _cardFooterView.errorMessages.count == 0 && _ownerErrors == 0;
+}
+
+- (void)_buttonPressed:(UIButton *)button {
+  if (![self _isFormValid]) {
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    [self _animateError];
+    _lastAnouncment = nil;
+    [self _announceError];
+    return;
+  }
+  
+  NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+  NSString *uuid = [[NSUUID UUID] UUIDString];
+  NSString *cardNumber = _cardView.number;
+  NSString *secureCode = _cardView.secureCode;
+  NSString *fullYear = _cardView.getFullYearFromExpirationDate;
+  NSString *month = _cardView.getMonthFromExpirationDate;
+  NSString *expirationDate = [NSString stringWithFormat:@"%@%@", fullYear, month];
+  
+  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@/%@", timeStamp, uuid, cardNumber, secureCode, expirationDate, _mdOrder];
+
+  NSString *seToken = [RSA encryptString:cardData publicKey:_pubKey];
+  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken];
 }
 
 @end

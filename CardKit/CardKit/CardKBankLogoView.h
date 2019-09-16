@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CardKBankLogoView : UIView
 
+@property (nullable, strong) NSString *title;
 - (void)showNumber:(NSString *)number;
 
 @end

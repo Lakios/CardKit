@@ -6,15 +6,19 @@
   Copyright © 2019 AnjLab. All rights reserved.
 */
 
-"Title" = "Enter card details";
-"Card" = "Card";
-"Cardholder" = "Cardholder";
+"title" = "Enter card details";
+"card" = "Card";
+"cardholder" = "Cardholder";
+"cardholderPlaceholder" = "NAME";
 "Card Number" = "Number";
 "MM/YY" = "MM/YY";
-"Submit Payment" = "Submit payment";
+"doneButton" = "Submit payment";
+"expiry" = "Card expiry date";
+"cvc" = "Last three code digits on the signature line";
+
 "incorrectLength" = "Card number length should be 16-19 digits";
 "incorrectCardNumber" = "The card number is incorrect";
 "incorrectExpiry" = "Card expiry date is incorrect";
 "incorrectCvc" = "CVC2/CVV2 is incorrect";
-"expiry" = "Card expiry date";
-"cvc" = "Last three code digits on the signature line";
+"incorrectCardholder" = "The card holder is incorrect";
+

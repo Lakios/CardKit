@@ -54,13 +54,21 @@
 @implementation CardKBankLogoView {
   CardKWebView *_webView;
   UIView *_coverView;
+  UILabel *_titleLabel;
 }
 
 - (instancetype)init {
   if (self = [super init]) {
     CardKTheme *theme = [CardKTheme shared];
     
+    _titleLabel = [[UILabel alloc] init];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    [_titleLabel setAllowsDefaultTighteningForTruncation:YES];
+    [_titleLabel setMinimumScaleFactor:0.5];
+    [_titleLabel setFont: [_titleLabel.font fontWithSize:22]];
+    _titleLabel.textColor = theme.colorPlaceholder;
     _coverView = [[UIView alloc] init];
+    [_coverView addSubview:_titleLabel];
     WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
     [configuration.userContentController addScriptMessageHandler:self name:@"interOp"];
     _webView = [[CardKWebView alloc] initWithFrame:CGRectZero configuration: configuration];
@@ -78,10 +86,19 @@
   return self;
 }
 
+- (nullable NSString *)title {
+  return _titleLabel.text;
+}
+
+- (void)setTitle:(NSString *)title {
+  _titleLabel.text = title;
+}
+
 - (void)layoutSubviews {
   [super layoutSubviews];
   _webView.frame = CGRectMake(0, 20, self.bounds.size.width, self.bounds.size.height - 20);
   _coverView.frame = self.bounds;
+  _titleLabel.frame = _webView.frame;
 }
 
 - (void)userContentController:(WKUserContentController *)userContentController
