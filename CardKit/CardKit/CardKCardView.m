@@ -235,24 +235,28 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   [self _validateSecureCode];
 }
 
-- (void)_numberChanged {
-  [self sendActionsForControlEvents:UIControlEventValueChanged];
-  
+- (void)_showPaymentSystemProviderIcon {
   NSString *number = self.number ?: @"";
   if (_allowedCardScaner && number.length == 0) {
     number = nil;
   }
+
   UIImage *image = [PaymentSystemProvider imageByCardNumber:number compatibleWithTraitCollection: self.traitCollection];
   [_paymentSystemImageView setImage:image];
+}
+
+- (void)_numberChanged {
+  [self sendActionsForControlEvents:UIControlEventValueChanged];
+  
+  [self _showPaymentSystemProviderIcon];
 }
 
 - (void)_switchToNext:(UIView *)sender {
 //  [self _validateField:sender];
   NSArray *fields = @[_numberTextField, _expireDateTextField, _secureCodeTextField];
   
-  [self _numberChanged];
+  [self _showPaymentSystemProviderIcon];
 
-  
   NSInteger index = [fields indexOfObject:sender];
   if (index == NSNotFound) {
     return;
@@ -276,7 +280,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     UIImage *img = [PaymentSystemProvider getCVCImageWithTraitCollection:self.traitCollection];
     _paymentSystemImageView.image = img;
   } else {
-    [self _numberChanged];
+    [self _showPaymentSystemProviderIcon];
   }
 
   if (field.showError) {
@@ -286,7 +290,6 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   }
 
   if (field == _focusedField) {
-    
     return;
   }
   
