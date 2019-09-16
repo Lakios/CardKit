@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSString *expirationDate;
 @property (readonly) NSString *secureCode;
 @property (strong) NSArray *errorMessages;
+@property BOOL allowedCardScaner;
 
 -(nullable NSString *)getMonthFromExpirationDate;
 -(nullable NSString *)getFullYearFromExpirationDate;

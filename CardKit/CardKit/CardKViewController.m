@@ -33,6 +33,7 @@ NSString *CardKFooterID = @"footer";
   CardKFooterView *_cardFooterView;
   NSBundle *_bundle;
   NSString *_lastAnouncment;
+  BOOL _allowedCardScaner;
 }
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder {
@@ -48,7 +49,7 @@ NSString *CardKFooterID = @"footer";
     _cardView = [[CardKCardView alloc] init];
     [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
     [_cardView addTarget:self action:@selector(_reloadSectionByIndexPathOfYourCell) forControlEvents:UIControlEventEditingDidEnd];
-
+    
     _ownerTextField = [[CardKTextField alloc] init];
     _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"CARD OWNER", nil, _bundle, @"Card owner placeholder");
     
@@ -84,6 +85,15 @@ NSString *CardKFooterID = @"footer";
 
   NSString *seToken = [RSA encryptString:cardData publicKey:_pubKey];
   [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken];
+}
+
+- (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
+  _cardView.allowedCardScaner = allowedCardScaner;
+  _allowedCardScaner = allowedCardScaner;
+}
+
+- (BOOL)allowedCardScaner {
+  return _allowedCardScaner;
 }
 
 - (void)_cardChanged {

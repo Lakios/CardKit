@@ -19,6 +19,7 @@
   CardKTextField *_focusedField;
   NSMutableArray *_errorMessagesArray;
   NSBundle *_bundle;
+  BOOL _allowedCardScaner;
 }
 
 - (instancetype)init {
@@ -26,6 +27,7 @@
   self = [super init];
   
   if (self) {
+    CardKTheme *theme = [CardKTheme shared];
 
     _bundle = [NSBundle bundleForClass:[CardKCardView class]];
 
@@ -33,11 +35,20 @@
     
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
-    _paymentSystemImageView.image = [PaymentSystemProvider
-                                     imageByCardNumber:@""
-                                     compatibleWithTraitCollection: self.traitCollection];
-    [self addSubview:_paymentSystemImageView];
+    UIImage *img = [PaymentSystemProvider
+                    imageByCardNumber:_allowedCardScaner ? nil : @""
+                    compatibleWithTraitCollection: self.traitCollection];
     
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(callScanCard:)];
+
+    [_paymentSystemImageView addGestureRecognizer:tapGestureRecognizer];
+    _paymentSystemImageView.userInteractionEnabled = YES;
+    _paymentSystemImageView.image = img;
+    [_paymentSystemImageView setTintColor: theme.colorLabel];
+    
+
+    [self addSubview:_paymentSystemImageView];
+
     _numberTextField = [[CardKTextField alloc] init];
     _numberTextField.pattern = CardKTextFieldPatternCardNumber;
     _numberTextField.placeholder = NSLocalizedStringFromTableInBundle(@"Card Number", nil, _bundle, @"Card number placeholder");
@@ -73,6 +84,15 @@
   return self;
 }
 
+- (void)callScanCard:(UITapGestureRecognizer *)gestureRecognizer{
+  if (_allowedCardScaner && [_numberTextField.text length] == 0) {
+    NSLog(@"You can call it");
+    return;
+  }
+
+  NSLog(@"You can't call it");
+}
+
 - (nullable NSString *)getFullYearFromExpirationDate {
   NSString *text = _expireDateTextField.text;
   if (text.length < 4) {
@@ -99,6 +119,13 @@
   _errorMessagesArray = [errorMessages mutableCopy];
 }
 
+- (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
+  _allowedCardScaner = allowedCardScaner;
+}
+
+- (BOOL)allowedCardScaner {
+  return _allowedCardScaner;
+}
 - (NSString *)number {
   return _numberTextField.text;
 }
@@ -191,7 +218,11 @@
 - (void)_numberChanged {
   [self sendActionsForControlEvents:UIControlEventValueChanged];
   
-  UIImage *image = [PaymentSystemProvider imageByCardNumber:self.number compatibleWithTraitCollection: self.traitCollection];
+  NSString *number = self.number ?: @"";
+  if (_allowedCardScaner && number.length == 0) {
+    number = nil;
+  }
+  UIImage *image = [PaymentSystemProvider imageByCardNumber:number compatibleWithTraitCollection: self.traitCollection];
   [_paymentSystemImageView setImage:image];
 }
 

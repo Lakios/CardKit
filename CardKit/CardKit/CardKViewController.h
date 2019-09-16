@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
 @property (strong) NSString * purchaseButtonTitle;
+@property BOOL allowedCardScaner;
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder;
 

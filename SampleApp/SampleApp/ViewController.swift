@@ -27,6 +27,7 @@ class ViewController: UIViewController {
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
+    controller.allowedCardScaner = true;
     controller.purchaseButtonTitle = "Custom purchase button";
     present(controller, animated: true)
   }
@@ -34,6 +35,7 @@ class ViewController: UIViewController {
   @IBAction func _openDark(_ sender: Any) {
     CardKTheme.setTheme(CardKTheme.dark());
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    controller.allowedCardScaner = true;
     controller.cKitDelegate = self
     present(controller, animated: true)
   }
@@ -47,6 +49,7 @@ class ViewController: UIViewController {
     
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
+    controller.allowedCardScaner = true
     present(controller, animated: true)
   }
   

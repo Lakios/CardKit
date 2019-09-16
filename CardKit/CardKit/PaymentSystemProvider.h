@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PaymentSystemProvider : UIView
 
-+(UIImage *)imageByCardNumber:(NSString *)cardNumber compatibleWithTraitCollection:(nullable UITraitCollection *) traitCollection;
++(UIImage *)imageByCardNumber:(nullable NSString *)cardNumber compatibleWithTraitCollection:(nullable UITraitCollection *) traitCollection;
 @end
 
 NS_ASSUME_NONNULL_END
