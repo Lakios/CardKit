@@ -115,8 +115,9 @@
   [_errorMessagesArray removeAllObjects];
 }
 
-- (BOOL)_validateCardNumber:(NSString *)cardNumber {
-  BOOL result = YES;
+- (void)_validateCardNumber {
+  BOOL isValid = YES;
+  NSString *cardNumber = _numberTextField.text;
   NSString *incorrectLength = NSLocalizedStringFromTableInBundle(@"incorrectLength", nil, _bundle, @"Incorrect card length");
   NSString *incorrectCardNumber = NSLocalizedStringFromTableInBundle(@"incorrectCardNumber", nil, _bundle, @"Incorrect card number");
   
@@ -126,66 +127,51 @@
   NSInteger len = [cardNumber length];
   if (len < 16 || len > 19) {
     [_errorMessagesArray addObject:incorrectLength];
-    result = NO;
+    isValid = NO;
   } else if (![cardNumber isValidCreditCardNumber]) {
     [_errorMessagesArray addObject:incorrectCardNumber];
-    result = NO;
+    isValid = NO;
   }
   
   [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
 
-  return result;
+  _numberTextField.showError = !isValid;
 }
 
-- (BOOL)_validateExpireDate:(NSString *)expireDate {
-  BOOL result = YES;
+- (void)_validateExpireDate {
+  BOOL isValid = YES;
+  NSString * expireDate = _expireDateTextField.text;
   NSString *incorrectExpiry = NSLocalizedStringFromTableInBundle(@"incorrectExpiry", nil, _bundle, @"incorrectExpiry");
   [_errorMessagesArray removeObject:incorrectExpiry];
 
   if ([expireDate length] < 4) {
     [_errorMessagesArray addObject:incorrectExpiry];
-    result = NO;
+    isValid = NO;
   }
   
+  _expireDateTextField.showError = !isValid;
   [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
-
-  return result;
 }
 
-- (BOOL)_validateSecureCode:(NSString *)secureCode {
-  BOOL result = YES;
+- (void)_validateSecureCode {
+  BOOL isValid = YES;
+  NSString *secureCode = _secureCodeTextField.text;
   NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _bundle, @"incorrectCvc");
   
   [_errorMessagesArray removeObject:incorrectCvc];
   if ([secureCode length] < 3) {
     [_errorMessagesArray addObject:incorrectCvc];
-    result = NO;
+    isValid = NO;
   }
   
+  _secureCodeTextField.showError = !isValid;
   [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
-
-  return result;
 }
 
-- (void)_validateField:(UIView *)sender {
-  CardKTextField * field = (CardKTextField *)sender;
-  
-  if (field == _numberTextField) {
-    _numberTextField.showError = ![self _validateCardNumber:field.text];
-    return;
-  }
-  
-  if (field == _expireDateTextField) {
-    _expireDateTextField.showError = ![self _validateExpireDate:field.text];
-    return;
-  }
-  
-  if (field == _secureCodeTextField) {
-    _secureCodeTextField.showError =! [self _validateSecureCode:field.text];
-    return;
-  }
-  
-   field.showError = NO;
+- (void)validate {
+  [self _validateCardNumber];
+  [self _validateExpireDate];
+  [self _validateSecureCode];
 }
 
 - (void)_numberChanged {
@@ -196,7 +182,7 @@
 }
 
 - (void)_switchToNext:(UIView *)sender {
-  [self _validateField:sender];
+//  [self _validateField:sender];
   
   NSArray *fields = @[_numberTextField, _expireDateTextField, _secureCodeTextField];
   NSInteger index = [fields indexOfObject:sender];

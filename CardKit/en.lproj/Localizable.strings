@@ -16,5 +16,6 @@
 "incorrectCardNumber" = "The card number is incorrect";
 "incorrectExpiry" = "Card expiry date is incorrect";
 "incorrectCvc" = "CVC2/CVV2 is incorrect";
+"incorrectCardholder" = "The card holder is incorrect";
 "expiry" = "Card expiry date";
 "cvc" = "Last three code digits on the signature line";

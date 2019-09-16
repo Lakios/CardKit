@@ -16,5 +16,6 @@
 "incorrectCardNumber" = "Numéro incorrect";
 "incorrectExpiry" = "Durée de valabilité de la carte incorrecte";
 "incorrectCvc" = "Code de sûreté incorrect";
+"incorrectCardholder" = "Nom incorrect";
 "expiry" = "Valable jusqu'au";
 "cvc" = "Les trois derniers chiffres du code";

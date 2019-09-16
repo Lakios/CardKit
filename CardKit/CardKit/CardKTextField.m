@@ -47,7 +47,6 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 - (void)layoutSubviews {
   [super layoutSubviews];
   self.layer.mask.frame = self.bounds;
-  
 }
 
 @end
@@ -130,14 +129,20 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   CardKTheme *theme = [CardKTheme shared];
   
   _showError = showError;
-
+  NSString *placeholder = _textField.placeholder;
+  
   if (showError) {
     _textField.textColor = theme.colorErrorLabel;
+    _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{
+      NSForegroundColorAttributeName: [theme.colorErrorLabel colorWithAlphaComponent:0.5],
+      NSFontAttributeName: [self _font]
+    }];
     _patternLabel.textColor = [theme.colorErrorLabel colorWithAlphaComponent:0.5];
     return;
   }
   
   _textField.textColor = theme.colorLabel;
+  [self setPlaceholder:placeholder];
   _patternLabel.textColor = theme.colorPlaceholder;
 }
 
@@ -268,6 +273,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 }
 
 - (BOOL)becomeFirstResponder {
+  self.showError = NO;
   return [_textField becomeFirstResponder];
 }
 

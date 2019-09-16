@@ -16,5 +16,6 @@
 "incorrectCardNumber" = "Kartennummer falsch eingegeben";
 "incorrectExpiry" = "Ablaufdatum der Karte falsch e";
 "incorrectCvc" = "CVC2/CVV2 falsch eingegeben";
+"incorrectCardholder" = "Ungültiger Karteninhaber";
 "expiry" = "Ablaufdatum der Karte";
 "cvc" = "Drei Endziffern der Code";
