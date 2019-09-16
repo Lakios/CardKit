@@ -40,7 +40,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     UIImage *img = [PaymentSystemProvider
                     imageByCardNumber:_allowedCardScaner ? nil : @""
                     compatibleWithTraitCollection: self.traitCollection];
-    
+  
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(callScanCard:)];
 
     [_paymentSystemImageView addGestureRecognizer:tapGestureRecognizer];
@@ -248,8 +248,11 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 
 - (void)_switchToNext:(UIView *)sender {
 //  [self _validateField:sender];
-  
   NSArray *fields = @[_numberTextField, _expireDateTextField, _secureCodeTextField];
+  
+  [self _numberChanged];
+
+  
   NSInteger index = [fields indexOfObject:sender];
   if (index == NSNotFound) {
     return;
@@ -268,6 +271,13 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 
 - (void)_editingDidBegin:(UIView *)sender {
   CardKTextField * field = (CardKTextField *)sender;
+
+  if (field == _secureCodeTextField) {
+    UIImage *img = [PaymentSystemProvider getCVCImageWithTraitCollection:self.traitCollection];
+    _paymentSystemImageView.image = img;
+  } else {
+    [self _numberChanged];
+  }
 
   if (field.showError) {
     field.showError = false;
