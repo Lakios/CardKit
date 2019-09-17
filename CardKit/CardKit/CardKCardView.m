@@ -181,9 +181,14 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   [_errorMessagesArray removeObject:incorrectCardNumber];
 }
 
+- (BOOL)_allDigitsInString:(NSString *)str {
+  NSString *string = [str stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, str.length)];
+  return [str isEqual:string];
+}
+
 - (void)_validateCardNumber {
   BOOL isValid = YES;
-  NSString *cardNumber = [_numberTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  NSString *cardNumber = [self number];
   NSString *incorrectLength = NSLocalizedStringFromTableInBundle(@"incorrectLength", nil, _bundle, @"Incorrect card length");
   NSString *incorrectCardNumber = NSLocalizedStringFromTableInBundle(@"incorrectCardNumber", nil, _bundle, @"Incorrect card number");
   
@@ -193,7 +198,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   if (len < 16 || len > 19) {
     [_errorMessagesArray addObject:incorrectLength];
     isValid = NO;
-  } else if (![cardNumber isValidCreditCardNumber]) {
+  } else if (![self _allDigitsInString: cardNumber] || ![cardNumber isValidCreditCardNumber]) {
     [_errorMessagesArray addObject:incorrectCardNumber];
     isValid = NO;
   }
@@ -246,11 +251,11 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 
 - (void)_validateSecureCode {
   BOOL isValid = YES;
-  NSString *secureCode = [_secureCodeTextField.text  stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  NSString *secureCode = [self secureCode];
   NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _bundle, @"incorrectCvc");
   [self _clearSecureCodeErrors];
   
-  if ([secureCode length] != 3) {
+  if ([secureCode length] != 3 || ![self _allDigitsInString:secureCode]) {
     [_errorMessagesArray addObject:incorrectCvc];
     isValid = NO;
   }
