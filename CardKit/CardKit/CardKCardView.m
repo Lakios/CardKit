@@ -40,7 +40,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
     _leftIconAnimationOptions = UIViewAnimationOptionTransitionCrossDissolve;
-    _leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:_allowedCardScaner ? nil : @"" compatibleWithTraitCollection: self.traitCollection];
+    self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:_allowedCardScaner ? nil : @"" compatibleWithTraitCollection: self.traitCollection];
 
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(_callScanCard:)];
 
@@ -152,6 +152,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 - (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
   _allowedCardScaner = allowedCardScaner;
   _paymentSystemImageView.userInteractionEnabled = allowedCardScaner;
+  [self _showPaymentSystemProviderIcon];
 }
 
 - (BOOL)allowedCardScaner {
@@ -272,6 +273,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   }
   
   self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:number compatibleWithTraitCollection:self.traitCollection];
+//  [self _showPaymentSystemProviderIcon];
 }
 
 - (void)_numberChanged {

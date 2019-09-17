@@ -20,7 +20,9 @@ TBSwAcNAizIvEY4wrqc4ARR3nTlwAxkye9bTNVNROMMiMtu1ERGyRFjI7wnSmRnN
 EwIDAQAB
 -----END PUBLIC KEY-----
 """
+
 class ViewController: UIViewController {
+//  var navigationController: UINavigationController?
   
   @IBAction @objc func _openController() {
     CardKTheme.setTheme(CardKTheme.light());
@@ -50,9 +52,42 @@ class ViewController: UIViewController {
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = true
+    
     present(controller, animated: true)
   }
   
+  @IBAction func _openLightUINavigation(_ sender: Any) {
+    CardKTheme.setTheme(CardKTheme.light());
+
+    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    controller.cKitDelegate = self
+    controller.allowedCardScaner = false;
+    controller.purchaseButtonTitle = "Custom purchase button";
+    
+    self.navigationController?.pushViewController(controller, animated: true)
+  }
+  
+  @IBAction func _openDarkUINavigation(_ sender: Any) {
+    CardKTheme.setTheme(CardKTheme.dark());
+    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    controller.allowedCardScaner = false;
+    controller.cKitDelegate = self
+
+    self.navigationController?.pushViewController(controller, animated: true)
+  }
+
+  @IBAction func _openSystemUINavigation(_ sender: Any) {
+    if #available(iOS 13.0, *) {
+      CardKTheme.setTheme(CardKTheme.system())
+    } else {
+      CardKTheme.setTheme(CardKTheme.default())
+    };
+    
+    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    controller.cKitDelegate = self
+    controller.allowedCardScaner = true
+    self.navigationController?.pushViewController(controller, animated: true)
+  }
 }
 
 extension ViewController: CardKViewControllerDelegate {

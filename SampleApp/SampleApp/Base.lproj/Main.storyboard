@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14865.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14819.2"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,42 +10,61 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="SampleApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kZ-0y-AJM">
-                                <rect key="frame" x="169" y="414" width="76" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kZ-0y-AJM">
+                                <rect key="frame" x="169" y="286" width="76" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Open Light"/>
                                 <connections>
                                     <action selector="_openController" destination="BYZ-38-t0r" eventType="touchUpInside" id="otb-rJ-bmq"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SNn-IO-cAA">
-                                <rect key="frame" x="170" y="483" width="74" height="30"/>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SNn-IO-cAA">
+                                <rect key="frame" x="170" y="324" width="74" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Open Dark"/>
                                 <connections>
                                     <action selector="_openDark:" destination="BYZ-38-t0r" eventType="touchUpInside" id="z6Q-P4-bsU"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RAd-oC-kTG">
-                                <rect key="frame" x="135" y="533" width="144" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LGv-1K-Sow" userLabel="Open Light UINavig">
+                                <rect key="frame" x="147" y="504" width="121" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Open Light UINav"/>
+                                <connections>
+                                    <action selector="_openLightUINavigation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sVx-fI-vHg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fy0-ao-vgI" userLabel="Open Dark UINavig">
+                                <rect key="frame" x="147" y="542" width="119" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Open Dark UINav"/>
+                                <connections>
+                                    <action selector="_openDarkUINavigation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jaf-LP-z6E"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RAd-oC-kTG">
+                                <rect key="frame" x="135" y="362" width="144" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Open System Theme"/>
                                 <connections>
                                     <action selector="_openSystemTheme:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ycK-Ht-kZc"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4W-on-nx8" userLabel="Open System ThemeUiNavig">
+                                <rect key="frame" x="113" y="580" width="189" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Open System Theme UINav"/>
+                                <connections>
+                                    <action selector="_openSystemUINavigation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u8i-1f-gHB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="2kZ-0y-AJM" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="4Gs-Yy-9Bx"/>
-                            <constraint firstItem="RAd-oC-kTG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="834-OE-jRX"/>
-                            <constraint firstItem="2kZ-0y-AJM" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="9dj-dG-Z90"/>
-                            <constraint firstItem="SNn-IO-cAA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IUV-v3-Kuv"/>
-                            <constraint firstItem="RAd-oC-kTG" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="100" id="TjM-Ma-bNU"/>
-                            <constraint firstItem="SNn-IO-cAA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="50" id="WCo-ij-Veb"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
