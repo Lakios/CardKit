@@ -111,12 +111,35 @@ NSString *CardKFooterID = @"footer";
   self.tableView.separatorColor = theme.separatarColor;
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
+  self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
 
   for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
   
   [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:CardKFooterID];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    CGRect r = tableView.readableContentGuide.layoutFrame;
+    cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
+  }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    CGRect r = tableView.readableContentGuide.layoutFrame;
+    UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
+    v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, v.contentView.bounds.size.height);
+  }
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+  [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    [self.tableView reloadData];
+  }
 }
 
 - (NSString *)purchaseButtonTitle {
@@ -156,6 +179,13 @@ NSString *CardKFooterID = @"footer";
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
 
+  
+//  NSLog(NSStringFromCGRect(self.tableView.readableContentGuide.layoutFrame));
+//  [cell setPreservesSuperviewLayoutMargins:YES];
+//  [cell.contentView setPreservesSuperviewLayoutMargins:YES];
+//  cell.layoutMargins = UIEdgeInsetsMake(0, 100, 0, 100);
+//  cell.contentView.backgroundColor = [UIColor redColor];
+  
   if ([CardKCardCellID isEqual:cellID]) {
     _cardView.frame = cell.contentView.bounds;
     [cell.contentView addSubview:_cardView];
@@ -201,17 +231,17 @@ NSString *CardKFooterID = @"footer";
 
   if(section == 0) {
     if (_cardFooterView == nil) {
-      _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.bounds];
+      _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
     }
     _cardFooterView.errorMessages = _cardView.errorMessages;
 
     [view.contentView addSubview:_cardFooterView];
   } else if (section == 1) {
     if (_ownerFooterView == nil) {
-      _ownerFooterView = [[CardKFooterView alloc] initWithFrame:view.bounds];
+      _ownerFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
     }
     
-    _ownerFooterView = [[CardKFooterView alloc] initWithFrame:view.bounds];
+    _ownerFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
     [view.contentView addSubview:_ownerFooterView];
   }
 
