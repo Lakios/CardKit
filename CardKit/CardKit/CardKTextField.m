@@ -257,6 +257,15 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
         return NO;
       }
     }
+  } else if (_pattern && currentLength == 0 && string.length > 1) {
+    string = [string stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, string.length)];
+    UITextField *textField = _textField;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      textField.text = [NSString stringWithFormat:@"%@", string];
+      [self _editingChange:textField];
+    });
+    return YES;
   }
   
   return _pattern.length >= newLength;
