@@ -22,8 +22,10 @@ EwIDAQAB
 """
 
 class ViewController: UIViewController {
-//  var navigationController: UINavigationController?
-  
+  @objc func _close(sender:UIButton){
+    self.navigationController?.dismiss(animated: true, completion: nil)
+  }
+
   @IBAction @objc func _openController() {
     CardKTheme.setTheme(CardKTheme.light());
 
@@ -31,7 +33,23 @@ class ViewController: UIViewController {
     controller.cKitDelegate = self
     controller.allowedCardScaner = true;
     controller.purchaseButtonTitle = "Custom purchase button";
-    present(controller, animated: true)
+    
+    if #available(iOS 13.0, *) {
+      self.present(controller, animated: true)
+      return;
+    }
+    
+    let navController = UINavigationController(rootViewController: controller)
+    navController.modalPresentationStyle = .formSheet
+    
+    let closeBarButtonItem = UIBarButtonItem(
+      title: "Close",
+      style: .done,
+      target: self,
+      action: #selector(_close(sender:))
+    )
+    controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+    self.present(navController, animated: true)
   }
 
   @IBAction func _openDark(_ sender: Any) {
@@ -39,7 +57,23 @@ class ViewController: UIViewController {
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.allowedCardScaner = true;
     controller.cKitDelegate = self
-    present(controller, animated: true)
+  
+    if #available(iOS 13.0, *) {
+      self.present(controller, animated: true)
+      return;
+    }
+    
+    let navController = UINavigationController(rootViewController: controller)
+    navController.modalPresentationStyle = .formSheet
+    
+    let closeBarButtonItem = UIBarButtonItem(
+      title: "Close",
+      style: .done,
+      target: self,
+      action: #selector(_close(sender:))
+    )
+    controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+    self.present(navController, animated: true)
   }
   
   @IBAction func _openSystemTheme(_ sender: Any) {
@@ -53,7 +87,22 @@ class ViewController: UIViewController {
     controller.cKitDelegate = self
     controller.allowedCardScaner = true
     
-    present(controller, animated: true)
+    if #available(iOS 13.0, *) {
+      self.present(controller, animated: true)
+      return;
+    }
+    
+    let navController = UINavigationController(rootViewController: controller)
+    navController.modalPresentationStyle = .formSheet
+    
+    let closeBarButtonItem = UIBarButtonItem(
+      title: "Close",
+      style: .done,
+      target: self,
+      action: #selector(_close(sender:))
+    )
+    controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+    self.present(navController, animated: true)
   }
   
   @IBAction func _openLightUINavigation(_ sender: Any) {
