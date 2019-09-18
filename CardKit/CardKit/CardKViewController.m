@@ -276,11 +276,8 @@ NSString *CardKFooterID = @"footer";
 }
 
 - (void)_refreshErrors {
-  [self.tableView beginUpdates];
   _cardFooterView.errorMessages = _cardView.errorMessages;
   _ownerFooterView.errorMessages = _ownerErrors;
-  [self.tableView endUpdates];
-  
   [self _announceError];
 }
 
