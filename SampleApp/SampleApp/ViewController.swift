@@ -21,27 +21,48 @@ EwIDAQAB
 -----END PUBLIC KEY-----
 """
 
-class ViewController: UIViewController {
+struct Section {
+  let title: String?
+  let items: [SectionItem]
+}
+
+struct SectionItem {
+  let title: String
+  let kind: Kind
+  let isShowChevron: Bool
+  
+  enum Kind {
+    case lightTheme
+    case darkTheme
+    case systemTheme
+    case navLightTheme
+    case navDarkTheme
+    case navSystemTheme
+  }
+}
+
+
+class ViewController: UITableViewController {
   @objc func _close(sender:UIButton){
     self.navigationController?.dismiss(animated: true, completion: nil)
   }
 
-  @IBAction @objc func _openController() {
+  func _openController() {
     CardKTheme.setTheme(CardKTheme.light());
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = true;
     controller.purchaseButtonTitle = "Custom purchase button";
-    
+
     if #available(iOS 13.0, *) {
       self.present(controller, animated: true)
       return;
     }
-    
+
     let navController = UINavigationController(rootViewController: controller)
     navController.modalPresentationStyle = .formSheet
-    
+
     let closeBarButtonItem = UIBarButtonItem(
       title: "Close",
       style: .done,
@@ -52,20 +73,20 @@ class ViewController: UIViewController {
     self.present(navController, animated: true)
   }
 
-  @IBAction func _openDark(_ sender: Any) {
+  func _openDark() {
     CardKTheme.setTheme(CardKTheme.dark());
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.allowedCardScaner = true;
     controller.cKitDelegate = self
-  
+
     if #available(iOS 13.0, *) {
       self.present(controller, animated: true)
       return;
     }
-    
+
     let navController = UINavigationController(rootViewController: controller)
     navController.modalPresentationStyle = .formSheet
-    
+
     let closeBarButtonItem = UIBarButtonItem(
       title: "Close",
       style: .done,
@@ -75,26 +96,26 @@ class ViewController: UIViewController {
     controller.navigationItem.leftBarButtonItem = closeBarButtonItem
     self.present(navController, animated: true)
   }
-  
-  @IBAction func _openSystemTheme(_ sender: Any) {
+
+  func _openSystemTheme() {
     if #available(iOS 13.0, *) {
       CardKTheme.setTheme(CardKTheme.system())
     } else {
       CardKTheme.setTheme(CardKTheme.default())
     };
-    
+
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = true
-    
+
     if #available(iOS 13.0, *) {
       self.present(controller, animated: true)
       return;
     }
-    
+
     let navController = UINavigationController(rootViewController: controller)
     navController.modalPresentationStyle = .formSheet
-    
+
     let closeBarButtonItem = UIBarButtonItem(
       title: "Close",
       style: .done,
@@ -104,19 +125,19 @@ class ViewController: UIViewController {
     controller.navigationItem.leftBarButtonItem = closeBarButtonItem
     self.present(navController, animated: true)
   }
-  
-  @IBAction func _openLightUINavigation(_ sender: Any) {
+
+  func _openLightUINavigation() {
     CardKTheme.setTheme(CardKTheme.light());
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = false;
     controller.purchaseButtonTitle = "Custom purchase button";
-    
+
     self.navigationController?.pushViewController(controller, animated: true)
   }
-  
-  @IBAction func _openDarkUINavigation(_ sender: Any) {
+
+  func _openDarkUINavigation() {
     CardKTheme.setTheme(CardKTheme.dark());
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.allowedCardScaner = false;
@@ -125,17 +146,94 @@ class ViewController: UIViewController {
     self.navigationController?.pushViewController(controller, animated: true)
   }
 
-  @IBAction func _openSystemUINavigation(_ sender: Any) {
+  func _openSystemUINavigation() {
     if #available(iOS 13.0, *) {
       CardKTheme.setTheme(CardKTheme.system())
     } else {
       CardKTheme.setTheme(CardKTheme.default())
     };
-    
+
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = true
     self.navigationController?.pushViewController(controller, animated: true)
+  }
+  
+  func _callFunctionByKindOfButton(kind: SectionItem.Kind) {
+    switch kind {
+      case .lightTheme:
+        _openController()
+        break
+      case .darkTheme:
+        _openDark()
+        break
+      case .systemTheme:
+        _openSystemTheme()
+        break
+      case .navLightTheme:
+        _openLightUINavigation()
+        break
+      case .navDarkTheme:
+        _openDarkUINavigation()
+        break
+      case .navSystemTheme:
+        _openSystemUINavigation()
+        break
+    }
+  }
+  
+  var sections: [Section] = [
+    Section(title: "Modal", items: [
+      SectionItem(title: "Open Light", kind: .lightTheme, isShowChevron: false),
+      SectionItem(title: "Dark Light", kind: .darkTheme, isShowChevron: false),
+      SectionItem(title: "System theme", kind: .systemTheme, isShowChevron: false)
+    ]),
+    
+    Section(title: "Navigation", items: [
+      SectionItem(title: "Open Light", kind: .navLightTheme, isShowChevron: true),
+      SectionItem(title: "Dark Light", kind: .navDarkTheme, isShowChevron: true),
+      SectionItem(title: "System theme", kind: .navSystemTheme, isShowChevron: true)
+    ])
+  ]
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    title = "Examples"
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellIdentifier")
+  }
+
+  override func numberOfSections(in tableView: UITableView) -> Int {
+    return sections.count
+  }
+  
+  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    return sections[section].title
+  }
+
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return sections[section].items.count;
+  }
+
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "cellIdentifier", for: indexPath)
+    let item = sections[indexPath.section].items[indexPath.item];
+    cell.textLabel?.text = item.title
+    cell.accessoryType = item.isShowChevron ? .disclosureIndicator : .none
+
+    return cell
+  }
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let item = self.sections[indexPath.section].items[indexPath.item];
+    
+    _callFunctionByKindOfButton(kind: item.kind);
+    if indexPath.section == 0 {
+      tableView.deselectRow(at: indexPath, animated: true)
+    }
+  }
+  
+  override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+    return true
   }
 }
 
