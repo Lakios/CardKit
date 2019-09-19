@@ -161,24 +161,12 @@ class ViewController: UITableViewController {
   
   func _callFunctionByKindOfButton(kind: SectionItem.Kind) {
     switch kind {
-      case .lightTheme:
-        _openController()
-        break
-      case .darkTheme:
-        _openDark()
-        break
-      case .systemTheme:
-        _openSystemTheme()
-        break
-      case .navLightTheme:
-        _openLightUINavigation()
-        break
-      case .navDarkTheme:
-        _openDarkUINavigation()
-        break
-      case .navSystemTheme:
-        _openSystemUINavigation()
-        break
+    case .lightTheme: _openController()
+    case .darkTheme: _openDark()
+    case .systemTheme: _openSystemTheme()
+    case .navLightTheme: _openLightUINavigation()
+    case .navDarkTheme: _openDarkUINavigation()
+    case .navSystemTheme: _openSystemUINavigation()
     }
   }
   
