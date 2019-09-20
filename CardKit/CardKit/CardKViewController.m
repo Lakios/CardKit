@@ -95,7 +95,6 @@ NSString *CardKFooterID = @"footer";
   return _cardView.allowedCardScaner;
 }
 
-
 - (void)_cardChanged {
   NSString *number = _cardView.number;
   [_bankLogoView showNumber:number];
@@ -180,13 +179,6 @@ NSString *CardKFooterID = @"footer";
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
 
-  
-//  NSLog(NSStringFromCGRect(self.tableView.readableContentGuide.layoutFrame));
-//  [cell setPreservesSuperviewLayoutMargins:YES];
-//  [cell.contentView setPreservesSuperviewLayoutMargins:YES];
-//  cell.layoutMargins = UIEdgeInsetsMake(0, 100, 0, 100);
-//  cell.contentView.backgroundColor = [UIColor redColor];
-  
   if ([CardKCardCellID isEqual:cellID]) {
     _cardView.frame = cell.contentView.bounds;
     [cell.contentView addSubview:_cardView];

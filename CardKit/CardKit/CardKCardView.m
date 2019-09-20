@@ -15,6 +15,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 
 @implementation CardKCardView {
   UIImageView *_paymentSystemImageView;
+  
   CardKTextField *_numberTextField;
   CardKTextField *_expireDateTextField;
   CardKTextField *_secureCodeTextField;
@@ -78,7 +79,9 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     
     _numberTextField.textContentType = UITextContentTypeCreditCardNumber;
     
-    [_numberTextField addTarget:self action:@selector(_numberChanged) forControlEvents:UIControlEventValueChanged];
+    [_numberTextField addTarget:self action:@selector(_numberChanged) forControlEvents: UIControlEventValueChanged];
+    [_numberTextField addTarget:self action:@selector(_relayout) forControlEvents: UIControlEventEditingDidEnd];
+    [_numberTextField addTarget:self action:@selector(_relayout) forControlEvents: UIControlEventEditingDidBegin];
     
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   }
@@ -278,7 +281,6 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   }
   
   self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:number compatibleWithTraitCollection:self.traitCollection];
-//  [self _showPaymentSystemProviderIcon];
 }
 
 - (void)_numberChanged {
@@ -287,13 +289,15 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 }
 
 - (void)_switchToNext:(UIView *)sender {
-//  [self _validateField:sender];
   NSArray *fields = @[_numberTextField, _expireDateTextField, _secureCodeTextField];
   
   [self _showPaymentSystemProviderIcon];
 
   NSInteger index = [fields indexOfObject:sender];
   if (index == NSNotFound) {
+    if (sender == _numberTextField) {
+      
+    }
     return;
   }
   
@@ -364,15 +368,22 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     return;
   }
   
-  if (_focusedField != _numberTextField && field != _numberTextField) {
-    _focusedField = field;
-    return;
-  }
+//  if (_focusedField != _numberTextField && field != _numberTextField) {
+//    _focusedField = field;
+//    return;
+//  }
   _focusedField = field;
-  [UIView animateWithDuration:0.3 animations:^{
+
+}
+
+- (void)_relayout {
+  dispatch_async(dispatch_get_main_queue(), ^{
     [self setNeedsLayout];
-    [self layoutIfNeeded];
-  }];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+      [self layoutIfNeeded];
+    }];
+  });
 }
 
 - (void)layoutSubviews {
@@ -384,7 +395,11 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   
   if (_focusedField == _numberTextField) {
     _numberTextField.frame = CGRectMake(imageWidth, 0, _numberTextField.intrinsicContentSize.width, height);
-    _expireDateTextField.frame = CGRectMake(CGRectGetMaxX( _numberTextField.frame), 0, _expireDateTextField.intrinsicContentSize.width, bounds.size.height);
+    _expireDateTextField.frame = CGRectMake(CGRectGetMaxX(_numberTextField.frame),
+                                            0,
+                                            _expireDateTextField.intrinsicContentSize.width,
+                                            bounds.size.height
+                                            );
     _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX( _expireDateTextField.frame), 0, _secureCodeTextField.intrinsicContentSize.width, height);
   } else {
     CGFloat numberWidth = _numberTextField.intrinsicContentSize.width;

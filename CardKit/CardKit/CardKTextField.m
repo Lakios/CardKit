@@ -18,7 +18,9 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 
 @end
 
-@implementation CoverView
+@implementation CoverView {
+  
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -57,12 +59,12 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 @end
 
 @implementation CardKTextField {
+  UILabel *_measureLabel;
   UILabel *_patternLabel;
   UILabel *_formatLabel;
   UITextField *_textField;
   
   NSString *_pattern;
-  CGSize _intrinsicContentSize;
   BOOL _showError;
   CoverView *_coverView;
 }
@@ -78,6 +80,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     _patternLabel = [[UILabel alloc] init];
     _formatLabel = [[UILabel alloc] init];
     _textField = [[UITextField alloc] init];
+    _measureLabel = [[UILabel alloc] init];
     [_textField addTarget:self action:@selector(_editingChange:) forControlEvents:UIControlEventEditingChanged];
   
     UIFont *font = [self _font];
@@ -87,14 +90,12 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     _patternLabel.textColor = theme.colorPlaceholder;
     _formatLabel.textColor = theme.colorPlaceholder;
     _textField.textColor = theme.colorLabel;
+    _measureLabel.font = font;
     
     _textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 10)];
     _textField.leftViewMode = UITextFieldViewModeAlways;
     _textField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
     
-//    for (UIView *v in @[_patternLabel, _textField, _formatLabel]) {
-//      [self addSubview:v];
-//    }
     [_textField addSubview:_patternLabel];
     [_textField addSubview:_formatLabel];
     
@@ -156,13 +157,6 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 
 - (void)setPattern:(NSString *)pattern {
   _pattern = pattern;
-  UILabel *label = [[UILabel alloc] init];
-  label.font = _textField.font;
-  label.text = _pattern;
-  label.attributedText = [self _formatValue:label.attributedText];
-  CGSize size = label.intrinsicContentSize;
-  size.width += _textField.leftView.frame.size.width + _textField.rightView.frame.size.width + 8;
-  _intrinsicContentSize = size;
 }
 
 
@@ -295,7 +289,16 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 }
 
 - (CGSize)intrinsicContentSize {
-  return _intrinsicContentSize;
+  NSString *textToMeasure = _pattern;
+  if (_textField.text.length > _pattern.length) {
+    textToMeasure = _textField.text;
+  }
+  _measureLabel.text = textToMeasure;
+  _measureLabel.attributedText = [self _formatValue:_measureLabel.attributedText];
+  [_measureLabel sizeToFit];
+  CGSize size = _measureLabel.bounds.size;
+  size.width += _textField.leftView.frame.size.width + _textField.rightView.frame.size.width + 8;
+  return size;
 }
 
 - (void)_editingChange:(UITextField *)textField {
@@ -360,12 +363,17 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   }
   NSMutableAttributedString * str = [strValue mutableCopy];
   
+  NSNumber *spacer = @(8);
+  if (_pattern == CardKTextFieldPatternExpirationDate) {
+    spacer = @(10.5);
+  }
+  
   NSUInteger index = 0;
   for (NSNumber *segmentLength in segments) {
       NSUInteger segmentIndex = 0;
       for (; index < str.length && segmentIndex < [segmentLength unsignedIntegerValue]; index++, segmentIndex++) {
           if (index + 1 != str.length && segmentIndex + 1 == [segmentLength unsignedIntegerValue]) {
-              [str addAttribute:NSKernAttributeName value:@(9)
+              [str addAttribute:NSKernAttributeName value:spacer
                                        range:NSMakeRange(index, 1)];
           } else {
               [str addAttribute:NSKernAttributeName value:@(0)
@@ -393,35 +401,33 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   [super layoutSubviews];
   
   CGSize boundsSize = self.bounds.size;
+  CGSize intrinsicContentSize = self.intrinsicContentSize;
   
-  _textField.frame = CGRectMake(0, 0, MAX(_intrinsicContentSize.width, boundsSize.width), boundsSize.height);
-  NSLog(NSStringFromCGRect(_textField.frame));
-  CGFloat width = _textField.frame.size.width - _textField.leftView.bounds.size.width;
+  if (_textField.text.length == 0) {
+    intrinsicContentSize = boundsSize;
+  }
+  
+  CGFloat textFieldWidth = intrinsicContentSize.width;
+  
+  CGFloat delta = boundsSize.width - intrinsicContentSize.width;
+  
+  if (delta > -2) {
+    delta = 0;
+    textFieldWidth = boundsSize.width;
+  }
+  
+  
+  _textField.frame = CGRectMake(delta, 0, textFieldWidth, boundsSize.height);
+
+  CGFloat x = _textField.leftView.bounds.size.width;
+  CGFloat width = textFieldWidth - x - _textField.leftView.bounds.size.width;
   for (UIView *v in @[_formatLabel, _patternLabel]) {
-    if (width != v.frame.size.width) {
-      v.frame = CGRectMake(_textField.leftView.bounds.size.width, 0, width, boundsSize.height);
-    }
+    v.frame = CGRectMake(x, 0, width, boundsSize.height);
   }
   
   _coverView.frame = CGRectMake(0, 10, 6, boundsSize.height - 20);
 
-  if (_textField.text.length == 0) {
-    [_coverView setHidden:YES];
-    return;
-  }
-  
-  CGFloat delta = boundsSize.width - _intrinsicContentSize.width;
-  
-  if (delta < -6) {
-//    for (UIView *v in self.subviews) {
-//      v.frame = CGRectMake(delta, 0, _intrinsicContentSize.width, boundsSize.height);
-//    }
-    _textField.frame = CGRectMake(delta, 0, _intrinsicContentSize.width, boundsSize.height);
-//    for (UIView *v in @[_formatLabel, _patternLabel]) {
-//      v.frame = CGRectMake(_textField.leftView.bounds.size.width + delta, 0, _intrinsicContentSize.width, boundsSize.height);
-//    }
-  }
-  
+//  if (_textField.text.length )
   [_coverView setHidden:NO];
 }
 
