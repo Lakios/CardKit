@@ -24,10 +24,11 @@ extern NSString *CardKTextFieldPatternSecureCode;
 @interface CardKTextField : UIControl
 
 @property (readonly) NSString *text;
-@property (strong) NSString * pattern;
-@property (strong) NSString * placeholder;
-@property (strong) NSString * format;
-@property (strong, nullable) NSString * accessibilityLabel;
+@property (strong) NSString *stripRegexp;
+@property (strong) NSString *pattern;
+@property (strong) NSString *placeholder;
+@property (strong) NSString *format;
+@property (strong, nullable) NSString *accessibilityLabel;
 @property BOOL secureTextEntry;
 @property UIKeyboardType keyboardType;
 @property UIReturnKeyType returnKeyType;

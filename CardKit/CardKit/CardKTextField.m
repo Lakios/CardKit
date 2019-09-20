@@ -7,6 +7,7 @@
 //
 
 #import "CardKTextField.h"
+#import "Luhn.h"
 #import <AudioToolbox/AudioServices.h>
 
 NSString *CardKTextFieldPatternCardNumber = @"XXXXXXXXXXXXXXXX";
@@ -91,10 +92,13 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     _textField.leftViewMode = UITextFieldViewModeAlways;
     _textField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
     
-    for (UIView *v in @[_patternLabel, _textField, _formatLabel]) {
-      [self addSubview:v];
-    }
+//    for (UIView *v in @[_patternLabel, _textField, _formatLabel]) {
+//      [self addSubview:v];
+//    }
+    [_textField addSubview:_patternLabel];
+    [_textField addSubview:_formatLabel];
     
+    [self addSubview:_textField];
     _textField.delegate = self;
     
     self.clipsToBounds = true;
@@ -228,14 +232,23 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
   
-  if (!_pattern) {
-    return YES;
-  }
-  
   NSUInteger currentLength = [textField.text length];
   NSUInteger replacementLength = [string length];
   NSUInteger rangeLength = range.length;
   NSUInteger newLength = currentLength - rangeLength + replacementLength;
+  
+  if (!_pattern) {
+    if (_stripRegexp && string.length > 0) {
+      NSString * str = [string stringByReplacingOccurrencesOfString:_stripRegexp withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, string.length)];
+      if (![str isEqualToString:string]) {
+        [self animateError];
+        return NO;
+      }
+      return YES;
+    }
+    return YES;
+  }
+  
   
   if (string.length == 1) {
     if (!isnumber(string.UTF8String[0])) {
@@ -268,6 +281,9 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
     return YES;
   }
   
+  if (_pattern == CardKTextFieldPatternCardNumber) {
+    return newLength <= 19;
+  }
   return _pattern.length >= newLength;
 }
 
@@ -312,8 +328,11 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   
   [self sendActionsForControlEvents:UIControlEventValueChanged];
   
-  // TODO: check valid value
-  if (_pattern && (len == _pattern.length)) {
+  if (_pattern == CardKTextFieldPatternCardNumber) {
+    if (len >= 16 && len <= 19 && [_textField.text isValidCreditCardNumber]) {
+      [self sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
+    }
+  } else if (_pattern && (len == _pattern.length)) {
     [self sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
   }
 }
@@ -376,8 +395,12 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   CGSize boundsSize = self.bounds.size;
   
   _textField.frame = CGRectMake(0, 0, MAX(_intrinsicContentSize.width, boundsSize.width), boundsSize.height);
+  NSLog(NSStringFromCGRect(_textField.frame));
+  CGFloat width = _textField.frame.size.width - _textField.leftView.bounds.size.width;
   for (UIView *v in @[_formatLabel, _patternLabel]) {
-    v.frame = CGRectMake(_textField.leftView.bounds.size.width, 0, MAX(_intrinsicContentSize.width, boundsSize.width), boundsSize.height);
+    if (width != v.frame.size.width) {
+      v.frame = CGRectMake(_textField.leftView.bounds.size.width, 0, width, boundsSize.height);
+    }
   }
   
   _coverView.frame = CGRectMake(0, 10, 6, boundsSize.height - 20);
@@ -394,9 +417,9 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 //      v.frame = CGRectMake(delta, 0, _intrinsicContentSize.width, boundsSize.height);
 //    }
     _textField.frame = CGRectMake(delta, 0, _intrinsicContentSize.width, boundsSize.height);
-    for (UIView *v in @[_formatLabel, _patternLabel]) {
-      v.frame = CGRectMake(_textField.leftView.bounds.size.width + delta, 0, _intrinsicContentSize.width, boundsSize.height);
-    }
+//    for (UIView *v in @[_formatLabel, _patternLabel]) {
+//      v.frame = CGRectMake(_textField.leftView.bounds.size.width + delta, 0, _intrinsicContentSize.width, boundsSize.height);
+//    }
   }
   
   [_coverView setHidden:NO];

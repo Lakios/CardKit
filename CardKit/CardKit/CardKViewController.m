@@ -60,7 +60,8 @@ NSString *CardKFooterID = @"footer";
     [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventEditingDidBegin];
     [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventValueChanged];
     [_ownerTextField addTarget:self action:@selector(_buttonPressed:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    
+    _ownerTextField.stripRegexp = @"[^a-zA-Z' .]";
+    _ownerTextField.keyboardType = UIKeyboardTypeASCIICapable;
     _ownerTextField.returnKeyType = UIReturnKeyContinue;
     
     _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -265,11 +266,17 @@ NSString *CardKFooterID = @"footer";
   _ownerTextField.showError = NO;
   NSString *incorrectCardholder = NSLocalizedStringFromTableInBundle(@"incorrectCardholder", nil, _bundle, @"incorrectCardholder");
   
-  NSString *owner = [_ownerTextField.text  stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  NSString *owner = [_ownerTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   NSInteger len = owner.length;
   if (len == 0 || len > 40) {
     _ownerTextField.showError = YES;
     [_ownerErrors addObject:incorrectCardholder];
+  } else {
+    NSString *str = [owner stringByReplacingOccurrencesOfString:_ownerTextField.stripRegexp withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, owner.length)];
+    if (![str isEqual:owner]) {
+      _ownerTextField.showError = YES;
+      [_ownerErrors addObject:incorrectCardholder];
+    }
   }
   
   [self _refreshErrors];
