@@ -23,7 +23,7 @@ extern NSString *CardKTextFieldPatternSecureCode;
 
 @interface CardKTextField : UIControl
 
-@property (readonly) NSString *text;
+@property (strong) NSString *text;
 @property (strong) NSString *stripRegexp;
 @property (strong) NSString *pattern;
 @property (strong) NSString *placeholder;

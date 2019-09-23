@@ -20,10 +20,67 @@ const NSString *CardKRows = @"rows";
 const NSString *CardKSectionTitle = @"title";
 NSString *CardKFooterID = @"footer";
 
+@interface ScanViewWrapper: UIView
+
+@property UIButton *backButton;
+
+@end
+
+@implementation ScanViewWrapper {
+  UIView *_clippingView;
+  UIView *_scanView;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+  self = [super initWithFrame:frame];
+  if (self) {
+    _clippingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    _clippingView.clipsToBounds = YES;
+    _clippingView.autoresizesSubviews = NO;
+    _backButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self addSubview:_clippingView];
+    [self addSubview:_backButton];
+  }
+  return self;
+}
+
+-(void)layoutSubviews {
+  [super layoutSubviews];
+  
+  _clippingView.frame = self.bounds;
+  _scanView.frame = self.bounds;
+  [_scanView layoutSubviews];
+  
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPhone && _clippingView.frame.size.height > _clippingView.frame.size.width) {
+    _clippingView.frame = CGRectMake(0, 0, _clippingView.frame.size.width, 300);
+  }
+  _scanView.center = CGPointMake(_clippingView.bounds.size.width * 0.5, _clippingView.bounds.size.height * 0.5);
+  _backButton.frame = CGRectMake(0, self.bounds.size.height, self.bounds.size.width, 44);
+  if (@available(iOS 11.0, *)) {
+    if (self.safeAreaInsets.bottom > 0) {
+      _backButton.center = CGPointMake(_backButton.center.x, _backButton.center.y - 72 - self.safeAreaInsets.bottom);
+    } else {
+      _backButton.center = CGPointMake(_backButton.center.x, _backButton.center.y - 62);
+    }
+  } else {
+    _backButton.center = CGPointMake(_backButton.center.x, _backButton.center.y - 62);
+  }
+}
+
+-(void)setScanView:(UIView *)scanView {
+  _scanView = scanView;
+  [_clippingView addSubview:scanView];
+}
+
+
+@end
+
 
 @implementation CardKViewController {
   NSString *_pubKey;
   NSString *_mdOrder;
+  ScanViewWrapper *_scanViewWrapper;
   
   CardKBankLogoView *_bankLogoView;
   
@@ -54,6 +111,7 @@ NSString *CardKFooterID = @"footer";
     _cardView = [[CardKCardView alloc] init];
     [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
     [_cardView addTarget:self action:@selector(_switchToOwner) forControlEvents:UIControlEventEditingDidEndOnExit];
+    [_cardView.scanCardTapRecognizer addTarget:self action:@selector(_scanCard:)];
 
     _ownerTextField = [[CardKTextField alloc] init];
     _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"cardholderPlaceholder", nil, _bundle, @"Card holde placeholder");
@@ -73,14 +131,18 @@ NSString *CardKFooterID = @"footer";
     [_doneButton addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
   
-    _sections = @[
-      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _bundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
-      @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _bundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
-      @{CardKRows: @[CardKButtonCellID] },
-    ];
+    _sections = [self _defaultSections];
   }
   
   return self;
+}
+
+- (NSArray *)_defaultSections {
+  return @[
+    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _bundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
+    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _bundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
+    @{CardKRows: @[CardKButtonCellID] },
+  ];
 }
 
 - (void)_animateError {
@@ -317,5 +379,68 @@ NSString *CardKFooterID = @"footer";
   NSString *seToken = [RSA encryptString:cardData publicKey:_pubKey];
   [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken];
 }
+
+- (void)_scanCard:(UITapGestureRecognizer *)gestureRecognizer {
+  if (_cardView.allowedCardScaner && _cardView.number.length != 0) {
+    return;
+  }
+  
+  [_cardView resignFirstResponder];
+  [_ownerTextField resignFirstResponder];
+  
+  [_cKitDelegate cardKitViewControllerScanCardRequest:self];
+}
+
+- (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc {
+  if (number.length > 0) {
+    _cardView.number = number;
+  }
+  if (holderName.length > 0) {
+    _ownerTextField.text = holderName;
+  }
+  
+  if (date.length > 0) {
+    _cardView.expirationDate = date;
+  }
+  
+  if (cvc.length > 0) {
+    _cardView.secureCode = cvc;
+  }
+  
+  [_scanViewWrapper removeFromSuperview];
+}
+
+- (void)showScanCardView:(UIView *)view animated:(BOOL)animated {
+  CardKTheme *theme = CardKTheme.shared;
+  
+  _scanViewWrapper = [[ScanViewWrapper alloc] initWithFrame:self.view.bounds];
+  _scanViewWrapper.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  _scanViewWrapper.backgroundColor = theme.colorTableBackground;
+  _scanViewWrapper.scanView = view;
+  [_scanViewWrapper.backButton
+    setTitle: NSLocalizedStringFromTableInBundle(@"scanBackButton", nil, _bundle, "scanBackButton")
+    forState:UIControlStateNormal
+  ];
+  
+  [_scanViewWrapper.backButton addTarget:self action:@selector(_cancelScan) forControlEvents:UIControlEventTouchUpInside];
+  
+  _scanViewWrapper.alpha = 0;
+  [self.view addSubview:_scanViewWrapper];
+  
+  [UIView animateWithDuration:0.4 animations:^{
+    self->_scanViewWrapper.alpha = 1;
+  }];
+}
+
+- (void)_cancelScan {
+  _scanViewWrapper.alpha = 1;
+  [UIView animateWithDuration:0.3 animations:^{
+    self->_scanViewWrapper.alpha = 0;
+  } completion:^(BOOL finished) {
+    [self->_scanViewWrapper removeFromSuperview];
+    self->_scanViewWrapper = nil;
+  }];
+}
+
 
 @end
