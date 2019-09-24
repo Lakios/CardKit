@@ -86,7 +86,7 @@ controller.navigationItem.leftBarButtonItem = closeBarButtonItem
 self.present(navController, animated: true)
 ```
 
-Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L64)
+Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L64).
 
 **Функция \_close**
 
@@ -127,7 +127,7 @@ controller.cKitDelegate = self
 self.navigationController?.pushViewController(controller, animated: true)
 ```
 
-Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L155)
+Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L155).
 
 **Результат**
 
