@@ -1,6 +1,6 @@
 # Документация CardKit SDK
 
-**Выбор темы**
+## Выбор темы
 
 ```swift
 // Светлая тема
@@ -9,14 +9,14 @@ CardKTheme.setTheme(CardKTheme.light());
 // Темная тема
 CardKTheme.setTheme(CardKTheme.dark());
 
-// Текущая тема IOS пользователя ТОЛЬКО ДЛЯ IOS 13.0+
+// Текущая тема IOS ТОЛЬКО ДЛЯ IOS 13.0+
 CardKTheme.setTheme(CardKTheme.system());
 ```
 
 ## Инициализация CardKViewController
 
 - publicKey - публичный ключ, для генерации seToken;
-- mdOrder - идентификатор заказа;
+- mdOrder - идентификатор заказа.
 
 ```swift
 CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
@@ -35,7 +35,7 @@ CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
 1. Выбрать тему и инициализировать `CardKViewController`.
 
 ```swift
-// ViewController.h _openController()
+// ViewController.h
 CardKTheme.setTheme(CardKTheme.light());
 
 let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
@@ -79,12 +79,14 @@ controller.navigationItem.leftBarButtonItem = closeBarButtonItem
 ...
 ```
 
-5. Отобразить форму
+5. Отобразить форму.
 
 ```swift
 ...
 self.present(navController, animated: true)
 ```
+
+Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L64)
 
 **Функция \_close**
 
@@ -104,12 +106,12 @@ self.present(navController, animated: true)
 
 <div align="center"> Рисунок 1. Popover IOS 10 </div>
 
-## Отображение формы отдельной страницей
+## Отображение формы на отдельной странице
 
 1. Выбрать тему и инициализировать `CardKViewController`.
 
 ```swift
-// ViewController.h _openDarkUINavigation()
+// ViewController.h
 CardKTheme.setTheme(CardKTheme.dark());
 
 let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
@@ -125,8 +127,10 @@ controller.cKitDelegate = self
 self.navigationController?.pushViewController(controller, animated: true)
 ```
 
+Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L155)
+
 **Результат**
 
 ![Result IOS 13](/images/form_in_new_window.png)
 
-  <div align="center"> Рисунок 3. Форма в новом окне </div>
+  <div align="center"> Рисунок 3. Форма на отдельной странице. </div>
