@@ -170,12 +170,12 @@ NSString *CardKFooterID = @"footer";
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
 
   self.tableView.tableHeaderView = _bankLogoView;
-  self.tableView.separatorColor = theme.separatarColor;
+  self.tableView.separatorColor = theme.colorSeparatar;
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   
-  _doneButton.tintColor = theme.collorButtonText;
+  _doneButton.tintColor = theme.colorButtonText;
   
   for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];

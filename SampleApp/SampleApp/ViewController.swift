@@ -150,8 +150,8 @@ class ViewController: UITableViewController {
     theme.colorErrorLabel = UIColor.red;
     theme.colorTableBackground = UIColor.lightGray;
     theme.colorCellBackground = UIColor.white;
-    theme.separatarColor = UIColor.darkGray;
-    theme.collorButtonText = UIColor.orange;
+    theme.colorSeparatar = UIColor.darkGray;
+    theme.colorButtonText = UIColor.orange;
     
     CardKTheme.setTheme(theme);
 

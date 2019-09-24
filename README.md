@@ -222,7 +222,7 @@ func _openController() {
 
 ## Переопределение темы
 
-Свойства тем:
+Свойства темы:
 
 | Номер | Название свойства    |
 | :---: | :------------------- |
@@ -231,8 +231,8 @@ func _openController() {
 |   3   | colorErrorLabel      |
 |   4   | colorCellBackground  |
 |   5   | colorTableBackground |
-|   6   | separatarColor       |
-|   7   | collorButtonText     |
+|   6   | colorSeparatar       |
+|   7   | colorButtonText      |
 
 ![Result IOS 13](/images/custom_theme.png)
 
@@ -248,8 +248,8 @@ func _openCustomTheme() {
   theme.colorErrorLabel = UIColor.red;
   theme.colorTableBackground = UIColor.lightGray;
   theme.colorCellBackground = UIColor.white;
-  theme.separatarColor = UIColor.darkGray;
-  theme.collorButtonText = UIColor.orange;
+  theme.colorSeparatar = UIColor.darkGray;
+  theme.colorButtonText = UIColor.orange;
   ...
 }
 ```
