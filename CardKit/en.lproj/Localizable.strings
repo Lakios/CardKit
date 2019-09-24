@@ -13,6 +13,7 @@
 "Card Number" = "Number";
 "MM/YY" = "MM/YY";
 "doneButton" = "Submit payment";
+"scanBackButton" = "Enter details manually";
 "expiry" = "Card expiry date";
 "cvc" = "Last three code digits on the signature line";
 

@@ -9,6 +9,7 @@
 import UIKit
 import CardKit
 
+
 let publicKey = """
 -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiDgvGLU1dFQ0tA0Epbpj
@@ -41,8 +42,21 @@ struct SectionItem {
   }
 }
 
+class SampleAppCardIO: NSObject, CardIOViewDelegate {
+  weak var cardKController: CardKViewController? = nil
+  
+  func cardIOView(_ cardIOView: CardIOView!, didScanCard cardInfo: CardIOCreditCardInfo!) {
+    if let info = cardInfo {
+      cardKController?.setCardNumber(info.cardNumber, holderName: info.cardholderName, expirationDate: nil, cvc: nil)
+    }
+    cardIOView?.removeFromSuperview()
+  }
+}
+
 
 class ViewController: UITableViewController {
+  var sampleAppCardIO: SampleAppCardIO? = nil
+  
   @objc func _close(sender:UIButton){
     self.navigationController?.dismiss(animated: true, completion: nil)
   }
@@ -52,7 +66,7 @@ class ViewController: UITableViewController {
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
-    controller.allowedCardScaner = true;
+    controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
 
     if #available(iOS 13.0, *) {
@@ -71,6 +85,7 @@ class ViewController: UITableViewController {
     )
     controller.navigationItem.leftBarButtonItem = closeBarButtonItem
     self.present(navController, animated: true)
+    CardIOUtilities.preloadCardIO()
   }
 
   func _openDark() {
@@ -233,6 +248,21 @@ extension ViewController: CardKViewControllerDelegate {
     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
     controller.present(alert, animated: true)
+    
+  }
+  
+  func cardKitViewControllerScanCardRequest(_ controller: CardKViewController) {
+    let cardIO = CardIOView(frame: controller.view.bounds)
+    cardIO.hideCardIOLogo = true
+    cardIO.scanExpiry = false
+    cardIO.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    
+    sampleAppCardIO = SampleAppCardIO()
+    sampleAppCardIO?.cardKController = controller
+    cardIO.delegate = sampleAppCardIO
+    
+    controller.showScanCardView(cardIO, animated: true)
+//    controller.view.addSubview(cardIO)
   }
 }
 

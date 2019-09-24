@@ -43,10 +43,8 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     _leftIconAnimationOptions = UIViewAnimationOptionTransitionCrossDissolve;
     self.leftIconImageName = [PaymentSystemProvider imageNameByCardNumber:_allowedCardScaner ? nil : @"" compatibleWithTraitCollection: self.traitCollection];
 
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(_callScanCard:)];
-
-    [_paymentSystemImageView addGestureRecognizer:tapGestureRecognizer];
-    
+    _scanCardTapRecognizer = [[UITapGestureRecognizer alloc] init];
+    [_paymentSystemImageView addGestureRecognizer:_scanCardTapRecognizer];
     [_paymentSystemImageView setTintColor: theme.colorLabel];
 
     [self addSubview:_paymentSystemImageView];
@@ -87,15 +85,6 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   }
   
   return self;
-}
-
-- (void)_callScanCard:(UITapGestureRecognizer *)gestureRecognizer{
-  if (_allowedCardScaner && [_numberTextField.text length] == 0) {
-    NSLog(@"You can call it");
-    return;
-  }
-
-  NSLog(@"You can't call it");
 }
 
 - (nullable NSString *)getFullYearFromExpirationDate {
@@ -165,12 +154,24 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   return [_numberTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
+- (void)setNumber:(NSString *)number {
+  _numberTextField.text = number;
+}
+
 - (NSString *)expirationDate {
   return [_expireDateTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
+- (void)setExpirationDate:(NSString *)expirationDate {
+  _expireDateTextField.text = expirationDate;
+}
+
 - (NSString *)secureCode {
   return [_secureCodeTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+- (void)setSecureCode:(NSString *)secureCode {
+  _secureCodeTextField.text = secureCode;
 }
 
 - (void)cleanErrors {
@@ -419,6 +420,13 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   _paymentSystemImageView.frame = CGRectMake(0, 0, imageWidth, bounds.size.height);
   
   [super layoutSubviews];
+}
+
+- (BOOL)resignFirstResponder {
+  [_numberTextField resignFirstResponder];
+  [_expireDateTextField resignFirstResponder];
+  [_secureCodeTextField resignFirstResponder];
+  return YES;
 }
 
 @end

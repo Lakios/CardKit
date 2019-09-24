@@ -397,6 +397,16 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   return _textField.text;
 }
 
+- (void)setText:(NSString * _Nonnull)text {
+  _textField.text = text;
+  _textField.attributedText = [self _formatValue:_textField.attributedText];
+  [self sendActionsForControlEvents:UIControlEventValueChanged];
+}
+
+- (BOOL)resignFirstResponder {
+  return [_textField resignFirstResponder];
+}
+
 - (void)layoutSubviews {
   [super layoutSubviews];
   

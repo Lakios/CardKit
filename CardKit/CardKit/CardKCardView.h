@@ -13,11 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CardKCardView : UIControl
 
-@property (readonly) NSString *number;
-@property (readonly) NSString *expirationDate;
-@property (readonly) NSString *secureCode;
+@property (strong) NSString *number;
+@property (strong) NSString *expirationDate;
+@property (strong) NSString *secureCode;
 @property (strong) NSArray *errorMessages;
 @property BOOL allowedCardScaner;
+@property (strong, readonly) UITapGestureRecognizer *scanCardTapRecognizer;
 
 -(nullable NSString *)getMonthFromExpirationDate;
 -(nullable NSString *)getFullYearFromExpirationDate;

@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol CardKViewControllerDelegate <NSObject>
 
-- (void) cardKitViewController:(CardKViewController *)controller didCreateSeToken:(NSString *) seToken;
+- (void)cardKitViewController:(CardKViewController *)controller didCreateSeToken:(NSString *)seToken;
+@optional - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller;
 
 @end
 
@@ -27,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property BOOL allowedCardScaner;
 
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder;
+- (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc;
+
+- (void)showScanCardView:(UIView *)view animated:(BOOL)animated;
 
 @end
 
