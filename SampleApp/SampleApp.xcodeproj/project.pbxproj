@@ -382,7 +382,7 @@
 				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = FD6ZML48V9;
 				INFOPLIST_FILE = SampleApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -404,7 +404,7 @@
 				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = FD6ZML48V9;
 				INFOPLIST_FILE = SampleApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
