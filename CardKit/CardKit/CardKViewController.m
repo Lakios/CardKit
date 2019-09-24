@@ -174,7 +174,9 @@ NSString *CardKFooterID = @"footer";
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
-
+  
+  _doneButton.tintColor = theme.collorButtonText;
+  
   for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }

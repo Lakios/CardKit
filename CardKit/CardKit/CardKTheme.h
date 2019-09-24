@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) UIColor *colorCellBackground;
 @property (strong, nonatomic) UIColor *separatarColor;
 @property (strong, nonatomic, nullable) NSString *imageAppearance;
+@property (strong, nonatomic) UIColor *collorButtonText;
 
 + (CardKTheme *)defaultTheme;
 + (CardKTheme *)darkTheme;

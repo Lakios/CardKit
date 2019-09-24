@@ -16,13 +16,13 @@ static CardKTheme *__instance = nil;
   
   CardKTheme *theme = [[CardKTheme alloc] init];
 
-  theme.colorHeader = UIColor.grayColor;
   theme.colorLabel = UIColor.blackColor;
   theme.colorPlaceholder = UIColor.grayColor;
   theme.colorErrorLabel = UIColor.redColor;
   theme.colorTableBackground = UIColor.groupTableViewBackgroundColor;
   theme.colorCellBackground = UIColor.whiteColor;
   theme.imageAppearance = @"dark";
+  theme.collorButtonText = UIColor.systemBlueColor;
 
   return theme;
 }
@@ -46,7 +46,6 @@ static CardKTheme *__instance = nil;
 + (CardKTheme *)darkTheme {
   CardKTheme *theme = [[CardKTheme alloc] init];
 
-  theme.colorLabel = [UIColor whiteColor];
   theme.colorHeader = UIColor.grayColor;
   theme.colorErrorLabel = UIColor.redColor;
   theme.colorPlaceholder = [UIColor colorWithRed:0.39f green:0.39f blue:0.40f alpha:1.0f];
@@ -54,6 +53,7 @@ static CardKTheme *__instance = nil;
   theme.colorCellBackground = [UIColor colorWithRed:0.17f green:0.17f blue:0.18f alpha:1.0f];
   theme.separatarColor = [UIColor colorWithRed:0.10f green:0.10f blue:0.11f alpha:1.0f];
   theme.imageAppearance = @"dark";
+  theme.collorButtonText = UIColor.systemBlueColor;
   
   return theme;
 }
@@ -61,7 +61,6 @@ static CardKTheme *__instance = nil;
 + (CardKTheme *)lightTheme {
   CardKTheme *theme = [[CardKTheme alloc] init];
     
-  theme.colorHeader = UIColor.grayColor;
   theme.colorLabel = UIColor.blackColor;
   theme.colorPlaceholder = UIColor.grayColor;
   theme.colorErrorLabel = UIColor.redColor;
@@ -69,13 +68,13 @@ static CardKTheme *__instance = nil;
   theme.colorCellBackground = UIColor.whiteColor;
   theme.separatarColor = [UIColor colorWithRed:0.24f green:0.24f blue:0.26f alpha:0.29f];
   theme.imageAppearance = @"light";
-    
+  theme.collorButtonText = UIColor.systemBlueColor;
+  
   return theme;
 }
 
 + (CardKTheme *)systemTheme {
   CardKTheme *theme = [[CardKTheme alloc] init];
-  theme.colorHeader = UIColor.grayColor;
   theme.colorLabel = UIColor.labelColor;
   theme.colorPlaceholder = UIColor.placeholderTextColor;
   theme.colorErrorLabel = UIColor.redColor;
@@ -83,6 +82,7 @@ static CardKTheme *__instance = nil;
   theme.colorCellBackground = nil;
   theme.separatarColor = UIColor.separatorColor;
   theme.imageAppearance = nil;
+  theme.collorButtonText = UIColor.systemBlueColor;
 
   return theme;
 }

@@ -36,6 +36,7 @@ struct SectionItem {
     case lightTheme
     case darkTheme
     case systemTheme
+    case customTheme
     case navLightTheme
     case navDarkTheme
     case navSystemTheme
@@ -140,10 +141,47 @@ class ViewController: UITableViewController {
     controller.navigationItem.leftBarButtonItem = closeBarButtonItem
     self.present(navController, animated: true)
   }
+  
+  func _openCustomTheme() {
+    let theme = CardKTheme();
+  
+    theme.colorLabel = UIColor.black;
+    theme.colorPlaceholder = UIColor.gray;
+    theme.colorErrorLabel = UIColor.red;
+    theme.colorTableBackground = UIColor.lightGray;
+    theme.colorCellBackground = UIColor.white;
+    theme.separatarColor = UIColor.darkGray;
+    theme.collorButtonText = UIColor.orange;
+    
+    CardKTheme.setTheme(theme);
+
+    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    controller.cKitDelegate = self
+    controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
+    controller.purchaseButtonTitle = "Custom purchase button";
+
+    if #available(iOS 13.0, *) {
+      self.present(controller, animated: true)
+      return;
+    }
+
+    let navController = UINavigationController(rootViewController: controller)
+    navController.modalPresentationStyle = .formSheet
+
+    let closeBarButtonItem = UIBarButtonItem(
+      title: "Close",
+      style: .done,
+      target: self,
+      action: #selector(_close(sender:))
+    )
+    controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+    self.present(navController, animated: true)
+    CardIOUtilities.preloadCardIO()
+  }
 
   func _openLightUINavigation() {
     CardKTheme.setTheme(CardKTheme.light());
-
+    
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = false;
@@ -179,6 +217,7 @@ class ViewController: UITableViewController {
     case .lightTheme: _openController()
     case .darkTheme: _openDark()
     case .systemTheme: _openSystemTheme()
+    case .customTheme: _openCustomTheme()
     case .navLightTheme: _openLightUINavigation()
     case .navDarkTheme: _openDarkUINavigation()
     case .navSystemTheme: _openSystemUINavigation()
@@ -189,7 +228,8 @@ class ViewController: UITableViewController {
     Section(title: "Modal", items: [
       SectionItem(title: "Open Light", kind: .lightTheme, isShowChevron: false),
       SectionItem(title: "Dark Light", kind: .darkTheme, isShowChevron: false),
-      SectionItem(title: "System theme", kind: .systemTheme, isShowChevron: false)
+      SectionItem(title: "System theme", kind: .systemTheme, isShowChevron: false),
+      SectionItem(title: "Custom theme", kind: .customTheme, isShowChevron: false)
     ]),
     
     Section(title: "Navigation", items: [

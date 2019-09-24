@@ -1,5 +1,7 @@
 # Документация CardKit SDK
 
+SDK содержит два класса и один делегат.
+
 ## Выбор темы
 
 ```swift
@@ -9,33 +11,33 @@ CardKTheme.setTheme(CardKTheme.light());
 // Темная тема
 CardKTheme.setTheme(CardKTheme.dark());
 
-// Текущая тема IOS ТОЛЬКО ДЛЯ IOS 13.0+
+// Системная тема iOS ТОЛЬКО ДЛЯ IOS 13.0+ (поддерживает авто переключение)
 CardKTheme.setTheme(CardKTheme.system());
 ```
 
 ## Инициализация CardKViewController
 
-- publicKey - публичный ключ, для генерации seToken;
-- mdOrder - идентификатор заказа.
+- publicKey - строка содержащая публичный ключ, для генерации seToken;
+- mdOrder - строка содержащая идентификатор заказа.
 
 ```swift
-CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+CardKViewController(publicKey: publicKey, mdOrder: mdOrder);
 ```
 
-## Параметры объекта CardKViewController
+## Свойства объекта CardKViewController
 
-| Название Параметра  |   Тип данных   |  Значение по умолчанию  | Обязательный | Описание                                   |
-| :-----------------: | :------------: | :---------------------: | :----------: | ------------------------------------------ |
-|    cKitDelegate     | ViewController |            -            |      Да      | -                                          |
-|  allowedCardScaner  |      BOOL      |         `false`         |     Нет      | Разрешить исспользование сканера карточки. |
-| purchaseButtonTitle |     String     | `Purchase` / `Оплатить` |     Нет      | Изменить текст кнопки.                     |
+|  Название Свойства  |           Тип данных            |  Значение по умолчанию  | Опциональное | Описание                                   |
+| :-----------------: | :-----------------------------: | :---------------------: | :----------: | ------------------------------------------ |
+|    cKitDelegate     | id<CardKViewControllerDelegate> |          `nil`          |     Нет      | -                                          |
+|  allowedCardScaner  |              BOOL               |         `false`         |      Да      | Разрешить исспользование сканера карточки. |
+| purchaseButtonTitle |             String              | `Purchase` / `Оплатить` |      Да      | Переопределения текста кнопки.             |
 
 ## Поддержка IPad. Отображение формы в Popover
 
 1. Выбрать тему и инициализировать `CardKViewController`.
 
 ```swift
-// ViewController.h
+// ViewController.swift
 CardKTheme.setTheme(CardKTheme.dark());
 
 let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
@@ -99,18 +101,18 @@ self.present(navController, animated: true)
 
 ![Result IOS 13](/images/ios13_popover.png)
 
-  <div align="center"> Рисунок 1. Popover IOS 13 </div>
+  <div align="center"> Рисунок 1. Popover iPadOS 13 </div>
 
 ![Result IOS 13](/images/ios10_popover.png)
 
-<div align="center"> Рисунок 1. Popover IOS 10 </div>
+<div align="center"> Рисунок 1. Popover iOS 10 </div>
 
 ## Отображение формы на отдельной странице
 
 1. Выбрать тему и инициализировать `CardKViewController`.
 
 ```swift
-// ViewController.h
+// ViewController.swift
 CardKTheme.setTheme(CardKTheme.light());
 
 let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
@@ -127,7 +129,7 @@ controller.purchaseButtonTitle = "Custom purchase button";
 self.navigationController?.pushViewController(controller, animated: true)
 ```
 
-Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L155).
+Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L182).
 
 **Результат**
 
@@ -143,7 +145,7 @@ self.navigationController?.pushViewController(controller, animated: true)
 - didCreateSeToken - готовый `SeToken`.
 
 ```swift
-// ViewController.h
+// ViewController.swift
 func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {
   debugPrint(seToken)
   ...
@@ -151,7 +153,7 @@ func cardKitViewController(_ controller: CardKViewController, didCreateSeToken s
 }
 ```
 
-Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L244).
+Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L284).
 
 ## Работа с Card.io
 
@@ -165,7 +167,7 @@ func cardKitViewController(_ controller: CardKViewController, didCreateSeToken s
 Если есть данные карты, то вызываем функцию `setCardNumber` и присваиваем данные карты.
 
 ```swift
-// ViewController.h
+// ViewController.swift
 class SampleAppCardIO: NSObject, CardIOViewDelegate {
   weak var cardKController: CardKViewController? = nil
 
@@ -185,7 +187,7 @@ class SampleAppCardIO: NSObject, CardIOViewDelegate {
 - cotroller - объект класса `CardKViewController`;
 
 ```swift
-// ViewController.h
+// ViewController.swift
 func cardKitViewControllerScanCardRequest(_ controller: CardKViewController) {
   let cardIO = CardIOView(frame: controller.view.bounds)
   cardIO.hideCardIOLogo = true
@@ -200,14 +202,14 @@ func cardKitViewControllerScanCardRequest(_ controller: CardKViewController) {
 }
 ```
 
-Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L254).
+Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L294).
 
 3. атрибуту allowedCardScaner присвоить значение `True`. Желательно использовать функция `CardIOUtilities.canReadCardWithCamera()`;
 
 4. вызвать функцию CardIOUtilities.preloadCardIO();
 
 ```swift
-// ViewController.h
+// ViewController.swift
 func _openController() {
   ...
   controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
@@ -217,3 +219,39 @@ func _openController() {
 ```
 
 Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L64).
+
+## Переопределение темы
+
+Свойства тем:
+
+| Номер | Название свойства    |
+| :---: | :------------------- |
+|   1   | colorLabel           |
+|   2   | colorPlaceholder     |
+|   3   | colorErrorLabel      |
+|   4   | colorCellBackground  |
+|   5   | colorTableBackground |
+|   6   | separatarColor       |
+|   7   | collorButtonText     |
+
+![Result IOS 13](/images/custom_theme.png)
+
+  <div align="center"> Рисунок 3. Нумерация свойств. </div>
+
+Пример переопределения темы:
+
+```swift
+func _openCustomTheme() {
+  ...
+  theme.colorLabel = UIColor.black;
+  theme.colorPlaceholder = UIColor.gray;
+  theme.colorErrorLabel = UIColor.red;
+  theme.colorTableBackground = UIColor.lightGray;
+  theme.colorCellBackground = UIColor.white;
+  theme.separatarColor = UIColor.darkGray;
+  theme.collorButtonText = UIColor.orange;
+  ...
+}
+```
+
+Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L145).
