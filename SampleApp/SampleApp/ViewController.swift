@@ -91,7 +91,7 @@ class ViewController: UITableViewController {
   func _openDark() {
     CardKTheme.setTheme(CardKTheme.dark());
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
-    controller.allowedCardScaner = true;
+    controller.allowedCardScaner = false;
     controller.cKitDelegate = self
 
     if #available(iOS 13.0, *) {
@@ -262,7 +262,6 @@ extension ViewController: CardKViewControllerDelegate {
     cardIO.delegate = sampleAppCardIO
     
     controller.showScanCardView(cardIO, animated: true)
-//    controller.view.addSubview(cardIO)
   }
 }
 
