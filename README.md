@@ -98,11 +98,11 @@ self.present(navController, animated: true)
 
 ![Result IOS 13](/images/ios13_popover.png)
 
-  <p align=center> Рисунок 1. Popover IOS 13 </p>
+  <div align="center"> Рисунок 1. Popover IOS 13 </div>
 
 ![Result IOS 13](/images/ios10_popover.png)
 
-<p align=center> Рисунок 1. Popover IOS 10 </p>
+<div align="center"> Рисунок 1. Popover IOS 10 </div>
 
 ## Отображение формы отдельной страницей
 
@@ -129,4 +129,4 @@ self.navigationController?.pushViewController(controller, animated: true)
 
 ![Result IOS 13](/images/form_in_new_window.png)
 
-  <p align=center> Рисунок 3. Форма в новом окне </p>
+  <div align="center"> Рисунок 3. Форма в новом окне </div>
