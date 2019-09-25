@@ -46,7 +46,6 @@ static CardKTheme *__instance = nil;
 + (CardKTheme *)darkTheme {
   CardKTheme *theme = [[CardKTheme alloc] init];
 
-  theme.colorHeader = UIColor.grayColor;
   theme.colorErrorLabel = UIColor.redColor;
   theme.colorPlaceholder = [UIColor colorWithRed:0.39f green:0.39f blue:0.40f alpha:1.0f];
   theme.colorTableBackground = [UIColor colorWithRed:0.10f green:0.10f blue:0.11f alpha:1.0f];

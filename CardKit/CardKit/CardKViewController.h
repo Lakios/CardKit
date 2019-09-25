@@ -20,16 +20,38 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 @interface CardKViewController : UITableViewController
 
+/*! Lелегат контроллера*/
 @property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
+
+/*! Переопределить текст кнопки */
 @property (strong) NSString * purchaseButtonTitle;
+
+/*! Разрешить исспользование сканера карточки. */
 @property BOOL allowedCardScaner;
 
+/*!
+@brief Инициализация CardKViewController
+@param pubKey Строка содержащая публичный ключ, для генерации seToken.
+@param mdOrder Строка содержащая идентификатор заказа.
+*/
 - (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder;
+
+/*!
+@brief Присвоить данные карты
+@param number Номер карты.
+@param holderName Имя владельца карты.
+@param date Дата истечения срока действия.
+@param cvc Код проверки подлинности карты.
+*/
 - (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc;
 
+/*!
+@brief Отобразить сканера карты
+@param view Объект класса CardIOView.
+@param animated Анимировать появления сканера карты.
+*/
 - (void)showScanCardView:(UIView *)view animated:(BOOL)animated;
 
 @end
