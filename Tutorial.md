@@ -193,11 +193,8 @@ extension ViewController: CardKViewControllerDelegate {
 **Результат:**
 
 <div align="center">
+  <div align="inline">
   <img src="./images/tutorial/result_part_3_open_form.png" width="300"/>
-</div>
-  <div align="center"> Рисунок 3.1. Кнопка для открытия формы </div>
-
-<div align="center">
   <img src="./images/tutorial/result_part_3_form.png" width="300"/>
+  </div>
 </div>
-  <div align="center"> Рисунок 3.2. форма </div>
