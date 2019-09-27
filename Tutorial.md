@@ -4,13 +4,16 @@
 
 1.1 Создать проект
 
-![Create a project](/images/tutorial/create_project.png)
-
+<p align="center">
+  <img src="./images/tutorial/create_project.png" width="600"/>
+</p>
   <div align="center"> Рисунок 1.1. Создание проекта </div>
 
 1.2. Очистить в Target поле `Main interface`
 
-![Clean Main Interface](/images/tutorial/clean_main_interface.png)
+<p align="center">
+  <img src="./images/tutorial/clean_main_interface.png" width="600"/>
+</p>
 
   <div align="center"> Рисунок 1.2. Пустое поле </div>
 
@@ -50,28 +53,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-![AppDelegate file](/images/tutorial/app_delegate.png)
-
+<p align="center">
+  <img src="./images/tutorial/app_delegate.png" width="600"/>
+</p>
   <div align="center"> Рисунок 1.3. AppDelegate.swift </div>
 
 **Результат:**
 
-![Result Part 1](/images/tutorial/result_part_1.png)
-
+<p align="center">
+  <img src="./images/tutorial/result_part_1.png" width="300"/>
+</p>
   <div align="center"> Рисунок 1.4. Результат работы </div>
 
 ## 2. Интеграция CardKit.framework
 
 2.1 Взять файл CardKit.framework и перенести файл в папку проекта.
 
-![Move CardKit.framework](/images/tutorial/move_card_kit.framework.png)
-
+<p align="center">
+  <img src="./images/tutorial/move_card_kit.framework.png" width="600"/>
+</p>
   <div align="center"> Рисунок 2.1. Перенос файла CardKit.framework </div>
 
 2.2. Открыть Targets -> General -> Frameworks,Libraries, and Embedded Content, У CardKit.framework заменить в колонке embeded c `Do not Embed` на `Embed & Sign`.
 
-![Replace Embed](/images/tutorial/replace_with_embed_and_sign.png)
-
+<p align="center">
+  <img src="./images/tutorial/replace_with_embed_and_sign.png" width="600"/>
+</p>
   <div align="center"> Рисунок 2.2. Изменения настроек CardKit.framework </div>
 
 2.3. Импортировать фрэймворк в файле ViewController.swift
@@ -185,10 +192,12 @@ extension ViewController: CardKViewControllerDelegate {
 
 **Результат:**
 
-![Button Form](/images/tutorial/result_part_3_open_form.png)
-
+<p align="center">
+  <img src="./images/tutorial/result_part_3_open_form.png" width="300"/>
+</p>
   <div align="center"> Рисунок 3.1. Кнопка для открытия формы </div>
 
-![Result Part 1](/images/tutorial/result_part_3_form.png)
-
+<p align="center">
+  <img src="./images/tutorial/result_part_3_form.png" width="300"/>
+</p>
   <div align="center"> Рисунок 3.2. форма </div>
