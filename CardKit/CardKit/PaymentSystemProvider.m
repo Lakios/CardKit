@@ -7,6 +7,7 @@
 //
 
 #import "PaymentSystemProvider.h"
+#import "CardKConfig.h"
 
 BOOL __checkNumberPattern(NSString *pattern, NSString *cardNumber) {
   NSError *error = NULL;
@@ -86,7 +87,7 @@ NSString * __getImageAppearanceWithTraitCollection(UITraitCollection *traitColle
   }
   
   NSString *systemName = __systemNameByCardNumber(number);
-  NSString *imageAppearance = CardKTheme.shared.imageAppearance;
+  NSString *imageAppearance = CardKConfig.shared.theme.imageAppearance;
   
   if (imageAppearance == nil) {
     imageAppearance = __getImageAppearanceWithTraitCollection(traitCollection);
@@ -107,7 +108,7 @@ NSString * __getImageAppearanceWithTraitCollection(UITraitCollection *traitColle
 }
 
 + (NSString *)imageNameForCVCWithTraitCollection:(UITraitCollection *) traitCollection {
-  NSString *imageAppearance = CardKTheme.shared.imageAppearance;
+  NSString *imageAppearance = CardKConfig.shared.theme.imageAppearance;
   
   if (imageAppearance == nil) {
     imageAppearance = __getImageAppearanceWithTraitCollection(traitCollection);

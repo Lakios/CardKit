@@ -63,8 +63,10 @@ class ViewController: UITableViewController {
   }
 
   func _openController() {
-    CardKTheme.setTheme(CardKTheme.light());
-
+  
+    CardKConfig.shared.language = "ru";
+    CardKConfig.shared.theme = CardKTheme.light()
+    
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
@@ -90,7 +92,9 @@ class ViewController: UITableViewController {
   }
 
   func _openDark() {
-    CardKTheme.setTheme(CardKTheme.dark());
+    CardKConfig.shared.language = "fr";
+    CardKConfig.shared.theme = CardKTheme.dark();
+
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.allowedCardScaner = false;
     controller.cKitDelegate = self
@@ -114,10 +118,11 @@ class ViewController: UITableViewController {
   }
 
   func _openSystemTheme() {
+    CardKConfig.shared.language = "fr";
     if #available(iOS 13.0, *) {
-      CardKTheme.setTheme(CardKTheme.system())
+      CardKConfig.shared.theme = CardKTheme.system();
     } else {
-      CardKTheme.setTheme(CardKTheme.default())
+      CardKConfig.shared.theme = CardKTheme.default();
     };
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
@@ -153,7 +158,9 @@ class ViewController: UITableViewController {
     theme.colorSeparatar = UIColor.darkGray;
     theme.colorButtonText = UIColor.orange;
     
-    CardKTheme.setTheme(theme);
+    CardKConfig.shared.language = "fr";
+    CardKConfig.shared.theme = theme;
+
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
@@ -180,8 +187,10 @@ class ViewController: UITableViewController {
   }
 
   func _openLightUINavigation() {
-    CardKTheme.setTheme(CardKTheme.light());
-    
+    CardKConfig.shared.language = "es";
+    CardKConfig.shared.theme = CardKTheme.light();
+
+
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = false;
@@ -191,7 +200,9 @@ class ViewController: UITableViewController {
   }
 
   func _openDarkUINavigation() {
-    CardKTheme.setTheme(CardKTheme.dark());
+    CardKConfig.shared.language = "es";
+    CardKConfig.shared.theme = CardKTheme.dark();
+
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.allowedCardScaner = false;
     controller.cKitDelegate = self
@@ -200,11 +211,14 @@ class ViewController: UITableViewController {
   }
 
   func _openSystemUINavigation() {
+    CardKConfig.shared.language = "fr";
+
     if #available(iOS 13.0, *) {
-      CardKTheme.setTheme(CardKTheme.system())
+      CardKConfig.shared.theme = CardKTheme.system();
     } else {
-      CardKTheme.setTheme(CardKTheme.default())
+      CardKConfig.shared.theme = CardKTheme.default();
     };
+
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self

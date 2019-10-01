@@ -8,6 +8,7 @@
 
 #import "CardKBankLogoView.h"
 #import <WebKit/WebKit.h>
+#import "CardKConfig.h"
 
 @interface CardKWebView: WKWebView {
 }
@@ -59,7 +60,7 @@
 
 - (instancetype)init {
   if (self = [super init]) {
-    CardKTheme *theme = [CardKTheme shared];
+    CardKTheme *theme = CardKConfig.shared.theme;
     
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -113,7 +114,7 @@
     return;
   }
 
-  NSString *imageAppearance = CardKTheme.shared.imageAppearance;
+  NSString *imageAppearance = CardKConfig.shared.theme.imageAppearance;
 
   if (imageAppearance == nil) {
     if (@available(iOS 12.0, *)) {

@@ -8,6 +8,7 @@
 
 #import "CardKFooterView.h"
 #import "CardKTheme.h"
+#import "CardKConfig.h"
 
 @interface CardKFooterView ()
 
@@ -22,7 +23,7 @@
 {
   self = [super initWithFrame:frame];
   if (self) {
-    CardKTheme *theme = [CardKTheme shared];
+    CardKTheme *theme = CardKConfig.shared.theme;
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _label = [[UILabel alloc] initWithFrame:CGRectZero];
     _label.font = [_label.font fontWithSize:12];

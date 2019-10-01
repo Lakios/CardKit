@@ -10,6 +10,7 @@
 #import "CardKTextField.h"
 #import "PaymentSystemProvider.h"
 #import "Luhn.h"
+#import "CardKConfig.h"
 
 NSInteger EXPIRE_YEARS_DIFF = 10;
 
@@ -32,7 +33,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   self = [super init];
   
   if (self) {
-    CardKTheme *theme = [CardKTheme shared];
+    CardKTheme *theme = CardKConfig.shared.theme;
 
     _bundle = [NSBundle bundleForClass:[CardKCardView class]];
 

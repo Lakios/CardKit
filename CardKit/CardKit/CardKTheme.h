@@ -49,11 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 @return Объект CardKTheme
  */
 + (CardKTheme *)systemTheme API_AVAILABLE(ios(13.0));
-+ (CardKTheme *)shared;
+//+ (CardKTheme *)shared;
 /*!
 @brief Присвоить тему
  */
-+ (void)setTheme:(CardKTheme *)theme;
+//+ (void)setTheme:(CardKTheme *)theme;
 @end
 
 NS_ASSUME_NONNULL_END

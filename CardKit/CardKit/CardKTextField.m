@@ -9,7 +9,7 @@
 #import "CardKTextField.h"
 #import "Luhn.h"
 #import <AudioToolbox/AudioServices.h>
-
+#import "CardKConfig.h"
 NSString *CardKTextFieldPatternCardNumber = @"XXXXXXXXXXXXXXXX";
 NSString *CardKTextFieldPatternExpirationDate = @"MMYY";
 NSString *CardKTextFieldPatternSecureCode = @"XXX";
@@ -27,7 +27,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   self = [super initWithFrame:frame];
   if (self) {
     
-    CardKTheme *theme = [CardKTheme shared];
+    CardKTheme *theme = CardKConfig.shared.theme;
     
     self.backgroundColor = theme.colorCellBackground;
 //    self.backgroundColor = theme.separatarColor;
@@ -72,7 +72,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 - (instancetype)init {
   self = [super init];
   if (self) {
-    CardKTheme *theme = [CardKTheme shared];
+    CardKTheme *theme = CardKConfig.shared.theme;
     
     UIViewAutoresizing mask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.autoresizingMask = mask;
@@ -131,7 +131,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 }
 
 - (void)setShowError:(BOOL)showError {
-  CardKTheme *theme = [CardKTheme shared];
+  CardKTheme *theme = CardKConfig.shared.theme;
   
   _showError = showError;
   NSString *placeholder = _textField.placeholder;
@@ -165,7 +165,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
 }
 
 - (void)setPlaceholder:(NSString *)placeholder {
-  CardKTheme *theme = [CardKTheme shared];
+  CardKTheme *theme = CardKConfig.shared.theme;
   _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{
     NSForegroundColorAttributeName: theme.colorPlaceholder,
     NSFontAttributeName: [self _font]

@@ -12,6 +12,7 @@
 #import "CardKBankLogoView.h"
 #import "CardKFooterView.h"
 #import "RSA.h"
+#import "CardKConfig.h"
 
 const NSString *CardKCardCellID = @"card";
 const NSString *CardKOwnerCellID = @"owner";
@@ -99,6 +100,9 @@ NSString *CardKFooterID = @"footer";
   if (self = [super initWithStyle:UITableViewStyleGrouped]) {
     _bundle = [NSBundle bundleForClass:[CardKViewController class]];
     
+     NSString *language = CardKConfig.shared.language;
+    _bundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
+    
     _pubKey = pubKey;
     _mdOrder = mdOrder;
     
@@ -166,7 +170,7 @@ NSString *CardKFooterID = @"footer";
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  CardKTheme *theme = CardKTheme.shared;
+  CardKTheme *theme = CardKConfig.shared.theme;
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
 
   self.tableView.tableHeaderView = _bankLogoView;
@@ -237,7 +241,7 @@ NSString *CardKFooterID = @"footer";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
-  CardKTheme *theme = CardKTheme.shared;
+  CardKTheme *theme = CardKConfig.shared.theme;
   
   NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
   
@@ -413,7 +417,7 @@ NSString *CardKFooterID = @"footer";
 }
 
 - (void)showScanCardView:(UIView *)view animated:(BOOL)animated {
-  CardKTheme *theme = CardKTheme.shared;
+  CardKTheme *theme = CardKConfig.shared.language;
   
   _scanViewWrapper = [[ScanViewWrapper alloc] initWithFrame:self.view.bounds];
   _scanViewWrapper.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;

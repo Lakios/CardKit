@@ -9,8 +9,6 @@
 #import "CardKTheme.h"
 #import <UIKit/UIKit.h>
 
-static CardKTheme *__instance = nil;
-
 @implementation CardKTheme
 + (CardKTheme *)defaultTheme {
   
@@ -25,22 +23,6 @@ static CardKTheme *__instance = nil;
   theme.colorButtonText = UIColor.systemBlueColor;
 
   return theme;
-}
-
-+ (CardKTheme *)shared {
-  if (__instance == nil) {
-    if (@available(iOS 13.0, *)) {
-      __instance = [CardKTheme systemTheme];
-    } else {
-      __instance = [CardKTheme defaultTheme];
-    }
-  }
-
-  return __instance;
-}
-
-+ (void)setTheme:(CardKTheme *)theme {
-  __instance = theme;
 }
 
 + (CardKTheme *)darkTheme {
