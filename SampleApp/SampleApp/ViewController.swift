@@ -31,6 +31,7 @@ struct SectionItem {
   let title: String
   let kind: Kind
   let isShowChevron: Bool
+  let language: String
   
   enum Kind {
     case lightTheme
@@ -40,6 +41,7 @@ struct SectionItem {
     case navLightTheme
     case navDarkTheme
     case navSystemTheme
+    case language
   }
 }
 
@@ -63,8 +65,6 @@ class ViewController: UITableViewController {
   }
 
   func _openController() {
-  
-    CardKConfig.shared.language = "ru";
     CardKConfig.shared.theme = CardKTheme.light()
     
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
@@ -92,7 +92,6 @@ class ViewController: UITableViewController {
   }
 
   func _openDark() {
-    CardKConfig.shared.language = "fr";
     CardKConfig.shared.theme = CardKTheme.dark();
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
@@ -118,7 +117,6 @@ class ViewController: UITableViewController {
   }
 
   func _openSystemTheme() {
-    CardKConfig.shared.language = "fr";
     if #available(iOS 13.0, *) {
       CardKConfig.shared.theme = CardKTheme.system();
     } else {
@@ -158,7 +156,6 @@ class ViewController: UITableViewController {
     theme.colorSeparatar = UIColor.darkGray;
     theme.colorButtonText = UIColor.orange;
     
-    CardKConfig.shared.language = "fr";
     CardKConfig.shared.theme = theme;
 
 
@@ -187,9 +184,8 @@ class ViewController: UITableViewController {
   }
 
   func _openLightUINavigation() {
-    CardKConfig.shared.language = "es";
+    CardKConfig.shared.language = "en"
     CardKConfig.shared.theme = CardKTheme.light();
-
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
@@ -200,7 +196,6 @@ class ViewController: UITableViewController {
   }
 
   func _openDarkUINavigation() {
-    CardKConfig.shared.language = "es";
     CardKConfig.shared.theme = CardKTheme.dark();
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
@@ -211,8 +206,6 @@ class ViewController: UITableViewController {
   }
 
   func _openSystemUINavigation() {
-    CardKConfig.shared.language = "fr";
-
     if #available(iOS 13.0, *) {
       CardKConfig.shared.theme = CardKTheme.system();
     } else {
@@ -222,11 +215,38 @@ class ViewController: UITableViewController {
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
-    controller.allowedCardScaner = true
+    controller.allowedCardScaner = false
     self.navigationController?.pushViewController(controller, animated: true)
   }
   
-  func _callFunctionByKindOfButton(kind: SectionItem.Kind) {
+  func _openWitchChooseLanguage(language: String) {
+      CardKConfig.shared.language = language;
+      CardKConfig.shared.theme = CardKTheme.light()
+      
+      let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+      controller.cKitDelegate = self
+      controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
+      controller.purchaseButtonTitle = "Custom purchase button";
+
+      if #available(iOS 13.0, *) {
+        self.present(controller, animated: true)
+        return;
+      }
+
+      let navController = UINavigationController(rootViewController: controller)
+      navController.modalPresentationStyle = .formSheet
+
+      let closeBarButtonItem = UIBarButtonItem(
+        title: "Close",
+        style: .done,
+        target: self,
+        action: #selector(_close(sender:))
+      )
+      controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+      self.present(navController, animated: true)
+      CardIOUtilities.preloadCardIO()
+  }
+  func _callFunctionByKindOfButton(kind: SectionItem.Kind, language: String) {
     switch kind {
     case .lightTheme: _openController()
     case .darkTheme: _openDark()
@@ -235,22 +255,32 @@ class ViewController: UITableViewController {
     case .navLightTheme: _openLightUINavigation()
     case .navDarkTheme: _openDarkUINavigation()
     case .navSystemTheme: _openSystemUINavigation()
+    case .language: _openWitchChooseLanguage(language: language)
     }
   }
   
   var sections: [Section] = [
     Section(title: "Modal", items: [
-      SectionItem(title: "Open Light", kind: .lightTheme, isShowChevron: false),
-      SectionItem(title: "Dark Light", kind: .darkTheme, isShowChevron: false),
-      SectionItem(title: "System theme", kind: .systemTheme, isShowChevron: false),
-      SectionItem(title: "Custom theme", kind: .customTheme, isShowChevron: false)
+      SectionItem(title: "Open Light", kind: .lightTheme, isShowChevron: false, language: ""),
+      SectionItem(title: "Dark Light", kind: .darkTheme, isShowChevron: false, language: ""),
+      SectionItem(title: "System theme", kind: .systemTheme, isShowChevron: false, language: ""),
+      SectionItem(title: "Custom theme", kind: .customTheme, isShowChevron: false, language: "")
     ]),
     
     Section(title: "Navigation", items: [
-      SectionItem(title: "Open Light", kind: .navLightTheme, isShowChevron: true),
-      SectionItem(title: "Dark Light", kind: .navDarkTheme, isShowChevron: true),
-      SectionItem(title: "System theme", kind: .navSystemTheme, isShowChevron: true)
-    ])
+      SectionItem(title: "Open Light", kind: .navLightTheme, isShowChevron: true, language: ""),
+      SectionItem(title: "Dark Light", kind: .navDarkTheme, isShowChevron: true, language: ""),
+      SectionItem(title: "System theme", kind: .navSystemTheme, isShowChevron: true, language: "")
+    ]),
+    
+    Section(title: "Localization", items: [
+      SectionItem(title: "English - en", kind: .language, isShowChevron: false, language: "en"),
+      SectionItem(title: "Russian - ru", kind: .language, isShowChevron: false, language: "ru"),
+      SectionItem(title: "German - de", kind: .language, isShowChevron: false, language: "de"),
+      SectionItem(title: "French - fr", kind: .language, isShowChevron: false, language: "fr"),
+      SectionItem(title: "Spanish - es", kind: .language, isShowChevron: false, language: "es"),
+      SectionItem(title: "Ukrainian - uk", kind: .language, isShowChevron: false, language: "uk"),
+    ]),
   ]
 
   override func viewDidLoad() {
@@ -283,8 +313,8 @@ class ViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let item = self.sections[indexPath.section].items[indexPath.item];
     
-    _callFunctionByKindOfButton(kind: item.kind);
-    if indexPath.section == 0 {
+    _callFunctionByKindOfButton(kind: item.kind, language: item.language);
+    if !item.isShowChevron {
       tableView.deselectRow(at: indexPath, animated: true)
     }
   }

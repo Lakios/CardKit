@@ -10,8 +10,6 @@
 
 static CardKConfig *__instance = nil;
 
-NSString *EnglishCode = @"en";
-
 @implementation CardKConfig
 
 + (CardKConfig *)defaultConfig {
@@ -26,14 +24,10 @@ NSString *EnglishCode = @"en";
 
 + (CardKConfig *)shared {
   if (__instance == nil) {
-      __instance = [CardKConfig defaultConfig];
+    __instance = [CardKConfig defaultConfig];
   }
 
   return __instance;
-}
-
-+ (void)setConfig:(CardKConfig *)config {
-  __instance = config;
 }
 
 @end

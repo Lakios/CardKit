@@ -417,7 +417,7 @@ NSString *CardKFooterID = @"footer";
 }
 
 - (void)showScanCardView:(UIView *)view animated:(BOOL)animated {
-  CardKTheme *theme = CardKConfig.shared.language;
+  CardKTheme *theme = CardKConfig.shared.theme;
   
   _scanViewWrapper = [[ScanViewWrapper alloc] initWithFrame:self.view.bounds];
   _scanViewWrapper.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;

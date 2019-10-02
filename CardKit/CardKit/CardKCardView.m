@@ -34,8 +34,12 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   
   if (self) {
     CardKTheme *theme = CardKConfig.shared.theme;
-
+  
     _bundle = [NSBundle bundleForClass:[CardKCardView class]];
+  
+     NSString *language = CardKConfig.shared.language;
+    _bundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
+    
 
     _errorMessagesArray = [[NSMutableArray alloc] init];
     
