@@ -184,7 +184,6 @@ class ViewController: UITableViewController {
   }
 
   func _openLightUINavigation() {
-    CardKConfig.shared.language = "en"
     CardKConfig.shared.theme = CardKTheme.light();
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");

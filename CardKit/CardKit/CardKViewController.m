@@ -92,6 +92,7 @@ NSString *CardKFooterID = @"footer";
   CardKFooterView *_cardFooterView;
   CardKFooterView *_ownerFooterView;
   NSBundle *_bundle;
+  NSBundle *_languageBundle;
   NSString *_lastAnouncment;
   NSMutableArray *_ownerErrors;
 }
@@ -100,8 +101,13 @@ NSString *CardKFooterID = @"footer";
   if (self = [super initWithStyle:UITableViewStyleGrouped]) {
     _bundle = [NSBundle bundleForClass:[CardKViewController class]];
     
-     NSString *language = CardKConfig.shared.language;
-    _bundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
+    NSString *language = CardKConfig.shared.language;
+    if (language != nil) {
+      _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
+    } else {
+      _languageBundle = _bundle;
+    }
+    
     
     _pubKey = pubKey;
     _mdOrder = mdOrder;
@@ -110,7 +116,7 @@ NSString *CardKFooterID = @"footer";
 
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _bundle, @"Title");
+    _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _languageBundle, @"Title");
     
     _cardView = [[CardKCardView alloc] init];
     [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
@@ -118,7 +124,7 @@ NSString *CardKFooterID = @"footer";
     [_cardView.scanCardTapRecognizer addTarget:self action:@selector(_scanCard:)];
 
     _ownerTextField = [[CardKTextField alloc] init];
-    _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"cardholderPlaceholder", nil, _bundle, @"Card holde placeholder");
+    _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"cardholderPlaceholder", nil, _languageBundle, @"Card holde placeholder");
     [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventEditingDidBegin];
     [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventValueChanged];
     [_ownerTextField addTarget:self action:@selector(_buttonPressed:) forControlEvents:UIControlEventEditingDidEndOnExit];
@@ -128,7 +134,7 @@ NSString *CardKFooterID = @"footer";
     
     _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_doneButton
-      setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _bundle, "Submit payment button")
+      setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle, "Submit payment button")
       forState: UIControlStateNormal];
     _doneButton.frame = CGRectMake(0, 0, 200, 44);
     
@@ -143,8 +149,8 @@ NSString *CardKFooterID = @"footer";
 
 - (NSArray *)_defaultSections {
   return @[
-    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _bundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
-    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _bundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
+    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _languageBundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
+    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _languageBundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
     @{CardKRows: @[CardKButtonCellID] },
   ];
 }
@@ -324,7 +330,7 @@ NSString *CardKFooterID = @"footer";
 - (void)_validateOwner {
   [_ownerErrors removeAllObjects];
   _ownerTextField.showError = NO;
-  NSString *incorrectCardholder = NSLocalizedStringFromTableInBundle(@"incorrectCardholder", nil, _bundle, @"incorrectCardholder");
+  NSString *incorrectCardholder = NSLocalizedStringFromTableInBundle(@"incorrectCardholder", nil, _languageBundle, @"incorrectCardholder");
   
   NSString *owner = [_ownerTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   NSInteger len = owner.length;
@@ -424,7 +430,7 @@ NSString *CardKFooterID = @"footer";
   _scanViewWrapper.backgroundColor = theme.colorTableBackground;
   _scanViewWrapper.scanView = view;
   [_scanViewWrapper.backButton
-    setTitle: NSLocalizedStringFromTableInBundle(@"scanBackButton", nil, _bundle, "scanBackButton")
+    setTitle: NSLocalizedStringFromTableInBundle(@"scanBackButton", nil, _languageBundle, "scanBackButton")
     forState:UIControlStateNormal
   ];
   

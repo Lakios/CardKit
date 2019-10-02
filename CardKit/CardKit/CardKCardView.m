@@ -23,6 +23,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   CardKTextField *_focusedField;
   NSMutableArray *_errorMessagesArray;
   NSBundle *_bundle;
+  NSBundle *_languageBundle;
   BOOL _allowedCardScaner;
   NSString *_leftIconImageName;
   UIViewAnimationOptions _leftIconAnimationOptions;
@@ -37,9 +38,12 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   
     _bundle = [NSBundle bundleForClass:[CardKCardView class]];
   
-     NSString *language = CardKConfig.shared.language;
-    _bundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
-    
+    NSString *language = CardKConfig.shared.language;
+    if (language != nil) {
+      _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
+    } else {
+      _languageBundle = _bundle;
+    }
 
     _errorMessagesArray = [[NSMutableArray alloc] init];
     
@@ -56,21 +60,21 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 
     _numberTextField = [[CardKTextField alloc] init];
     _numberTextField.pattern = CardKTextFieldPatternCardNumber;
-    _numberTextField.placeholder = NSLocalizedStringFromTableInBundle(@"Card Number", nil, _bundle, @"Card number placeholder");
+    _numberTextField.placeholder = NSLocalizedStringFromTableInBundle(@"Card Number", nil, _languageBundle, @"Card number placeholder");
     _numberTextField.accessibilityLabel = nil;
     [_numberTextField showCoverView];
     
     _expireDateTextField = [[CardKTextField alloc] init];
     _expireDateTextField.pattern = CardKTextFieldPatternExpirationDate;
-    _expireDateTextField.placeholder = NSLocalizedStringFromTableInBundle(@"MM/YY", nil, _bundle, @"Expiration date placeholder");
+    _expireDateTextField.placeholder = NSLocalizedStringFromTableInBundle(@"MM/YY", nil, _languageBundle, @"Expiration date placeholder");
     _expireDateTextField.format = @"  /  ";
-    _expireDateTextField.accessibilityLabel = NSLocalizedStringFromTableInBundle(@"expiry", nil, _bundle, @"Expiration date accessiblity label");
+    _expireDateTextField.accessibilityLabel = NSLocalizedStringFromTableInBundle(@"expiry", nil, _languageBundle, @"Expiration date accessiblity label");
     
     _secureCodeTextField = [[CardKTextField alloc] init];
     _secureCodeTextField.pattern = CardKTextFieldPatternSecureCode;
-    _secureCodeTextField.placeholder = NSLocalizedStringFromTableInBundle(@"CVC", nil, _bundle, @"CVC placeholder");
+    _secureCodeTextField.placeholder = NSLocalizedStringFromTableInBundle(@"CVC", nil, _languageBundle, @"CVC placeholder");
     _secureCodeTextField.secureTextEntry = YES;
-    _secureCodeTextField.accessibilityLabel = NSLocalizedStringFromTableInBundle(@"cvc", nil, _bundle, @"CVC accessibility");
+    _secureCodeTextField.accessibilityLabel = NSLocalizedStringFromTableInBundle(@"cvc", nil, _languageBundle, @"CVC accessibility");
   
     for (CardKTextField *v in @[_numberTextField, _expireDateTextField, _secureCodeTextField]) {
       [self addSubview:v];
@@ -184,8 +188,8 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 }
 
 - (void)_clearCardNumberErrors {
-  NSString *incorrectLength = NSLocalizedStringFromTableInBundle(@"incorrectLength", nil, _bundle, @"Incorrect card length");
-  NSString *incorrectCardNumber = NSLocalizedStringFromTableInBundle(@"incorrectCardNumber", nil, _bundle, @"Incorrect card number");
+  NSString *incorrectLength = NSLocalizedStringFromTableInBundle(@"incorrectLength", nil, _languageBundle, @"Incorrect card length");
+  NSString *incorrectCardNumber = NSLocalizedStringFromTableInBundle(@"incorrectCardNumber", nil, _languageBundle, @"Incorrect card number");
   
   [_errorMessagesArray removeObject:incorrectLength];
   [_errorMessagesArray removeObject:incorrectCardNumber];
@@ -199,8 +203,8 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 - (void)_validateCardNumber {
   BOOL isValid = YES;
   NSString *cardNumber = [self number];
-  NSString *incorrectLength = NSLocalizedStringFromTableInBundle(@"incorrectLength", nil, _bundle, @"Incorrect card length");
-  NSString *incorrectCardNumber = NSLocalizedStringFromTableInBundle(@"incorrectCardNumber", nil, _bundle, @"Incorrect card number");
+  NSString *incorrectLength = NSLocalizedStringFromTableInBundle(@"incorrectLength", nil, _languageBundle, @"Incorrect card length");
+  NSString *incorrectCardNumber = NSLocalizedStringFromTableInBundle(@"incorrectCardNumber", nil, _languageBundle, @"Incorrect card number");
   
   [self _clearCardNumberErrors];
   
@@ -219,13 +223,13 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 }
 
 - (void)_clearExpireDateErrors {
-  NSString *incorrectExpiry = NSLocalizedStringFromTableInBundle(@"incorrectExpiry", nil, _bundle, @"incorrectExpiry");
+  NSString *incorrectExpiry = NSLocalizedStringFromTableInBundle(@"incorrectExpiry", nil, _languageBundle, @"incorrectExpiry");
   [_errorMessagesArray removeObject:incorrectExpiry];
 }
 
 - (void)_validateExpireDate {
   BOOL isValid = YES;
-  NSString *incorrectExpiry = NSLocalizedStringFromTableInBundle(@"incorrectExpiry", nil, _bundle, @"incorrectExpiry");
+  NSString *incorrectExpiry = NSLocalizedStringFromTableInBundle(@"incorrectExpiry", nil, _languageBundle, @"incorrectExpiry");
   [self _clearExpireDateErrors];
 
   NSString * month = [self getMonthFromExpirationDate];
@@ -254,7 +258,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 }
 
 - (void)_clearSecureCodeErrors {
-  NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _bundle, @"incorrectCvc");
+  NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _languageBundle, @"incorrectCvc");
   
   [_errorMessagesArray removeObject:incorrectCvc];
 }
@@ -262,7 +266,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
 - (void)_validateSecureCode {
   BOOL isValid = YES;
   NSString *secureCode = [self secureCode];
-  NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _bundle, @"incorrectCvc");
+  NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _languageBundle, @"incorrectCvc");
   [self _clearSecureCodeErrors];
   
   if ([secureCode length] != 3 || ![self _allDigitsInString:secureCode]) {
