@@ -65,6 +65,7 @@ class ViewController: UITableViewController {
   }
 
   func _openController() {
+    CardKConfig.shared.language = "";
     CardKConfig.shared.theme = CardKTheme.light()
     
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
@@ -93,6 +94,7 @@ class ViewController: UITableViewController {
 
   func _openDark() {
     CardKConfig.shared.theme = CardKTheme.dark();
+    CardKConfig.shared.language = "";
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.allowedCardScaner = false;
@@ -117,6 +119,7 @@ class ViewController: UITableViewController {
   }
 
   func _openSystemTheme() {
+    CardKConfig.shared.language = "";
     if #available(iOS 13.0, *) {
       CardKConfig.shared.theme = CardKTheme.system();
     } else {
@@ -157,7 +160,7 @@ class ViewController: UITableViewController {
     theme.colorButtonText = UIColor.orange;
     
     CardKConfig.shared.theme = theme;
-
+    CardKConfig.shared.language = "";
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
@@ -185,6 +188,7 @@ class ViewController: UITableViewController {
 
   func _openLightUINavigation() {
     CardKConfig.shared.theme = CardKTheme.light();
+    CardKConfig.shared.language = "";
 
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.cKitDelegate = self
@@ -196,7 +200,8 @@ class ViewController: UITableViewController {
 
   func _openDarkUINavigation() {
     CardKConfig.shared.theme = CardKTheme.dark();
-
+    CardKConfig.shared.language = "";
+    
     let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
     controller.allowedCardScaner = false;
     controller.cKitDelegate = self
@@ -205,6 +210,7 @@ class ViewController: UITableViewController {
   }
 
   func _openSystemUINavigation() {
+    CardKConfig.shared.language = "";
     if #available(iOS 13.0, *) {
       CardKConfig.shared.theme = CardKTheme.system();
     } else {
