@@ -96,8 +96,6 @@ controller.navigationItem.leftBarButtonItem = closeBarButtonItem
 self.present(navController, animated: true)
 ```
 
-Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L91).
-
 **Функция \_close**
 
 ```swift
@@ -138,8 +136,6 @@ controller.purchaseButtonTitle = "Custom purchase button";
 self.navigationController?.pushViewController(controller, animated: true)
 ```
 
-Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L182).
-
 **Результат**
 
 ![Result IOS 13](/images/form_in_new_window.png)
@@ -161,8 +157,6 @@ func cardKitViewController(_ controller: CardKViewController, didCreateSeToken s
   controller.present(alert, animated: true)
 }
 ```
-
-Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L284).
 
 ## Работа с Card.io
 
@@ -211,8 +205,6 @@ func cardKitViewControllerScanCardRequest(_ controller: CardKViewController) {
 }
 ```
 
-Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L294).
-
 3. атрибуту allowedCardScaner присвоить значение `True`. Желательно использовать функция `CardIOUtilities.canReadCardWithCamera()`;
 
 4. вызвать функцию CardIOUtilities.preloadCardIO();
@@ -226,8 +218,6 @@ func _openController() {
   CardIOUtilities.preloadCardIO()
 }
 ```
-
-Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L64).
 
 ## Переопределение темы
 
@@ -262,5 +252,3 @@ func _openCustomTheme() {
   ...
 }
 ```
-
-Пример функции можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L145).
