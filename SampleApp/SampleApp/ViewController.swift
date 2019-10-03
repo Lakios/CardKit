@@ -68,11 +68,12 @@ class ViewController: UITableViewController {
     CardKConfig.shared.language = "";
     CardKConfig.shared.theme = CardKTheme.light()
     
-    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    let controller = CardKViewController(mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
-
+    controller.isTestMod = true;
+    
     if #available(iOS 13.0, *) {
       self.present(controller, animated: true)
       return;
@@ -96,7 +97,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.theme = CardKTheme.dark();
     CardKConfig.shared.language = "";
 
-    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    let controller = CardKViewController(mdOrder:"mdOrder");
     controller.allowedCardScaner = false;
     controller.cKitDelegate = self
 
@@ -126,7 +127,7 @@ class ViewController: UITableViewController {
       CardKConfig.shared.theme = CardKTheme.default();
     };
 
-    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    let controller = CardKViewController(mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = true
 
@@ -162,7 +163,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.theme = theme;
     CardKConfig.shared.language = "";
 
-    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    let controller = CardKViewController(mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
@@ -190,10 +191,11 @@ class ViewController: UITableViewController {
     CardKConfig.shared.theme = CardKTheme.light();
     CardKConfig.shared.language = "";
 
-    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    let controller = CardKViewController(mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = false;
     controller.purchaseButtonTitle = "Custom purchase button";
+    controller.isTestMod = true;
 
     self.navigationController?.pushViewController(controller, animated: true)
   }
@@ -202,7 +204,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.theme = CardKTheme.dark();
     CardKConfig.shared.language = "";
     
-    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    let controller = CardKViewController(mdOrder:"mdOrder");
     controller.allowedCardScaner = false;
     controller.cKitDelegate = self
 
@@ -210,15 +212,14 @@ class ViewController: UITableViewController {
   }
 
   func _openSystemUINavigation() {
-    CardKConfig.shared.language = "";
+    
     if #available(iOS 13.0, *) {
       CardKConfig.shared.theme = CardKTheme.system();
     } else {
       CardKConfig.shared.theme = CardKTheme.default();
     };
 
-
-    let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+    let controller = CardKViewController(mdOrder:"mdOrder");
     controller.cKitDelegate = self
     controller.allowedCardScaner = false
     self.navigationController?.pushViewController(controller, animated: true)
@@ -228,7 +229,7 @@ class ViewController: UITableViewController {
       CardKConfig.shared.language = language;
       CardKConfig.shared.theme = CardKTheme.light()
       
-      let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+      let controller = CardKViewController(mdOrder:"mdOrder");
       controller.cKitDelegate = self
       controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
       controller.purchaseButtonTitle = "Custom purchase button";

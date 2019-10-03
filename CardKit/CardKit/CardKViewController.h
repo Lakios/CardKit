@@ -31,12 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Разрешить исспользование сканера карточки. */
 @property BOOL allowedCardScaner;
 
+/*! Режим запуска */
+@property BOOL isTestMod;
 /*!
 @brief Инициализация CardKViewController
-@param pubKey Строка содержащая публичный ключ, для генерации seToken.
 @param mdOrder Строка содержащая идентификатор заказа.
 */
-- (instancetype)initWithPublicKey:(NSString *)pubKey mdOrder:(NSString *)mdOrder;
+- (instancetype)initWithMdOrder:(NSString *)mdOrder;
 
 /*!
 @brief Присвоить данные карты
