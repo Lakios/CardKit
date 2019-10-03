@@ -8,13 +8,20 @@ SDK содержит два класса и один делегат.
 
 ```swift
 // Светлая тема
-CardKTheme.setTheme(CardKTheme.light());
+ CardKConfig.shared.theme = CardKTheme.light();
 
 // Темная тема
-CardKTheme.setTheme(CardKTheme.dark());
+ CardKConfig.shared.theme = CardKTheme.dark();
 
 // Системная тема iOS ТОЛЬКО ДЛЯ IOS 13.0+ (поддерживает авто переключение)
-CardKTheme.setTheme(CardKTheme.system());
+ CardKConfig.shared.theme = CardKTheme.system();
+```
+
+## Локализация
+
+```swift
+ // language = "ru" | "en" | "es" | "de" | "fr" | "uk";
+ CardKConfig.shared.language = language;
 ```
 
 ## Инициализация CardKViewController
@@ -40,7 +47,7 @@ CardKViewController(publicKey: publicKey, mdOrder: mdOrder);
 
 ```swift
 // ViewController.swift
-CardKTheme.setTheme(CardKTheme.dark());
+CardKConfig.shared.theme = CardKTheme.dark();
 
 let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
 controller.cKitDelegate = self
@@ -115,7 +122,7 @@ self.present(navController, animated: true)
 
 ```swift
 // ViewController.swift
-CardKTheme.setTheme(CardKTheme.light());
+CardKConfig.shared.theme = CardKTheme.light();
 
 let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
 controller.cKitDelegate = self

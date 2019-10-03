@@ -135,8 +135,8 @@ extension ViewController: CardKViewControllerDelegate {
 //ViewController.swift
 ...
 @objc func _openController() {
-  CardKTheme.setTheme(CardKTheme.light());
-
+  CardKConfig.shared.theme = CardKTheme.light();
+  CardKConfig.shared.language = "en";
   let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
   controller.cKitDelegate = self
   controller.allowedCardScaner = false;
