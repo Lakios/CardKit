@@ -26,20 +26,20 @@ SDK содержит два класса и один делегат.
 
 ## Инициализация CardKViewController
 
-- publicKey - строка содержащая публичный ключ, для генерации seToken;
 - mdOrder - строка содержащая идентификатор заказа.
 
 ```swift
-CardKViewController(publicKey: publicKey, mdOrder: mdOrder);
+CardKViewController(mdOrder: mdOrder);
 ```
 
 ## Свойства объекта CardKViewController
 
-|  Название Свойства  |           Тип данных            |  Значение по умолчанию  | Опциональное | Описание                                   |
-| :-----------------: | :-----------------------------: | :---------------------: | :----------: | ------------------------------------------ |
-|    cKitDelegate     | id<CardKViewControllerDelegate> |          `nil`          |     Нет      | -                                          |
-|  allowedCardScaner  |              BOOL               |         `false`         |      Да      | Разрешить исспользование сканера карточки. |
-| purchaseButtonTitle |             String              | `Purchase` / `Оплатить` |      Да      | Переопределения текста кнопки.             |
+|  Название Свойства  |           Тип данных            |  Значение по умолчанию  | Опциональное | Описание                                              |
+| :-----------------: | :-----------------------------: | :---------------------: | :----------: | ----------------------------------------------------- |
+|    cKitDelegate     | id<CardKViewControllerDelegate> |          `nil`          |     Нет      | -                                                     |
+|  allowedCardScaner  |              BOOL               |         `false`         |      Да      | Разрешить исспользование сканера карточки.            |
+| purchaseButtonTitle |             String              | `Purchase` / `Оплатить` |      Да      | Переопределения текста кнопки.                        |
+|      isTestMod      |              BOOL               |         `false`         |      Да      | Запуск в тестовом режиме, для выбора тестовых ключей. |
 
 ## Поддержка IPad. Отображение формы в Popover
 
@@ -49,7 +49,7 @@ CardKViewController(publicKey: publicKey, mdOrder: mdOrder);
 // ViewController.swift
 CardKConfig.shared.theme = CardKTheme.dark();
 
-let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+let controller = CardKViewController(mdOrder:"mdOrder");
 controller.cKitDelegate = self
 controller.allowedCardScaner = false;
 ...
@@ -122,7 +122,7 @@ self.present(navController, animated: true)
 // ViewController.swift
 CardKConfig.shared.theme = CardKTheme.light();
 
-let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+let controller = CardKViewController(mdOrder:"mdOrder");
 controller.cKitDelegate = self
 controller.allowedCardScaner = true
 controller.purchaseButtonTitle = "Custom purchase button";

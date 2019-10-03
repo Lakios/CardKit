@@ -138,10 +138,11 @@ extension ViewController: CardKViewControllerDelegate {
   CardKConfig.shared.theme = CardKTheme.light();
   CardKConfig.shared.language = "en";
 
-  let controller = CardKViewController(publicKey: publicKey, mdOrder:"mdOrder");
+  let controller = CardKViewController(mdOrder:"mdOrder");
   controller.cKitDelegate = self
   controller.allowedCardScaner = false;
   controller.purchaseButtonTitle = "Custom purchase button";
+  controller.isTestMod = `false`
 
   if #available(iOS 13.0, *) {
     self.present(controller, animated: true)
