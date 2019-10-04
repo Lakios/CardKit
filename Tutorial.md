@@ -92,30 +92,10 @@ import CardKit
 
 ## 3. Использование SDK
 
-3.1 Создать переменную `publicKey`.
+3.1 Реализовать функцию cardKitViewController
 
 ```swift
 //ViewController.swift
-...
-let publicKey = """
------BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiDgvGLU1dFQ0tA0Epbpj
-1gbbAz9/lvZdTyspHCPQ4zTYki1xER8Dy99jzxj83VIiamnwkHUsmcg5mxXfRI/Y
-7mDq9LT1mmoM5RytpfuuFELWrBE59jZzc4FgwcVdvR8oV4ol7RDPDHpSxl9ihC1h
-2KZ/GoKi9G6TULRzD+hLeo9vIpC0vIIGUyxDWtOWi0yDf4MYisUKmgbYya+Z5oOD
-ANHUCiJuMMuuH7ot6hJPxZ61LE0FQP6pxo+r1cezGekwlc8NrKq3XeeNgu4kWFXN
-TBSwAcNAizIvEY4wrqc4ARR3nTlwAxkye9bTNVNROMMiMtu1ERGyRFjI7wnSmRnN
-EwIDAQAB
------END PUBLIC KEY-----
-"""
-...
-```
-
-3.2 Реализовать функцию cardKitViewController
-
-```swift
-//ViewController.swift
-...
 extension ViewController: CardKViewControllerDelegate {
   func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {
     debugPrint(seToken)
@@ -129,7 +109,7 @@ extension ViewController: CardKViewControllerDelegate {
 }
 ```
 
-3.3 Реализовать функцию вызова формы
+3.2 Реализовать функцию вызова формы
 
 ```swift
 //ViewController.swift
