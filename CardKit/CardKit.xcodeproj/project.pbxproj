@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9219F465232B8EF100841B98 /* CardKFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9219F463232B8EF100841B98 /* CardKFooterView.h */; };
 		9219F466232B8EF100841B98 /* CardKFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9219F464232B8EF100841B98 /* CardKFooterView.m */; };
+		92985C85246A96F4009B7392 /* CardKSwitchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 92985C83246A96F4009B7392 /* CardKSwitchView.h */; };
+		92985C86246A96F4009B7392 /* CardKSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92985C84246A96F4009B7392 /* CardKSwitchView.m */; };
 		92A1461A23435C6B002FBCC3 /* CardKConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 92A1461823435C6B002FBCC3 /* CardKConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92A1461B23435C6B002FBCC3 /* CardKConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 92A1461923435C6B002FBCC3 /* CardKConfig.m */; };
 		D20CEBCD232F660400F9407C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D20CEBCF232F660400F9407C /* Localizable.strings */; };
@@ -48,6 +50,8 @@
 /* Begin PBXFileReference section */
 		9219F463232B8EF100841B98 /* CardKFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKFooterView.h; sourceTree = "<group>"; };
 		9219F464232B8EF100841B98 /* CardKFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKFooterView.m; sourceTree = "<group>"; };
+		92985C83246A96F4009B7392 /* CardKSwitchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKSwitchView.h; sourceTree = "<group>"; };
+		92985C84246A96F4009B7392 /* CardKSwitchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKSwitchView.m; sourceTree = "<group>"; };
 		92A1461823435C6B002FBCC3 /* CardKConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKConfig.h; sourceTree = "<group>"; };
 		92A1461923435C6B002FBCC3 /* CardKConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKConfig.m; sourceTree = "<group>"; };
 		D20CEBCE232F660400F9407C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -147,6 +151,8 @@
 				9219F464232B8EF100841B98 /* CardKFooterView.m */,
 				92A1461823435C6B002FBCC3 /* CardKConfig.h */,
 				92A1461923435C6B002FBCC3 /* CardKConfig.m */,
+				92985C83246A96F4009B7392 /* CardKSwitchView.h */,
+				92985C84246A96F4009B7392 /* CardKSwitchView.m */,
 			);
 			path = CardKit;
 			sourceTree = "<group>";
@@ -168,6 +174,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D245ABC0231C4C2900369747 /* RSA.h in Headers */,
+				92985C85246A96F4009B7392 /* CardKSwitchView.h in Headers */,
 				D245ABC8231C529D00369747 /* CardKTheme.h in Headers */,
 				D2D0B367232122620007B3B9 /* PaymentSystemProvider.h in Headers */,
 				D2690811231FB000001CB863 /* CardKCardView.h in Headers */,
@@ -286,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2D0B368232122620007B3B9 /* PaymentSystemProvider.m in Sources */,
+				92985C86246A96F4009B7392 /* CardKSwitchView.m in Sources */,
 				D2D0B35F2320E3AC0007B3B9 /* CardKBankLogoView.m in Sources */,
 				9219F466232B8EF100841B98 /* CardKFooterView.m in Sources */,
 				D269080E231FA894001CB863 /* CardKTextField.m in Sources */,

@@ -13,9 +13,11 @@
 #import "CardKFooterView.h"
 #import "RSA.h"
 #import "CardKConfig.h"
+#import "CardKSwitchView.h"
 
 const NSString *CardKCardCellID = @"card";
 const NSString *CardKOwnerCellID = @"owner";
+const NSString *CardKSwitchCellID = @"switch";
 const NSString *CardKButtonCellID = @"button";
 const NSString *CardKRows = @"rows";
 const NSString *CardKSectionTitle = @"title";
@@ -86,6 +88,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
 
   NSString *_mdOrder;
   BOOL _isTestMod;
+  BOOL _allowSaveBindings;
   
   ScanViewWrapper *_scanViewWrapper;
   
@@ -94,13 +97,14 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   CardKTextField *_ownerTextField;
   CardKCardView *_cardView;
   UIButton *_doneButton;
-  NSArray *_sections;
+  NSMutableArray *_sections;
   CardKFooterView *_cardFooterView;
   CardKFooterView *_ownerFooterView;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSString *_lastAnouncment;
   NSMutableArray *_ownerErrors;
+  CardKSwitchView *_switchView;
 }
 
 - (instancetype)initWithMdOrder:(NSString *)mdOrder {
@@ -147,18 +151,29 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
     [_doneButton addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
   
+    _switchView = [[CardKSwitchView alloc] init];
+    _switchView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    _switchView.title = NSLocalizedStringFromTableInBundle(@"switchViewTitle", nil, _languageBundle, @"Save card's data");
+
     _sections = [self _defaultSections];
   }
   
   return self;
 }
 
-- (NSArray *)_defaultSections {
-  return @[
+- (NSMutableArray *)_defaultSections {
+  NSArray *sections = @[
     @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _languageBundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
     @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _languageBundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
-    @{CardKRows: @[CardKButtonCellID] },
+
+    @{CardKRows: @[CardKButtonCellID]},
   ];
+  
+  NSMutableArray *defaultSections = [[NSMutableArray alloc] initWithCapacity:3];
+  
+  [defaultSections setArray:sections];
+
+  return defaultSections;
 }
 
 - (void)_animateError {
@@ -171,6 +186,17 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
 
 - (BOOL)allowedCardScaner {
   return _cardView.allowedCardScaner;
+}
+
+- (void)setAllowSaveBindings:(BOOL)allowSaveBindings {
+  if (allowSaveBindings) {
+    [_sections insertObject:@{CardKRows: @[CardKSwitchCellID]} atIndex:2];
+  }
+  _allowSaveBindings = allowSaveBindings;
+}
+
+- (BOOL) allowSaveBindings {
+  return _allowSaveBindings;
 }
 
 - (void)_cardChanged {
@@ -234,8 +260,8 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   
   _doneButton.tintColor = theme.colorButtonText;
-  
-  for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
+      
+  for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID, CardKSwitchCellID]) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
   
@@ -309,6 +335,8 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
     [cell.contentView addSubview:_ownerTextField];
   } else if ([CardKButtonCellID isEqual:cellID]) {
     [cell addSubview:_doneButton];
+  } else if ([CardKSwitchCellID isEqual:cellID]) {
+    [cell addSubview:_switchView];
   }
   
   if (theme.colorCellBackground != nil) {

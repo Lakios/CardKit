@@ -33,6 +33,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*! Режим запуска */
 @property BOOL isTestMod;
+
+/*! Разрешить сохранение карты*/
+@property BOOL allowSaveBindings;
+
+/*! Разрешить использование apple pay*/
+@property BOOL allowApplePay;
+
 /*!
 @brief Инициализация CardKViewController
 @param mdOrder Строка содержащая идентификатор заказа.

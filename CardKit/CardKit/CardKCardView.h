@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) NSArray *errorMessages;
 @property BOOL allowedCardScaner;
 @property (strong, readonly) UITapGestureRecognizer *scanCardTapRecognizer;
-
 -(nullable NSString *)getMonthFromExpirationDate;
 -(nullable NSString *)getFullYearFromExpirationDate;
 -(void)validate;
