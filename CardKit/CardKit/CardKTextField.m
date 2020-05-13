@@ -438,7 +438,6 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   
   _coverView.frame = CGRectMake(0, 10, 6, boundsSize.height - 20);
 
-//  if (_textField.text.length )
   [_coverView setHidden:NO];
 }
 

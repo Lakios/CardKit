@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CardKViewController : UITableViewController
 
-/*! Lелегат контроллера*/
+/*! Делегат контроллера*/
 @property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
 
 /*! Переопределить текст кнопки */
