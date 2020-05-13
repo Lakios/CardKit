@@ -42,8 +42,8 @@
       
       
     _toggle = [[UISwitch alloc] init];
-    [_toggle setOn:YES];
-    [_toggle addTarget:self action:@selector(switchIsChanged:) forControlEvents:UIControlEventValueChanged];
+    [_toggle setOn:NO];
+    [_toggle addTarget:self action:@selector(onSwich:) forControlEvents:UIControlEventValueChanged];
 
     _titleLabel = [[UILabel alloc] init];
     [_titleLabel setTextColor: _theme.colorPlaceholder];
@@ -55,8 +55,7 @@
   return self;
 }
 
-- (void) switchIsChanged:(UISwitch *)paramSender{
-}
+- (void) onSwich:(UISwitch *)paramSender{}
 
 - (void)layoutSubviews {
   [super layoutSubviews];
