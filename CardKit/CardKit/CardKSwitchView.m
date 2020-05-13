@@ -32,25 +32,24 @@
     _theme = CardKConfig.shared.theme;
 
     _bundle = [NSBundle bundleForClass:[CardKSwitchView class]];
-  
+
     NSString *language = CardKConfig.shared.language;
     if (language != nil) {
       _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
     } else {
       _languageBundle = _bundle;
     }
-
       
-    _toggle = [[UISwitch alloc] initWithFrame:CGRectMake(10, 10, 100, 100)];
+      
+    _toggle = [[UISwitch alloc] init];
     [_toggle setOn:YES];
     [_toggle addTarget:self action:@selector(switchIsChanged:) forControlEvents:UIControlEventValueChanged];
 
     _titleLabel = [[UILabel alloc] init];
     [_titleLabel setTextColor: _theme.colorPlaceholder];
-  
+    _titleLabel.text = NSLocalizedStringFromTableInBundle(@"switchViewTitle", nil, _languageBundle, @"Save card's data");
     [self addSubview:_titleLabel];
     [self addSubview:_toggle];
-    self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   }
   
   return self;
@@ -59,20 +58,14 @@
 - (void) switchIsChanged:(UISwitch *)paramSender{
 }
 
-- (void)setTitle:(NSString *)title {
-  _titleLabel.text = title;
-  _title = title;
-}
-
-- (NSString *)title {
-  return _title;
-}
-
 - (void)layoutSubviews {
   [super layoutSubviews];
+  CGSize boundsSize = self.bounds.size;
 
-  _toggle.frame = CGRectMake(5, 6, 50, 44);
-  _titleLabel.frame = CGRectMake(60, 0, 1000, 44);
+  if (@available(iOS 11.0, *)) {
+    _toggle.frame = CGRectMake(self.safeAreaInsets.left + 5, 6, 50, 44);
+    _titleLabel.frame = CGRectMake(self.safeAreaInsets.left + 60, 0, boundsSize.width - 50, 44);
+  }
 }
 
 @end

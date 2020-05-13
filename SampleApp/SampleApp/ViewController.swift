@@ -73,6 +73,7 @@ class ViewController: UITableViewController {
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
     controller.isTestMod = true;
+    controller.allowSaveBindings = true;
     
     if #available(iOS 13.0, *) {
       self.present(controller, animated: true)

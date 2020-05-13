@@ -152,8 +152,6 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
     forControlEvents:UIControlEventTouchUpInside];
   
     _switchView = [[CardKSwitchView alloc] init];
-    _switchView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    _switchView.title = NSLocalizedStringFromTableInBundle(@"switchViewTitle", nil, _languageBundle, @"Save card's data");
 
     _sections = [self _defaultSections];
   }
@@ -336,6 +334,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   } else if ([CardKButtonCellID isEqual:cellID]) {
     [cell addSubview:_doneButton];
   } else if ([CardKSwitchCellID isEqual:cellID]) {
+    _switchView.frame = cell.contentView.bounds;
     [cell addSubview:_switchView];
   }
   
