@@ -161,9 +161,12 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
 
 - (NSMutableArray *)_defaultSections {
   NSArray *sections = @[
-    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _languageBundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
-    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _languageBundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
-
+    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _languageBundle, @"Card section title"),
+      CardKRows: @[CardKCardCellID]
+    },
+    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _languageBundle, @"Cardholder section title"),
+      CardKRows: @[CardKOwnerCellID]
+    },
     @{CardKRows: @[CardKButtonCellID]},
   ];
   
@@ -335,6 +338,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
     [cell addSubview:_doneButton];
   } else if ([CardKSwitchCellID isEqual:cellID]) {
     _switchView.frame = cell.contentView.bounds;
+    cell.accessoryView = [_switchView getSwitch];
     [cell addSubview:_switchView];
   }
   

@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CardKSwitchView : UIView
 
 @property NSString *title;
+- (UISwitch *) getSwitch;
 
 @end
 

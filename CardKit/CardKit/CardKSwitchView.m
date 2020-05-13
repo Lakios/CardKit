@@ -55,6 +55,10 @@
   return self;
 }
 
+- (UISwitch *) getSwitch {
+  return _toggle;
+}
+
 - (void) onSwich:(UISwitch *)paramSender{}
 
 - (void)layoutSubviews {
@@ -62,8 +66,7 @@
   CGSize boundsSize = self.bounds.size;
 
   if (@available(iOS 11.0, *)) {
-    _toggle.frame = CGRectMake(self.safeAreaInsets.left + 5, 6, 50, 44);
-    _titleLabel.frame = CGRectMake(self.safeAreaInsets.left + 60, 0, boundsSize.width - 50, 44);
+    _titleLabel.frame = CGRectMake(self.safeAreaInsets.left + 5, 0, boundsSize.width - 50, 44);
   }
 }
 
