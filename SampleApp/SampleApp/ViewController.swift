@@ -73,14 +73,18 @@ class ViewController: UITableViewController {
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
     controller.isTestMod = true;
-    controller.allowSaveBindings = true;
-    
+    controller.allowSaveBindings = false;
+   
+    let kindPaymentController = CardKKindPaymentViewController();
+    kindPaymentController.controller = controller;
+
     if #available(iOS 13.0, *) {
-      self.present(controller, animated: true)
+      self.present(kindPaymentController, animated: true)
+      
       return;
     }
 
-    let navController = UINavigationController(rootViewController: controller)
+    let navController = UINavigationController(rootViewController: kindPaymentController)
     navController.modalPresentationStyle = .formSheet
 
     let closeBarButtonItem = UIBarButtonItem(
@@ -89,7 +93,7 @@ class ViewController: UITableViewController {
       target: self,
       action: #selector(_close(sender:))
     )
-    controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+    kindPaymentController.navigationItem.leftBarButtonItem = closeBarButtonItem
     self.present(navController, animated: true)
     CardIOUtilities.preloadCardIO()
   }
