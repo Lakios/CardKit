@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CardKViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UITableViewController (CardKKindPaymentViewController)
+@interface CardKKindPaymentViewController : UITableViewController
+
+@property (nonatomic) CardKViewController *controller;
 
 @end
 
