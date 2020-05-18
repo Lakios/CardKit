@@ -14,7 +14,7 @@
 #import "RSA.h"
 #import "CardKConfig.h"
 #import "CardKSwitchView.h"
-
+#import "CardKKindPaymentViewController.h"
 const NSString *CardKCardCellID = @"card";
 const NSString *CardKOwnerCellID = @"owner";
 const NSString *CardKSwitchCellID = @"switch";
@@ -111,6 +111,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   if (self = [super initWithStyle:UITableViewStyleGrouped]) {
     _bundle = [NSBundle bundleForClass:[CardKViewController class]];
     
+
     NSString *language = CardKConfig.shared.language;
     if (language != nil) {
       _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
@@ -157,6 +158,25 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   }
   
   return self;
+}
+
+
+
+- (void)viewWillAppear:(BOOL)animated {
+  [_cKitDelegate willShowController:self];
+}
+
++(UINavigationController *) create:(id<CardKViewControllerDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller {
+  UINavigationController *_nController = [UINavigationController alloc];
+ 
+  if (!CardKConfig.shared.allowApplePay && !CardKConfig.shared.allowSaveBindings) {
+    return [_nController initWithRootViewController:controller];
+  }
+  
+  CardKKindPaymentViewController *cardKKindPaymentViewController = [[CardKKindPaymentViewController alloc] init];
+  
+  cardKKindPaymentViewController.controller = controller;
+  return [_nController initWithRootViewController:cardKKindPaymentViewController];
 }
 
 - (NSMutableArray *)_defaultSections {

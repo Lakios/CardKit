@@ -67,35 +67,15 @@ class ViewController: UITableViewController {
   func _openController() {
     CardKConfig.shared.language = "";
     CardKConfig.shared.theme = CardKTheme.light()
-    
+    CardKConfig.shared.allowSaveBindings = false;
+    CardKConfig.shared.allowApplePay = false;
+
     let controller = CardKViewController(mdOrder:"mdOrder");
-    controller.cKitDelegate = self
-    controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
-    controller.purchaseButtonTitle = "Custom purchase button";
-    controller.isTestMod = true;
-    controller.allowSaveBindings = false;
-   
-    let kindPaymentController = CardKKindPaymentViewController();
-    kindPaymentController.controller = controller;
+    controller.cKitDelegate = self;
 
-    if #available(iOS 13.0, *) {
-      self.present(kindPaymentController, animated: true)
-      
-      return;
-    }
+    let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
 
-    let navController = UINavigationController(rootViewController: kindPaymentController)
-    navController.modalPresentationStyle = .formSheet
-
-    let closeBarButtonItem = UIBarButtonItem(
-      title: "Close",
-      style: .done,
-      target: self,
-      action: #selector(_close(sender:))
-    )
-    kindPaymentController.navigationItem.leftBarButtonItem = closeBarButtonItem
-    self.present(navController, animated: true)
-    CardIOUtilities.preloadCardIO()
+    self.present(createdNavController, animated: true, completion: nil);
   }
 
   func _openDark() {
@@ -195,14 +175,16 @@ class ViewController: UITableViewController {
   func _openLightUINavigation() {
     CardKConfig.shared.theme = CardKTheme.light();
     CardKConfig.shared.language = "";
+    CardKConfig.shared.allowSaveBindings = false;
+    CardKConfig.shared.allowApplePay = true;
+
 
     let controller = CardKViewController(mdOrder:"mdOrder");
     controller.cKitDelegate = self
-    controller.allowedCardScaner = false;
-    controller.purchaseButtonTitle = "Custom purchase button";
-    controller.isTestMod = true;
 
-    self.navigationController?.pushViewController(controller, animated: true)
+    let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
+    
+    self.present(createdNavController, animated: true)
   }
 
   func _openDarkUINavigation() {
@@ -336,6 +318,13 @@ class ViewController: UITableViewController {
 }
 
 extension ViewController: CardKViewControllerDelegate {
+  func willShow(_ controller: CardKViewController) {
+    controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
+    controller.purchaseButtonTitle = "Custom purchase button";
+    controller.isTestMod = true;
+    controller.allowSaveBindings = true;
+  }
+  
   func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {
     debugPrint(seToken)
 
@@ -343,7 +332,6 @@ extension ViewController: CardKViewControllerDelegate {
     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
     controller.present(alert, animated: true)
-    
   }
   
   func cardKitViewControllerScanCardRequest(_ controller: CardKViewController) {

@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol CardKViewControllerDelegate <NSObject>
 
 - (void)cardKitViewController:(CardKViewController *)controller didCreateSeToken:(NSString *)seToken;
+- (void)willShowController:(CardKViewController *) controller;
+
 @optional - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller;
 
 @end
@@ -61,6 +63,9 @@ NS_ASSUME_NONNULL_BEGIN
 @param animated Анимировать появления сканера карты.
 */
 - (void)showScanCardView:(UIView *)view animated:(BOOL)animated;
+
+
++(UINavigationController *) create:(id<CardKViewControllerDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller;
 
 @end
 

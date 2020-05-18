@@ -18,6 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *language;
 
 @property (class, readonly, strong, nonatomic) CardKConfig *shared;
+
+/*! Разрешить сохранение карты*/
+@property BOOL allowSaveBindings;
+
+/*! Разрешить использование apple pay*/
+@property BOOL allowApplePay;
+
 @end
 
 NS_ASSUME_NONNULL_END

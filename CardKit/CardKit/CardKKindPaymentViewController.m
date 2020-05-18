@@ -64,6 +64,7 @@ const NSString *CardKKindPayRows = @"rows";
 }
 - (void)setController:(CardKViewController *)controller {
   _controller = controller;
+  
 }
 
 - (CardKViewController *)controller {
