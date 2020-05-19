@@ -166,7 +166,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   [_cKitDelegate willShowController:self];
 }
 
-+(UINavigationController *) create:(id<CardKViewControllerDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller {
++(UIViewController *) create:(id<CardKViewControllerDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller {
   UINavigationController *_nController = [UINavigationController alloc];
  
   if (!CardKConfig.shared.allowApplePay && !CardKConfig.shared.allowSaveBindings) {
@@ -176,7 +176,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   CardKKindPaymentViewController *cardKKindPaymentViewController = [[CardKKindPaymentViewController alloc] init];
   
   cardKKindPaymentViewController.controller = controller;
-  return [_nController initWithRootViewController:cardKKindPaymentViewController];
+  return cardKKindPaymentViewController;
 }
 
 - (NSMutableArray *)_defaultSections {

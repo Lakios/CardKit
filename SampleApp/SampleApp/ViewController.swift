@@ -184,7 +184,7 @@ class ViewController: UITableViewController {
 
     let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
     
-    self.present(createdNavController, animated: true)
+    self.navigationController?.pushViewController(createdNavController, animated: true);
   }
 
   func _openDarkUINavigation() {

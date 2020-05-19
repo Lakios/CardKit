@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showScanCardView:(UIView *)view animated:(BOOL)animated;
 
 
-+(UINavigationController *) create:(id<CardKViewControllerDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller;
++(UIViewController *) create:(id<CardKViewControllerDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller;
 
 @end
 
