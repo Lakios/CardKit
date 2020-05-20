@@ -9,6 +9,7 @@
 #import "CardKKindPaymentViewController.h"
 #import "CardKViewController.h"
 #import "CardKConfig.h"
+#import "SavedCardItem.h"
 
 const NSString *CardKApplePayllID = @"applePay";
 const NSString *CardKSavedCardsCellID = @"savedCards";
@@ -20,6 +21,7 @@ const NSString *CardKKindPayRows = @"rows";
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSArray *_sections;
+  NSArray *_savedCards;
 }
 
 - (instancetype)init {
@@ -45,7 +47,9 @@ const NSString *CardKKindPayRows = @"rows";
     [_button addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
     
+    _savedCards = @[@"1", @"2", @"3"];
     _sections = [self _defaultSections];
+    
   }
   return self;
 }
@@ -59,9 +63,9 @@ const NSString *CardKKindPayRows = @"rows";
 
 - (NSArray *)_defaultSections {
   return @[
-    @{CardKKindPayRows: @[CardKApplePayllID]},
-    @{CardKKindPayRows: @[CardKSavedCardsCellID]},
-    @{CardKKindPayRows: @[CardKPayCardButtonCellID]},
+    @{CardKKindPayRows: @[@{CardKApplePayllID: @[]}]},
+      @{CardKKindPayRows: @[@{CardKSavedCardsCellID: _savedCards}] },
+    @{CardKKindPayRows: @[@{CardKPayCardButtonCellID: @[]}]},
   ];
 }
 
@@ -92,20 +96,33 @@ const NSString *CardKKindPayRows = @"rows";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [_sections[section][CardKKindPayRows] count];
+  NSArray *keys = [_sections[section][CardKKindPayRows][0] allKeys];
+  NSString *keyName = keys[0];
+  NSArray *test = _sections[section][CardKKindPayRows][0][keyName];
+  
+  return [test count] == 0 ? 1 : [test count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSString *cellID = _sections[indexPath.section][CardKKindPayRows][indexPath.row] ?: @"unknown";
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
+  NSString *cellID = [_sections[indexPath.section][CardKKindPayRows][0] allKeys][0];
+  
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellID forIndexPath:indexPath];
 
-  if ([CardKApplePayllID isEqual:cellID] || [CardKSavedCardsCellID isEqual:cellID]) {
-   UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
-   [cell addSubview:label];
-   label.text = [NSString stringWithFormat:@"index = %ld", (long)indexPath.section];
+  if ([CardKApplePayllID isEqual:cellID]) {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
+    [cell addSubview:label];
+    label.text = [NSString stringWithFormat:@"index = %ld", (long)indexPath.section];
+  } else if([CardKSavedCardsCellID isEqual:cellID]) {
+    SavedCardItem *savedCardItem = [[SavedCardItem alloc] init];
+    NSArray *savedCards = _sections[indexPath.section][CardKKindPayRows][0][cellID];
+    
+    
+    [cell addSubview:savedCardItem];
+    
+    savedCardItem.title = savedCards[indexPath.row];
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
-   [cell addSubview:_button];
+    [cell addSubview:_button];
   }
    
   CardKTheme *theme = CardKConfig.shared.theme;
