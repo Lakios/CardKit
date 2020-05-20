@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) NSString *number;
 @property (strong) NSString *expirationDate;
 @property (strong) NSString *secureCode;
+@property (strong) NSString *bindingId;
 @property (strong) NSArray *errorMessages;
 @property BOOL allowedCardScaner;
 @property (strong, readonly) UITapGestureRecognizer *scanCardTapRecognizer;

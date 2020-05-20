@@ -109,58 +109,67 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
 
 - (instancetype)initWithMdOrder:(NSString *)mdOrder {
   if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-    _bundle = [NSBundle bundleForClass:[CardKViewController class]];
-    
-
-    NSString *language = CardKConfig.shared.language;
-    if (language != nil) {
-      _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
-    } else {
-      _languageBundle = _bundle;
-    }
-    
-    _pubKey = CardKProdKey;
-
     _mdOrder = mdOrder;
-    
-    _ownerErrors = [[NSMutableArray alloc] init];
 
-    _bankLogoView = [[CardKBankLogoView alloc] init];
-    _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _languageBundle, @"Title");
-    
-    _cardView = [[CardKCardView alloc] init];
-    [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
-    [_cardView addTarget:self action:@selector(_switchToOwner) forControlEvents:UIControlEventEditingDidEndOnExit];
-    [_cardView.scanCardTapRecognizer addTarget:self action:@selector(_scanCard:)];
-
-    _ownerTextField = [[CardKTextField alloc] init];
-    _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"cardholderPlaceholder", nil, _languageBundle, @"Card holde placeholder");
-    [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventEditingDidBegin];
-    [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventValueChanged];
-    [_ownerTextField addTarget:self action:@selector(_buttonPressed:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    _ownerTextField.stripRegexp = @"[^a-zA-Z' .]";
-    _ownerTextField.keyboardType = UIKeyboardTypeASCIICapable;
-    _ownerTextField.returnKeyType = UIReturnKeyContinue;
-    
-    _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [_doneButton
-      setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle, "Submit payment button")
-      forState: UIControlStateNormal];
-    _doneButton.frame = CGRectMake(0, 0, 200, 44);
-    
-    [_doneButton addTarget:self action:@selector(_buttonPressed:)
-    forControlEvents:UIControlEventTouchUpInside];
-  
-    _switchView = [[CardKSwitchView alloc] init];
-
-    _sections = [self _defaultSections];
+    [self initProperties];
   }
   
   return self;
 }
 
+- (instancetype)init {
+  if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+    [self initProperties];
+  }
+  
+  return self;
+}
 
+- (void) initProperties {
+  _bundle = [NSBundle bundleForClass:[CardKViewController class]];
+
+  NSString *language = CardKConfig.shared.language;
+  if (language != nil) {
+    _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
+  } else {
+    _languageBundle = _bundle;
+  }
+
+  _pubKey = CardKProdKey;
+
+  _ownerErrors = [[NSMutableArray alloc] init];
+
+  _bankLogoView = [[CardKBankLogoView alloc] init];
+  _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+  _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _languageBundle, @"Title");
+
+  _cardView = [[CardKCardView alloc] init];
+  [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
+  [_cardView addTarget:self action:@selector(_switchToOwner) forControlEvents:UIControlEventEditingDidEndOnExit];
+  [_cardView.scanCardTapRecognizer addTarget:self action:@selector(_scanCard:)];
+
+  _ownerTextField = [[CardKTextField alloc] init];
+  _ownerTextField.placeholder = NSLocalizedStringFromTableInBundle(@"cardholderPlaceholder", nil, _languageBundle, @"Card holde placeholder");
+  [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventEditingDidBegin];
+  [_ownerTextField addTarget:self action:@selector(_clearOwnerError) forControlEvents:UIControlEventValueChanged];
+  [_ownerTextField addTarget:self action:@selector(_buttonPressed:) forControlEvents:UIControlEventEditingDidEndOnExit];
+  _ownerTextField.stripRegexp = @"[^a-zA-Z' .]";
+  _ownerTextField.keyboardType = UIKeyboardTypeASCIICapable;
+  _ownerTextField.returnKeyType = UIReturnKeyContinue;
+
+  _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
+  [_doneButton
+    setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle, "Submit payment button")
+    forState: UIControlStateNormal];
+  _doneButton.frame = CGRectMake(0, 0, 200, 44);
+
+  [_doneButton addTarget:self action:@selector(_buttonPressed:)
+  forControlEvents:UIControlEventTouchUpInside];
+
+  _switchView = [[CardKSwitchView alloc] init];
+
+  _sections = [self _defaultSections];
+}
 
 - (void)viewWillAppear:(BOOL)animated {
   [_cKitDelegate willShowController:self];
@@ -481,7 +490,13 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   NSString *month = _cardView.getMonthFromExpirationDate;
   NSString *expirationDate = [NSString stringWithFormat:@"%@%@", fullYear, month];
   
-  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@/%@", timeStamp, uuid, cardNumber, secureCode, expirationDate, _mdOrder];
+  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@", timeStamp, uuid, cardNumber, secureCode, expirationDate];
+  
+  if (_mdOrder != nil) {
+    cardData = [NSString stringWithFormat:@"%@/%@", cardData, _mdOrder];
+  } else {
+    cardData = [NSString stringWithFormat:@"%@//", cardData];
+  }
 
   NSString *seToken = [RSA encryptString:cardData publicKey:_pubKey];
   [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken];
@@ -498,7 +513,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   [_cKitDelegate cardKitViewControllerScanCardRequest:self];
 }
 
-- (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc {
+- (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc bindingId:(nullable NSString *)bindingId {
   if (number.length > 0) {
     _cardView.number = number;
   }
@@ -512,6 +527,10 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   
   if (cvc.length > 0) {
     _cardView.secureCode = cvc;
+  }
+  
+  if (bindingId.length > 0) {
+    _cardView.bindingId = bindingId;
   }
   
   [_scanViewWrapper removeFromSuperview];

@@ -179,7 +179,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.allowApplePay = true;
 
 
-    let controller = CardKViewController(mdOrder:"mdOrder");
+    let controller = CardKViewController();
     controller.cKitDelegate = self
 
     let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);

@@ -52,7 +52,7 @@ const NSString *CardKKindPayRows = @"rows";
 }
 
 - (void)_buttonPressed:(UIButton *)button {
-  [self presentViewController:_controller animated:YES completion:nil];
+  [self.navigationController pushViewController:_controller animated:YES];
 }
 
 - (NSArray *)_defaultSections {
@@ -64,7 +64,6 @@ const NSString *CardKKindPayRows = @"rows";
 }
 - (void)setController:(CardKViewController *)controller {
   _controller = controller;
-  
 }
 
 - (CardKViewController *)controller {
