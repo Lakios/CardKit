@@ -50,7 +50,7 @@ class SampleAppCardIO: NSObject, CardIOViewDelegate {
   
   func cardIOView(_ cardIOView: CardIOView!, didScanCard cardInfo: CardIOCreditCardInfo!) {
     if let info = cardInfo {
-      cardKController?.setCardNumber(info.cardNumber, holderName: info.cardholderName, expirationDate: nil, cvc: nil)
+      cardKController?.setCardNumber(info.cardNumber, holderName: info.cardholderName, expirationDate: nil, cvc: nil, bindingId: nil)
     }
     cardIOView?.removeFromSuperview()
   }
@@ -70,7 +70,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.allowSaveBindings = false;
     CardKConfig.shared.allowApplePay = false;
 
-    let controller = CardKViewController(mdOrder:"mdOrder");
+    let controller = CardKViewController();
     controller.cKitDelegate = self;
 
     let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
@@ -82,7 +82,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.theme = CardKTheme.dark();
     CardKConfig.shared.language = "";
 
-    let controller = CardKViewController(mdOrder:"mdOrder");
+    let controller = CardKViewController();
     controller.allowedCardScaner = false;
     controller.cKitDelegate = self
 
@@ -112,7 +112,7 @@ class ViewController: UITableViewController {
       CardKConfig.shared.theme = CardKTheme.default();
     };
 
-    let controller = CardKViewController(mdOrder:"mdOrder");
+    let controller = CardKViewController();
     controller.cKitDelegate = self
     controller.allowedCardScaner = true
 
@@ -148,7 +148,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.theme = theme;
     CardKConfig.shared.language = "";
 
-    let controller = CardKViewController(mdOrder:"mdOrder");
+    let controller = CardKViewController();
     controller.cKitDelegate = self
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
@@ -191,7 +191,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.theme = CardKTheme.dark();
     CardKConfig.shared.language = "";
     
-    let controller = CardKViewController(mdOrder:"mdOrder");
+    let controller = CardKViewController();
     controller.allowedCardScaner = false;
     controller.cKitDelegate = self
 
@@ -206,7 +206,7 @@ class ViewController: UITableViewController {
       CardKConfig.shared.theme = CardKTheme.default();
     };
 
-    let controller = CardKViewController(mdOrder:"mdOrder");
+    let controller = CardKViewController();
     controller.cKitDelegate = self
     controller.allowedCardScaner = false
     self.navigationController?.pushViewController(controller, animated: true)
@@ -216,7 +216,7 @@ class ViewController: UITableViewController {
       CardKConfig.shared.language = language;
       CardKConfig.shared.theme = CardKTheme.light()
       
-      let controller = CardKViewController(mdOrder:"mdOrder");
+      let controller = CardKViewController();
       controller.cKitDelegate = self
       controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
       controller.purchaseButtonTitle = "Custom purchase button";
@@ -323,6 +323,7 @@ extension ViewController: CardKViewControllerDelegate {
     controller.purchaseButtonTitle = "Custom purchase button";
     controller.isTestMod = true;
     controller.allowSaveBindings = true;
+    controller.mdOrder = "mdOrder";
   }
   
   func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {

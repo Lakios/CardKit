@@ -42,11 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Разрешить использование apple pay*/
 @property BOOL allowApplePay;
 
-/*!
-@brief Инициализация CardKViewController
-@param mdOrder Строка содержащая идентификатор заказа.
-*/
-- (instancetype)initWithMdOrder:(NSString *)mdOrder;
+/*! Разрешить использование apple pay*/
+@property NSString *mdOrder;
 
 /*!
 @brief Присвоить данные карты
