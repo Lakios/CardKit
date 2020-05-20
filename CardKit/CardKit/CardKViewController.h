@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @param date Дата истечения срока действия.
 @param cvc Код проверки подлинности карты.
 */
-- (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc;
+- (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc bindingId:(nullable NSString *)bindingId;
 
 /*!
 @brief Отобразить сканера карты
