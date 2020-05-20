@@ -17,7 +17,6 @@ const NSString *CardKKindPayRows = @"rows";
 
 @implementation CardKKindPaymentViewController {
   UIButton *_button;
-  CardKViewController *_controller;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSArray *_sections;
@@ -52,7 +51,10 @@ const NSString *CardKKindPayRows = @"rows";
 }
 
 - (void)_buttonPressed:(UIButton *)button {
-  [self.navigationController pushViewController:_controller animated:YES];
+  CardKViewController *controller = [[CardKViewController alloc] init];
+  controller.cKitDelegate = _cKitDelegate;
+  
+  [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (NSArray *)_defaultSections {
@@ -61,13 +63,6 @@ const NSString *CardKKindPayRows = @"rows";
     @{CardKKindPayRows: @[CardKSavedCardsCellID]},
     @{CardKKindPayRows: @[CardKPayCardButtonCellID]},
   ];
-}
-- (void)setController:(CardKViewController *)controller {
-  _controller = controller;
-}
-
-- (CardKViewController *)controller {
-  return _controller;
 }
 
 - (void)viewDidLoad {

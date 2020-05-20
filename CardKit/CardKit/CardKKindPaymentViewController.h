@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CardKKindPaymentViewController : UITableViewController
 
-@property (nonatomic) CardKViewController *controller;
+/*! Делегат контроллера*/
+@property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
 
 @end
 

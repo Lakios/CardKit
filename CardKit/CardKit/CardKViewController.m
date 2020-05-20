@@ -184,7 +184,8 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   
   CardKKindPaymentViewController *cardKKindPaymentViewController = [[CardKKindPaymentViewController alloc] init];
   
-  cardKKindPaymentViewController.controller = controller;
+  cardKKindPaymentViewController.cKitDelegate = cardKViewControllerDelegate;
+  
   return cardKKindPaymentViewController;
 }
 
