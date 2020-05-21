@@ -10,6 +10,7 @@
 #import "CardKConfig.h"
 #import "SavedCardItem.h"
 
+
 const NSString *CardKSavedCardCellID = @"savedCard";
 const NSString *CardKSecureCodeCellID = @"secureCode";
 const NSString *CardKPaySavedCardButtonCellID = @"button";
@@ -19,7 +20,7 @@ const NSString *CardKConfirmChoosedCardRows = @"rows";
   UIButton *_button;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
-  NSArray *_sections;
+  NSMutableArray *_sections;
   NSArray *_savedCards;
 }
 - (instancetype)init {
@@ -56,12 +57,17 @@ const NSString *CardKConfirmChoosedCardRows = @"rows";
 - (void)_buttonPressed:(UIButton *)button {
 }
 
-- (NSArray *)_defaultSections {
-  return @[
+- (NSMutableArray *)_defaultSections {
+  NSMutableArray *defaultSections = [[NSMutableArray alloc] initWithArray: @[
     @{CardKConfirmChoosedCardRows: @[CardKSavedCardCellID]},
-    @{CardKConfirmChoosedCardRows: @[CardKSecureCodeCellID]},
     @{CardKConfirmChoosedCardRows: @[CardKPaySavedCardButtonCellID] },
-  ];
+  ] copyItems:YES];
+  
+  if (CardKConfig.shared.bindingCVCRequired) {
+    [defaultSections insertObject:@{CardKConfirmChoosedCardRows: @[CardKSecureCodeCellID]} atIndex:1];
+  }
+  
+  return defaultSections;
 }
 
 - (void)viewDidLoad {

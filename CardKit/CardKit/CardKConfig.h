@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Разрешить использование apple pay*/
 @property BOOL allowApplePay;
 
+/*! Обязательный ввод CVC*/
+@property BOOL bindingCVCRequired;
+
 @end
 
 NS_ASSUME_NONNULL_END

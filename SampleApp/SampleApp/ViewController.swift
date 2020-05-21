@@ -177,7 +177,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.language = "";
     CardKConfig.shared.allowSaveBindings = false;
     CardKConfig.shared.allowApplePay = true;
-
+    CardKConfig.shared.bindingCVCRequired = true;
 
     let controller = CardKViewController();
     controller.cKitDelegate = self
