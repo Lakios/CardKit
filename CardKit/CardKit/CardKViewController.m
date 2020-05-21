@@ -523,7 +523,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   CardKTheme *theme = CardKConfig.shared.theme;
   
   _scanViewWrapper = [[ScanViewWrapper alloc] initWithFrame:self.view.bounds];
-  _scanViewWrapper.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  _scanViewWrapper.autoresizingMask  | UIViewAutoresizingFlexibleHeight;
   _scanViewWrapper.backgroundColor = theme.colorTableBackground;
   _scanViewWrapper.scanView = view;
   [_scanViewWrapper.backButton
