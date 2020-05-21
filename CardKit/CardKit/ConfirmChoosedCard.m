@@ -1,78 +1,74 @@
 //
-//  UITableViewController+CardKKindPaymentViewController.m
+//  UITableViewController+ConfirmChoosedCard.m
 //  CardKit
 //
-//  Created by Alex Korotkov on 5/13/20.
+//  Created by Alex Korotkov on 5/21/20.
 //  Copyright © 2020 AnjLab. All rights reserved.
 //
 
-#import "CardKKindPaymentViewController.h"
-#import "CardKViewController.h"
+#import "ConfirmChoosedCard.h"
 #import "CardKConfig.h"
 #import "SavedCardItem.h"
-#import "ConfirmChoosedCard.h"
 
-const NSString *CardKApplePayllID = @"applePay";
-const NSString *CardKSavedCardsCellID = @"savedCards";
-const NSString *CardKPayCardButtonCellID = @"button";
-const NSString *CardKKindPayRows = @"rows";
+const NSString *CardKSavedCardCellID = @"savedCard";
+const NSString *CardKSecureCodeCellID = @"secureCode";
+const NSString *CardKPaySavedCardButtonCellID = @"button";
+const NSString *CardKConfirmChoosedCardRows = @"rows";
 
-@implementation CardKKindPaymentViewController {
+@implementation ConfirmChoosedCard {
   UIButton *_button;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSArray *_sections;
   NSArray *_savedCards;
 }
-
 - (instancetype)init {
   self = [super initWithStyle:UITableViewStyleGrouped];
 
   if (self) {
     _button =  [UIButton buttonWithType:UIButtonTypeSystem];
   
-    _bundle = [NSBundle bundleForClass:[CardKViewController class]];
+    _bundle = [NSBundle bundleForClass:[ConfirmChoosedCard class]];
      
      NSString *language = CardKConfig.shared.language;
+    
      if (language != nil) {
        _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
      } else {
        _languageBundle = _bundle;
      }
-
-
+    
+    
     [_button
-      setTitle: NSLocalizedStringFromTableInBundle(@"payByCard", nil, _languageBundle,  @"Pay by card")
+      setTitle: NSLocalizedStringFromTableInBundle(@"Pay", nil, _languageBundle,  @"Pay")
       forState: UIControlStateNormal];
 
     [_button addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
     
+    
     _savedCards = @[@"1", @"2", @"3"];
     _sections = [self _defaultSections];
+    
   }
   return self;
 }
 
 - (void)_buttonPressed:(UIButton *)button {
-  CardKViewController *controller = [[CardKViewController alloc] init];
-  controller.cKitDelegate = _cKitDelegate;
-  
-  [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (NSArray *)_defaultSections {
   return @[
-    @{CardKKindPayRows: @[@{CardKApplePayllID: @[]}]},
-    @{CardKKindPayRows: @[@{CardKPayCardButtonCellID: @[]}]},
-    @{CardKKindPayRows: @[@{CardKSavedCardsCellID: _savedCards}] },
+    @{CardKConfirmChoosedCardRows: @[CardKSavedCardCellID]},
+    @{CardKConfirmChoosedCardRows: @[CardKSecureCodeCellID]},
+    @{CardKConfirmChoosedCardRows: @[CardKPaySavedCardButtonCellID] },
   ];
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  for (NSString *cellID in @[CardKApplePayllID, CardKSavedCardsCellID, CardKPayCardButtonCellID]) {
+  for (NSString *cellID in @[CardKSavedCardCellID, CardKSecureCodeCellID, CardKPaySavedCardButtonCellID]) {
    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
   
@@ -96,28 +92,19 @@ const NSString *CardKKindPayRows = @"rows";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  NSArray *keys = [_sections[section][CardKKindPayRows][0] allKeys];
-  NSString *keyName = keys[0];
-  NSArray *test = _sections[section][CardKKindPayRows][0][keyName];
-  
-  return [test count] == 0 ? 1 : [test count];
+  return  [_sections[section][CardKConfirmChoosedCardRows] count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSString *cellID = [_sections[indexPath.section][CardKKindPayRows][0] allKeys][0];
-  
+  NSString *cellID = _sections[indexPath.section][CardKConfirmChoosedCardRows][indexPath.row];
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellID forIndexPath:indexPath];
 
-  if ([CardKApplePayllID isEqual:cellID]) {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
-    [cell addSubview:label];
-    label.text = [NSString stringWithFormat:@"index = %ld", (long)indexPath.section];
-  } else if([CardKSavedCardsCellID isEqual:cellID]) {
+  if ([CardKSavedCardCellID isEqual:cellID]) {
     SavedCardItem *savedCardItem = [[SavedCardItem alloc] init];
     
     [cell addSubview:savedCardItem];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
 
     SavedCard savedCard;
     savedCard.bindingId = @"bindingId";
@@ -125,7 +112,13 @@ const NSString *CardKKindPayRows = @"rows";
     savedCard.cardNumber = @"5555";
     
     savedCardItem.savedCard = savedCard;
-  } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
+  } else if([CardKSecureCodeCellID isEqual:cellID]) {
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"CVC";
+    
+    [cell addSubview:label];
+  } else if ([CardKPaySavedCardButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }
    
@@ -139,13 +132,7 @@ const NSString *CardKKindPayRows = @"rows";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSString *cellID = [_sections[indexPath.section][CardKKindPayRows][0] allKeys][0];
   
-  if ([CardKSavedCardsCellID isEqual:cellID]) {
-    ConfirmChoosedCard *confirmChoosedCard = [[ConfirmChoosedCard alloc] init];
-     
-    [self.navigationController pushViewController:confirmChoosedCard animated:true];
-  }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -157,9 +144,7 @@ const NSString *CardKKindPayRows = @"rows";
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSString *cellID = [_sections[indexPath.section][CardKKindPayRows][0] allKeys][0];
-  
-  return [CardKSavedCardsCellID isEqual:cellID];
+  return NO;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -169,5 +154,6 @@ const NSString *CardKKindPayRows = @"rows";
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
   return NO;
 }
+
 
 @end

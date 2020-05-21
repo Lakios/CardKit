@@ -10,9 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef struct {
+  NSString *bindingId;
+  NSString *systemProvider;
+  NSString *cardNumber;
+} SavedCard;
+
 @interface SavedCardItem: UIView
 
-@property NSString *title;
+@property SavedCard savedCard;
 
 @end
 

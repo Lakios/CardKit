@@ -17,6 +17,8 @@
 		92A1461B23435C6B002FBCC3 /* CardKConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 92A1461923435C6B002FBCC3 /* CardKConfig.m */; };
 		92E247F22475481700C2EF6C /* SavedCardItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 92E247F02475481700C2EF6C /* SavedCardItem.h */; };
 		92E247F32475481700C2EF6C /* SavedCardItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E247F12475481700C2EF6C /* SavedCardItem.m */; };
+		92E247F6247676A900C2EF6C /* ConfirmChoosedCard.h in Headers */ = {isa = PBXBuildFile; fileRef = 92E247F4247676A900C2EF6C /* ConfirmChoosedCard.h */; };
+		92E247F7247676A900C2EF6C /* ConfirmChoosedCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E247F5247676A900C2EF6C /* ConfirmChoosedCard.m */; };
 		D20CEBCD232F660400F9407C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D20CEBCF232F660400F9407C /* Localizable.strings */; };
 		D245AB43231C435E00369747 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; };
 		D245AB48231C435E00369747 /* CardKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D245AB47231C435E00369747 /* CardKitTests.m */; };
@@ -62,6 +64,8 @@
 		92A1461923435C6B002FBCC3 /* CardKConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKConfig.m; sourceTree = "<group>"; };
 		92E247F02475481700C2EF6C /* SavedCardItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SavedCardItem.h; sourceTree = "<group>"; };
 		92E247F12475481700C2EF6C /* SavedCardItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SavedCardItem.m; sourceTree = "<group>"; };
+		92E247F4247676A900C2EF6C /* ConfirmChoosedCard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmChoosedCard.h; sourceTree = "<group>"; };
+		92E247F5247676A900C2EF6C /* ConfirmChoosedCard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfirmChoosedCard.m; sourceTree = "<group>"; };
 		D20CEBCE232F660400F9407C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D20CEBD0232F660A00F9407C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D20CEBD1232F660B00F9407C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -165,6 +169,8 @@
 				92985C88246BEE1E009B7392 /* CardKKindPaymentViewController.m */,
 				92E247F02475481700C2EF6C /* SavedCardItem.h */,
 				92E247F12475481700C2EF6C /* SavedCardItem.m */,
+				92E247F4247676A900C2EF6C /* ConfirmChoosedCard.h */,
+				92E247F5247676A900C2EF6C /* ConfirmChoosedCard.m */,
 			);
 			path = CardKit;
 			sourceTree = "<group>";
@@ -186,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D245ABC0231C4C2900369747 /* RSA.h in Headers */,
+				92E247F6247676A900C2EF6C /* ConfirmChoosedCard.h in Headers */,
 				92985C85246A96F4009B7392 /* CardKSwitchView.h in Headers */,
 				92E247F22475481700C2EF6C /* SavedCardItem.h in Headers */,
 				D245ABC8231C529D00369747 /* CardKTheme.h in Headers */,
@@ -310,6 +317,7 @@
 				92985C86246A96F4009B7392 /* CardKSwitchView.m in Sources */,
 				D2D0B35F2320E3AC0007B3B9 /* CardKBankLogoView.m in Sources */,
 				9219F466232B8EF100841B98 /* CardKFooterView.m in Sources */,
+				92E247F7247676A900C2EF6C /* ConfirmChoosedCard.m in Sources */,
 				D269080E231FA894001CB863 /* CardKTextField.m in Sources */,
 				92985C8A246BEE1E009B7392 /* CardKKindPaymentViewController.m in Sources */,
 				D2690812231FB000001CB863 /* CardKCardView.m in Sources */,

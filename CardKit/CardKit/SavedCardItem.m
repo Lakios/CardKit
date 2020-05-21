@@ -9,10 +9,7 @@
 #import "SavedCardItem.h"
 #import "PaymentSystemProvider.h"
 
-struct SavedCard {
-  NSString *bindingId;
-  NSString *systemProvider;
-};
+
 
 @implementation SavedCardItem {
   UIImageView * _paymentSystemImageView;
@@ -33,8 +30,6 @@ struct SavedCard {
 
     _label = [[UILabel alloc] init];
     
-    
-    
     [self addSubview:_label];
     [self addSubview:_paymentSystemImageView];
   }
@@ -44,7 +39,7 @@ struct SavedCard {
 - (void)layoutSubviews {
   [super layoutSubviews];
   
-  _label.text = _title;
+  _label.text = _savedCard.cardNumber;
   _label.frame = CGRectMake(60, 0, 100, 44);
   _paymentSystemImageView.frame = CGRectMake(0, 0, 50, 44);
 }
