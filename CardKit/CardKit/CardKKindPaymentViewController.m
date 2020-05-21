@@ -64,8 +64,8 @@ const NSString *CardKKindPayRows = @"rows";
 - (NSArray *)_defaultSections {
   return @[
     @{CardKKindPayRows: @[@{CardKApplePayllID: @[]}]},
-      @{CardKKindPayRows: @[@{CardKSavedCardsCellID: _savedCards}] },
     @{CardKKindPayRows: @[@{CardKPayCardButtonCellID: @[]}]},
+    @{CardKKindPayRows: @[@{CardKSavedCardsCellID: _savedCards}] },
   ];
 }
 
@@ -116,10 +116,7 @@ const NSString *CardKKindPayRows = @"rows";
   } else if([CardKSavedCardsCellID isEqual:cellID]) {
     SavedCardItem *savedCardItem = [[SavedCardItem alloc] init];
     NSArray *savedCards = _sections[indexPath.section][CardKKindPayRows][0][cellID];
-    
-    
     [cell addSubview:savedCardItem];
-    
     savedCardItem.title = savedCards[indexPath.row];
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
