@@ -6,12 +6,12 @@
 //  Copyright © 2020 AnjLab. All rights reserved.
 //
 
-#import "SavedCardItem.h"
+#import "CardKBinding.h"
 #import "PaymentSystemProvider.h"
 
 
 
-@implementation SavedCardItem {
+@implementation CardKBinding {
   UIImageView * _paymentSystemImageView;
   NSBundle *_bundle;
   UILabel *_label;
@@ -21,7 +21,7 @@
 {
   self = [super init];
   if (self) {
-    _bundle = [NSBundle bundleForClass:[SavedCardItem class]];
+    _bundle = [NSBundle bundleForClass:[CardKBinding class]];
     
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
@@ -39,7 +39,7 @@
 - (void)layoutSubviews {
   [super layoutSubviews];
   
-  _label.text = _savedCard.cardNumber;
+  _label.text = _cardNumber;
   _label.frame = CGRectMake(60, 0, 100, 44);
   _paymentSystemImageView.frame = CGRectMake(0, 0, 50, 44);
 }

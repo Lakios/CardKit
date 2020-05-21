@@ -9,7 +9,7 @@
 #import "CardKKindPaymentViewController.h"
 #import "CardKViewController.h"
 #import "CardKConfig.h"
-#import "SavedCardItem.h"
+#import "CardKBinding.h"
 #import "ConfirmChoosedCard.h"
 
 const NSString *CardKApplePayllID = @"applePay";
@@ -114,17 +114,14 @@ const NSString *CardKKindPayRows = @"rows";
     [cell addSubview:label];
     label.text = [NSString stringWithFormat:@"index = %ld", (long)indexPath.section];
   } else if([CardKSavedCardsCellID isEqual:cellID]) {
-    SavedCardItem *savedCardItem = [[SavedCardItem alloc] init];
+    CardKBinding *cardKBinding = [[CardKBinding alloc] init];
     
-    [cell addSubview:savedCardItem];
+    [cell addSubview:cardKBinding];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    SavedCard savedCard;
-    savedCard.bindingId = @"bindingId";
-    savedCard.systemProvider = @"MIR";
-    savedCard.cardNumber = @"5555";
-    
-    savedCardItem.savedCard = savedCard;
+    cardKBinding.bindingId = @"bindingId";
+    cardKBinding.systemProvider = @"MIR";
+    cardKBinding.cardNumber = @"5555";
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }

@@ -8,12 +8,12 @@
 
 #import "ConfirmChoosedCard.h"
 #import "CardKConfig.h"
-#import "SavedCardItem.h"
+#import "CardKBinding.h"
 
 
 const NSString *CardKSavedCardCellID = @"savedCard";
 const NSString *CardKSecureCodeCellID = @"secureCode";
-const NSString *CardKPaySavedCardButtonCellID = @"button";
+const NSString *CardKBindingButtonCellID = @"button";
 const NSString *CardKConfirmChoosedCardRows = @"rows";
 
 @implementation ConfirmChoosedCard {
@@ -60,7 +60,7 @@ const NSString *CardKConfirmChoosedCardRows = @"rows";
 - (NSMutableArray *)_defaultSections {
   NSMutableArray *defaultSections = [[NSMutableArray alloc] initWithArray: @[
     @{CardKConfirmChoosedCardRows: @[CardKSavedCardCellID]},
-    @{CardKConfirmChoosedCardRows: @[CardKPaySavedCardButtonCellID] },
+    @{CardKConfirmChoosedCardRows: @[CardKBindingButtonCellID] },
   ] copyItems:YES];
   
   if (CardKConfig.shared.bindingCVCRequired) {
@@ -73,7 +73,7 @@ const NSString *CardKConfirmChoosedCardRows = @"rows";
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  for (NSString *cellID in @[CardKSavedCardCellID, CardKSecureCodeCellID, CardKPaySavedCardButtonCellID]) {
+  for (NSString *cellID in @[CardKSavedCardCellID, CardKSecureCodeCellID, CardKBindingButtonCellID]) {
    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
   
@@ -106,24 +106,20 @@ const NSString *CardKConfirmChoosedCardRows = @"rows";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellID forIndexPath:indexPath];
 
   if ([CardKSavedCardCellID isEqual:cellID]) {
-    SavedCardItem *savedCardItem = [[SavedCardItem alloc] init];
+    CardKBinding *cardKBinding = [[CardKBinding alloc] init];
     
-    [cell addSubview:savedCardItem];
+    [cell addSubview:cardKBinding];
 
-
-    SavedCard savedCard;
-    savedCard.bindingId = @"bindingId";
-    savedCard.systemProvider = @"MIR";
-    savedCard.cardNumber = @"5555";
-    
-    savedCardItem.savedCard = savedCard;
+    cardKBinding.bindingId = @"bindingId";
+    cardKBinding.systemProvider = @"MIR";
+    cardKBinding.cardNumber = @"5555";
   } else if([CardKSecureCodeCellID isEqual:cellID]) {
     
     UILabel *label = [[UILabel alloc] init];
     label.text = @"CVC";
     
     [cell addSubview:label];
-  } else if ([CardKPaySavedCardButtonCellID isEqual:cellID]) {
+  } else if ([CardKBindingButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }
    
