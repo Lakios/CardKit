@@ -27,29 +27,28 @@ const NSString *CardKConfirmChoosedCardRows = @"rows";
 
   if (self) {
     _button =  [UIButton buttonWithType:UIButtonTypeSystem];
-  
+
     _bundle = [NSBundle bundleForClass:[ConfirmChoosedCard class]];
      
      NSString *language = CardKConfig.shared.language;
-    
+
      if (language != nil) {
        _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
      } else {
        _languageBundle = _bundle;
      }
-    
-    
+
+
     [_button
       setTitle: NSLocalizedStringFromTableInBundle(@"Pay", nil, _languageBundle,  @"Pay")
       forState: UIControlStateNormal];
 
     [_button addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
-    
-    
+
+
     _savedCards = @[@"1", @"2", @"3"];
     _sections = [self _defaultSections];
-    
   }
   return self;
 }
