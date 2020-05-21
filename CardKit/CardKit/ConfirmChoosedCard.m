@@ -21,7 +21,6 @@ const NSString *CardKConfirmChoosedCardRows = @"rows";
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSMutableArray *_sections;
-  NSArray *_savedCards;
 }
 - (instancetype)init {
   self = [super initWithStyle:UITableViewStyleGrouped];
@@ -39,7 +38,6 @@ const NSString *CardKConfirmChoosedCardRows = @"rows";
        _languageBundle = _bundle;
      }
 
-
     [_button
       setTitle: NSLocalizedStringFromTableInBundle(@"Pay", nil, _languageBundle,  @"Pay")
       forState: UIControlStateNormal];
@@ -47,8 +45,6 @@ const NSString *CardKConfirmChoosedCardRows = @"rows";
     [_button addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
 
-
-    _savedCards = @[@"1", @"2", @"3"];
     _sections = [self _defaultSections];
   }
   return self;
