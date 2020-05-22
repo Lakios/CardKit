@@ -111,12 +111,14 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 }
 
 - (void)_buttonPressed:(UIButton *)button {
-  if (![self _isFormValid]) {
-    [self _animateError];
-    _lastAnouncment = nil;
-    [self _announceError];
+  if ([self _isFormValid]) {
     return;
   }
+  
+  [self _animateError];
+  _lastAnouncment = nil;
+  [self _announceError];
+  return;
 }
 
 - (void)_animateError {
