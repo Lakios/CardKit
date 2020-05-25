@@ -11,6 +11,7 @@
 #import "CardKBinding.h"
 #import "CardKTextField.h"
 #import "CardKFooterView.h"
+#import "CardKValidation.h"
 
 const NSString *CardKSavedCardCellID = @"savedCard";
 const NSString *CardKSecureCodeCellID = @"secureCode";
@@ -85,18 +86,13 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   [self _refreshErrors];
 }
 
-- (BOOL)_allDigitsInString:(NSString *)str {
-  NSString *string = [str stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, str.length)];
-  return [str isEqual:string];
-}
-
 - (void)_validateSecureCode {
   BOOL isValid = YES;
   NSString *secureCode = _secureCodeTextField.text;
   NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _languageBundle, @"incorrectCvc");
   [self _clearSecureCodeErrors];
   
-  if ([secureCode length] != 3 || ![self _allDigitsInString:secureCode]) {
+  if (![CardKValidation isValidSecureCode:secureCode]) {
     [_secureCodeErrors addObject:incorrectCvc];
     isValid = NO;
   }
@@ -185,7 +181,6 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return  [_sections[section][CardKConfirmChoosedCardRows] count];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   NSString *cellID = _sections[indexPath.section][CardKConfirmChoosedCardRows][indexPath.row];

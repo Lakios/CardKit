@@ -11,6 +11,7 @@
 #import "PaymentSystemProvider.h"
 #import "Luhn.h"
 #import "CardKConfig.h"
+#import "CardKValidation.h"
 
 NSInteger EXPIRE_YEARS_DIFF = 10;
 
@@ -269,7 +270,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _languageBundle, @"incorrectCvc");
   [self _clearSecureCodeErrors];
   
-  if ([secureCode length] != 3 || ![self _allDigitsInString:secureCode]) {
+  if (![CardKValidation isValidSecureCode:secureCode]) {
     [_errorMessagesArray addObject:incorrectCvc];
     isValid = NO;
   }
