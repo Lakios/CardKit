@@ -25,9 +25,6 @@
     
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
-    NSString *imageName = [PaymentSystemProvider imageNameByCardNumber: @"" compatibleWithTraitCollection: self.traitCollection];
-    _paymentSystemImageView.image = [PaymentSystemProvider namedImage:imageName inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
-
     _label = [[UILabel alloc] init];
     
     [self addSubview:_label];
@@ -38,6 +35,8 @@
 
 - (void)layoutSubviews {
   [super layoutSubviews];
+  NSString *imageName = [PaymentSystemProvider imageNameByPaymentSystem: _paymentSystem compatibleWithTraitCollection: self.traitCollection];
+  _paymentSystemImageView.image = [PaymentSystemProvider namedImage:imageName inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
   
   _label.text = _cardNumber;
   _label.frame = CGRectMake(60, 0, 100, 44);

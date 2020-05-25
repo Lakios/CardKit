@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CardKBinding: UIView
 
 @property NSString *bindingId;
-@property NSString *systemProvider;
+@property NSString *paymentSystem;
 @property NSString *cardNumber;
 
 @end

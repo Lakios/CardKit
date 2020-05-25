@@ -13,7 +13,7 @@
 #import "CardKFooterView.h"
 #import "CardKValidation.h"
 
-const NSString *CardKSavedCardCellID = @"savedCard";
+const NSString *CardKBindingCardCellID = @"bindingCard";
 const NSString *CardKSecureCodeCellID = @"secureCode";
 const NSString *CardKBindingButtonCellID = @"button";
 const NSString *CardKConfirmChoosedCardRows = @"rows";
@@ -123,7 +123,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 
 - (NSMutableArray *)_defaultSections {
   NSMutableArray *defaultSections = [[NSMutableArray alloc] initWithArray: @[
-    @{CardKConfirmChoosedCardRows: @[CardKSavedCardCellID]},
+    @{CardKConfirmChoosedCardRows: @[CardKBindingCardCellID]},
     @{CardKConfirmChoosedCardRows: @[CardKBindingButtonCellID] },
   ] copyItems:YES];
   
@@ -137,7 +137,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  for (NSString *cellID in @[CardKSavedCardCellID, CardKSecureCodeCellID, CardKBindingButtonCellID]) {
+  for (NSString *cellID in @[CardKBindingCardCellID, CardKSecureCodeCellID, CardKBindingButtonCellID]) {
    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
   
@@ -186,14 +186,8 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   NSString *cellID = _sections[indexPath.section][CardKConfirmChoosedCardRows][indexPath.row];
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellID forIndexPath:indexPath];
 
-  if ([CardKSavedCardCellID isEqual:cellID]) {
-    CardKBinding *cardKBinding = [[CardKBinding alloc] init];
-    
-    [cell addSubview:cardKBinding];
-
-    cardKBinding.bindingId = @"bindingId";
-    cardKBinding.systemProvider = @"MIR";
-    cardKBinding.cardNumber = @"5555";
+  if ([CardKBindingCardCellID isEqual:cellID]) {
+    [cell addSubview: _cardKBinding];
   } else if([CardKSecureCodeCellID isEqual:cellID]) {
     _secureCodeTextField.frame = cell.contentView.bounds;
     [cell.contentView addSubview:_secureCodeTextField];

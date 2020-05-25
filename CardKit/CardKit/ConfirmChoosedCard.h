@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CardKBinding.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ConfirmChoosedCard: UITableViewController
+
+@property CardKBinding *cardKBinding;
 
 @end
 

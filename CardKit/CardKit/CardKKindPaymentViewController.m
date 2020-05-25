@@ -112,7 +112,7 @@ const NSString *CardKKindPayRows = @"rows";
     CardKBinding *cardKBinding = [[CardKBinding alloc] init];
     
     cardKBinding.bindingId = [binding objectForKey:@"id"];
-    cardKBinding.systemProvider = [binding objectForKey:@"paymentSystem"];
+    cardKBinding.paymentSystem = [binding objectForKey:@"paymentSystem"];
     cardKBinding.cardNumber = [binding objectForKey:@"label"];
     
     [_bindingCards addObject:cardKBinding];
@@ -160,7 +160,15 @@ const NSString *CardKKindPayRows = @"rows";
   
   if ([CardKSavedCardsCellID isEqual:cellID]) {
     ConfirmChoosedCard *confirmChoosedCard = [[ConfirmChoosedCard alloc] init];
-     
+    CardKBinding *cardKBinding = [[CardKBinding alloc] init];
+    CardKBinding *selectedCardBinding = _sections[indexPath.section][CardKKindPayRows][0][CardKSavedCardsCellID][indexPath.row];
+    
+    cardKBinding.bindingId = selectedCardBinding.bindingId;
+    cardKBinding.paymentSystem = selectedCardBinding.paymentSystem;
+    cardKBinding.cardNumber = selectedCardBinding.cardNumber;
+       
+    confirmChoosedCard.cardKBinding = cardKBinding;
+    
     [self.navigationController pushViewController:confirmChoosedCard animated:true];
   }
 }

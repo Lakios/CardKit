@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)imageNameByCardNumber:(nullable NSString *) number compatibleWithTraitCollection:(UITraitCollection *) traitCollection;
 + (NSString *)imageNameForCVCWithTraitCollection:(UITraitCollection *) traitCollection;
 + (UIImage *)namedImage:(NSString *)imageName inBundle:(NSBundle *) bundle compatibleWithTraitCollection:(UITraitCollection *) traitCollection;
-
++ (NSString *)imageNameByPaymentSystem:(NSString *) paymentSysten compatibleWithTraitCollection:(UITraitCollection *) traitCollection;
 @end
 
 NS_ASSUME_NONNULL_END
