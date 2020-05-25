@@ -22,7 +22,7 @@ const NSString *CardKKindPayRows = @"rows";
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSArray *_sections;
-  NSArray *_savedCards;
+  NSMutableArray *_bindingCards;
 }
 
 - (instancetype)init {
@@ -48,7 +48,7 @@ const NSString *CardKKindPayRows = @"rows";
     [_button addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
     
-    _savedCards = @[@"1", @"2", @"3"];
+    _bindingCards = [[NSMutableArray alloc] initWithArray:@[] copyItems:NO];
     _sections = [self _defaultSections];
   }
   return self;
@@ -65,13 +65,15 @@ const NSString *CardKKindPayRows = @"rows";
   return @[
     @{CardKKindPayRows: @[@{CardKApplePayllID: @[]}]},
     @{CardKKindPayRows: @[@{CardKPayCardButtonCellID: @[]}]},
-    @{CardKKindPayRows: @[@{CardKSavedCardsCellID: _savedCards}] },
+    @{CardKKindPayRows: @[@{CardKSavedCardsCellID: _bindingCards}] },
   ];
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
 
+  [self fetchBindingCards];
+  
   for (NSString *cellID in @[CardKApplePayllID, CardKSavedCardsCellID, CardKPayCardButtonCellID]) {
    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
@@ -93,6 +95,28 @@ const NSString *CardKKindPayRows = @"rows";
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return _sections.count;
+}
+
+- (NSData *)readJSONFile {
+    NSString *path = [_bundle pathForResource:@"bindings" ofType:@"json"];
+    return [NSData dataWithContentsOfFile:path];
+}
+
+- (void)fetchBindingCards {
+  NSData *data = [self readJSONFile];
+  NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+  
+  NSArray *bindingItems = [responseDictionary objectForKey:@"bindingItems"];
+
+  for (NSDictionary *binding in bindingItems) {
+    CardKBinding *cardKBinding = [[CardKBinding alloc] init];
+    
+    cardKBinding.bindingId = [binding objectForKey:@"id"];
+    cardKBinding.systemProvider = [binding objectForKey:@"paymentSystem"];
+    cardKBinding.cardNumber = [binding objectForKey:@"label"];
+    
+    [_bindingCards addObject:cardKBinding];
+  }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
