@@ -127,7 +127,6 @@ const NSString *CardKKindPayRows = @"rows";
   return [test count] == 0 ? 1 : [test count];
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   NSString *cellID = [_sections[indexPath.section][CardKKindPayRows][0] allKeys][0];
   
