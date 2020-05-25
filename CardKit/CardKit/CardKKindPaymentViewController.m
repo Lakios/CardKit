@@ -138,14 +138,10 @@ const NSString *CardKKindPayRows = @"rows";
     [cell addSubview:label];
     label.text = [NSString stringWithFormat:@"index = %ld", (long)indexPath.section];
   } else if([CardKSavedCardsCellID isEqual:cellID]) {
-    CardKBinding *cardKBinding = [[CardKBinding alloc] init];
+    CardKBinding *cardKBinding = _sections[indexPath.section][CardKKindPayRows][0][CardKSavedCardsCellID][indexPath.row];
     
     [cell addSubview:cardKBinding];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-    cardKBinding.bindingId = @"bindingId";
-    cardKBinding.systemProvider = @"MIR";
-    cardKBinding.cardNumber = @"5555";
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }
