@@ -114,7 +114,7 @@ const NSString *CardKKindPayRows = @"rows";
     cardKBinding.bindingId = [binding objectForKey:@"id"];
     cardKBinding.paymentSystem = [binding objectForKey:@"paymentSystem"];
     cardKBinding.cardNumber = [binding objectForKey:@"label"];
-    
+
     [_bindingCards addObject:cardKBinding];
   }
 }

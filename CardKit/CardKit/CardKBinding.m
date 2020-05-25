@@ -39,8 +39,10 @@
   _paymentSystemImageView.image = [PaymentSystemProvider namedImage:imageName inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
   
   _label.text = _cardNumber;
-  _label.frame = CGRectMake(60, 0, 100, 44);
-  _paymentSystemImageView.frame = CGRectMake(0, 0, 50, 44);
+  CGRect bounds = self.superview.bounds;
+  
+  _label.frame = CGRectMake(60, 0, bounds.size.width, bounds.size.height);
+  _paymentSystemImageView.frame = CGRectMake(0, 0, 50, bounds.size.height);
 }
 
 @end
