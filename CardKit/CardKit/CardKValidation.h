@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CardKValidation: NSObject
 
 + (BOOL) isValidSecureCode:(NSString *) secureCode;
++ (BOOL) allDigitsInString:(NSString *) str;
 
 @end
 

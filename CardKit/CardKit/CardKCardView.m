@@ -196,11 +196,6 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   [_errorMessagesArray removeObject:incorrectCardNumber];
 }
 
-- (BOOL)_allDigitsInString:(NSString *)str {
-  NSString *string = [str stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, str.length)];
-  return [str isEqual:string];
-}
-
 - (void)_validateCardNumber {
   BOOL isValid = YES;
   NSString *cardNumber = [self number];
@@ -213,7 +208,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   if (len < 16 || len > 19) {
     [_errorMessagesArray addObject:incorrectLength];
     isValid = NO;
-  } else if (![self _allDigitsInString: cardNumber] || ![cardNumber isValidCreditCardNumber]) {
+  } else if (![CardKValidation allDigitsInString:cardNumber] || ![cardNumber isValidCreditCardNumber]) {
     [_errorMessagesArray addObject:incorrectCardNumber];
     isValid = NO;
   }
