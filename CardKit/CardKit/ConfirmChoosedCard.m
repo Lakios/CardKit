@@ -233,6 +233,10 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+  return @" ";
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
   return section == 0 ? 34 : 38;
 }
