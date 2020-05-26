@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CardKBinding.h"
 #import "CardKBankLogoView.h"
+#import "CardKViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property CardKBinding *cardKBinding;
 @property CardKBankLogoView *bankLogoView;
+/*! Делегат контроллера*/
+@property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
 
 @end
 

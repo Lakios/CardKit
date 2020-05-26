@@ -150,6 +150,7 @@ const NSString *CardKKindPayRows = @"rows";
        
     confirmChoosedCard.cardKBinding = cardKBinding;
     confirmChoosedCard.bankLogoView = _bankLogoView;
+    confirmChoosedCard.cKitDelegate = _cKitDelegate;
     
     [self.navigationController pushViewController:confirmChoosedCard animated:true];
   }

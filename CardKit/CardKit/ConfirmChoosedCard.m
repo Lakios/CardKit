@@ -13,6 +13,7 @@
 #import "CardKFooterView.h"
 #import "CardKValidation.h"
 #import "CardKBankLogoView.h"
+#import "RSA.h"
 
 const NSString *CardKBindingCardCellID = @"bindingCard";
 const NSString *CardKBindingButtonCellID = @"button";
@@ -101,24 +102,33 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 }
 
 - (BOOL)_isFormValid {
+  if (!CardKConfig.shared.bindingCVCRequired) {
+    return YES;
+  }
+  
   [self _validateSecureCode];
   [self _refreshErrors];
   return _secureCodeErrors.count == 0;
 }
 
 - (void)_buttonPressed:(UIButton *)button {
-  if (!CardKConfig.shared.bindingCVCRequired) {
+  if (![self _isFormValid]) {
+    [self _animateError];
+    _lastAnouncment = nil;
+    [self _announceError];
     return;
   }
   
-  if ([self _isFormValid]) {
-    return;
-  }
+  NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+  NSString *uuid = [[NSUUID UUID] UUIDString];
+
+  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@", timeStamp, uuid, _secureCodeTextField.text, @"_mdOrder", _cardKBinding.bindingId];
   
-  [self _animateError];
-  _lastAnouncment = nil;
-  [self _announceError];
-  return;
+  NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhjH8R0jfvvEJwAHRhJi2Q4fLi1p2z10PaDMIhHbD3fp4OqypWaE7p6n6EHig9qnwC/4U7hCiOCqY6uYtgEoDHfbNA87/X0jV8UI522WjQH7Rgkmgk35r75G5m4cYeF6OvCHmAJ9ltaFsLBdr+pK6vKz/3AzwAc/5a6QcO/vR3PHnhE/qU2FOU3Vd8OYN2qcw4TFvitXY2H6YdTNF4YmlFtj4CqQoPL1u/uI0UpsG3/epWMOk44FBlXoZ7KNmJU29xbuiNEm1SWRJS2URMcUxAdUfhzQ2+Z4F0eSo2/cxwlkNA+gZcXnLbEWIfYYvASKpdXBIzgncMBro424z/KUr3QIDAQAB-----END PUBLIC KEY-----";
+
+  NSString *seToken = [RSA encryptString:cardData publicKey:CardKTestKey];
+
+  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken allowSaveCard:NO];
 }
 
 - (void)_animateError {
