@@ -41,9 +41,6 @@
   _label.text = _cardNumber;
   CGRect bounds = self.superview.bounds;
   
-
-  
-
   if (@available(iOS 11.0, *)) {
     _label.frame = CGRectMake(self.safeAreaInsets.left + 60, 0, bounds.size.width, bounds.size.height);
     _paymentSystemImageView.frame = CGRectMake(self.safeAreaInsets.left, 0, 50, bounds.size.height);
