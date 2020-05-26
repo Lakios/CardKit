@@ -14,7 +14,6 @@
 #import "CardKValidation.h"
 
 const NSString *CardKBindingCardCellID = @"bindingCard";
-const NSString *CardKSecureCodeCellID = @"secureCode";
 const NSString *CardKBindingButtonCellID = @"button";
 const NSString *CardKConfirmChoosedCardRows = @"rows";
 NSString *CardKConfirmChoosedCardFooterID = @"footer";
@@ -107,6 +106,10 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 }
 
 - (void)_buttonPressed:(UIButton *)button {
+  if (!CardKConfig.shared.bindingCVCRequired) {
+    return;
+  }
+  
   if ([self _isFormValid]) {
     return;
   }
@@ -127,17 +130,13 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
     @{CardKConfirmChoosedCardRows: @[CardKBindingButtonCellID] },
   ] copyItems:YES];
   
-  if (CardKConfig.shared.bindingCVCRequired) {
-    [defaultSections insertObject:@{CardKConfirmChoosedCardRows: @[CardKSecureCodeCellID]} atIndex:1];
-  }
-  
   return defaultSections;
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  for (NSString *cellID in @[CardKBindingCardCellID, CardKSecureCodeCellID, CardKBindingButtonCellID]) {
+  for (NSString *cellID in @[CardKBindingCardCellID, CardKBindingButtonCellID]) {
    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
   
@@ -166,7 +165,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
     view = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier: CardKConfirmChoosedCardFooterID];
   }
 
-  if (section == 1) {
+  if (section == 0) {
     if (_secureCodeFooterView == nil) {
       _secureCodeFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
     }
@@ -188,11 +187,13 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 
   if ([CardKBindingCardCellID isEqual:cellID]) {
     [cell addSubview: _cardKBinding];
-  } else if([CardKSecureCodeCellID isEqual:cellID]) {
-    _secureCodeTextField.frame = cell.contentView.bounds;
-    [cell.contentView addSubview:_secureCodeTextField];
   } else if ([CardKBindingButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
+  }
+  
+  if ([CardKBindingCardCellID isEqual:cellID] && CardKConfig.shared.bindingCVCRequired) {
+    [cell addSubview: _secureCodeTextField];
+    _secureCodeTextField.frame = CGRectMake(cell.contentView.bounds.size.width, 0, _secureCodeTextField.intrinsicContentSize.width, 44);
   }
    
   CardKTheme *theme = CardKConfig.shared.theme;

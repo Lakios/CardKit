@@ -42,8 +42,8 @@
   CGRect bounds = self.superview.bounds;
   
   if (@available(iOS 11.0, *)) {
-    _label.frame = CGRectMake(self.safeAreaInsets.left + 60, 0, bounds.size.width, bounds.size.height);
     _paymentSystemImageView.frame = CGRectMake(self.safeAreaInsets.left, 0, 50, bounds.size.height);
+    _label.frame = CGRectMake(CGRectGetMaxX(_paymentSystemImageView.frame), 0, _label.intrinsicContentSize.width, bounds.size.height);
   } else {
     _label.frame = CGRectMake(60, 0, bounds.size.width, bounds.size.height);
     _paymentSystemImageView.frame = CGRectMake(0, 0, 50, bounds.size.height);
