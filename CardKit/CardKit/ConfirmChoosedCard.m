@@ -51,7 +51,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
     _secureCodeTextField.placeholder = NSLocalizedStringFromTableInBundle(@"CVC", nil, _languageBundle, @"CVC placeholder");
     _secureCodeTextField.secureTextEntry = YES;
     _secureCodeTextField.accessibilityLabel = NSLocalizedStringFromTableInBundle(@"cvc", nil, _languageBundle, @"CVC accessibility");
-    
+    _secureCodeTextField.keyboardType = UIKeyboardTypeNumberPad;
     [_secureCodeTextField addTarget:self action:@selector(_clearSecureCodeErrors) forControlEvents:UIControlEventEditingDidBegin];
     [_secureCodeTextField addTarget:self action:@selector(_clearSecureCodeErrors) forControlEvents:UIControlEventValueChanged];
     [_secureCodeTextField addTarget:self action:@selector(_buttonPressed:) forControlEvents:UIControlEventEditingDidEndOnExit];
@@ -131,6 +131,12 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   ] copyItems:YES];
   
   return defaultSections;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  if (CardKConfig.shared.bindingCVCRequired) {
+    [_secureCodeTextField becomeFirstResponder];
+  }
 }
 
 - (void)viewDidLoad {
