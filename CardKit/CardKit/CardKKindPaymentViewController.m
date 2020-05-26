@@ -11,6 +11,7 @@
 #import "CardKConfig.h"
 #import "CardKBinding.h"
 #import "ConfirmChoosedCard.h"
+#import "CardKBankLogoView.h"
 
 const NSString *CardKApplePayllID = @"applePay";
 const NSString *CardKSavedCardsCellID = @"savedCards";
@@ -22,6 +23,7 @@ const NSString *CardKKindPayRows = @"rows";
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSArray *_sections;
+  CardKBankLogoView *_bankLogoView;
 }
 
 - (instancetype)init {
@@ -48,6 +50,10 @@ const NSString *CardKKindPayRows = @"rows";
     forControlEvents:UIControlEventTouchUpInside];
     
     _sections = [self _defaultSections];
+    
+    _bankLogoView = [[CardKBankLogoView alloc] init];
+    _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _languageBundle, @"Title");
   }
   return self;
 }
@@ -81,6 +87,8 @@ const NSString *CardKKindPayRows = @"rows";
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
+  
+  _bankLogoView.frame = CGRectMake(self.view.bounds.size.width * 2, 0, 0, 0);
 }
 
 - (void)viewDidLayoutSubviews {
@@ -141,6 +149,7 @@ const NSString *CardKKindPayRows = @"rows";
     cardKBinding.cardNumber = selectedCardBinding.cardNumber;
        
     confirmChoosedCard.cardKBinding = cardKBinding;
+    confirmChoosedCard.bankLogoView = _bankLogoView;
     
     [self.navigationController pushViewController:confirmChoosedCard animated:true];
   }
