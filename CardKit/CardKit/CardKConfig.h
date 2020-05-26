@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "CardKTheme.h"
+#import "CardKBinding.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*! Обязательный ввод CVC*/
 @property BOOL bindingCVCRequired;
+
+/*! Массив связок*/
+@property NSArray<CardKBinding *> *bindings;
 
 @end
 

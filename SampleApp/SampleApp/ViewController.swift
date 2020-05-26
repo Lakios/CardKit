@@ -178,6 +178,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.allowSaveBindings = false;
     CardKConfig.shared.allowApplePay = true;
     CardKConfig.shared.bindingCVCRequired = true;
+    CardKConfig.shared.bindings = self._fetchBindingCards();
 
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -315,6 +316,44 @@ class ViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
     return true
   }
+  
+  func _readJSONFile() -> NSData? {
+    let path = Bundle.main.path(forResource: "bindings", ofType: "json");
+    return NSData.init(contentsOfFile: path ?? "");
+  }
+
+  
+  func _fetchBindingCards() -> [CardKBinding] {
+    let data = self._readJSONFile();
+    
+    if (data == nil) {
+      return []
+    }
+    
+    do {
+      let responseDictionary: NSDictionary = try JSONSerialization.jsonObject(with: data! as Data, options: []) as! NSDictionary
+        
+      let bindingItems = responseDictionary["bindingItems"] as! [Dictionary<String,AnyObject>]
+
+      var bindings = [CardKBinding]();
+
+      for binding in bindingItems {
+        let cardKBinding = CardKBinding();
+        
+        cardKBinding.bindingId = binding["id"] as! String;
+        cardKBinding.paymentSystem = binding["paymentSystem"] as! String;
+        cardKBinding.cardNumber = binding["label"] as! String;
+        
+        bindings.append(cardKBinding);
+      }
+      
+      return bindings;
+    } catch {
+        print("error writing JSON: \(error)")
+      
+      return []
+    }
+  }
 }
 
 extension ViewController: CardKViewControllerDelegate {
@@ -326,10 +365,10 @@ extension ViewController: CardKViewControllerDelegate {
     controller.mdOrder = "mdOrder";
   }
   
-  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {
+  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveCard: Bool) {
     debugPrint(seToken)
 
-    let alert = UIAlertController(title: "SeToken", message: seToken, preferredStyle: UIAlertController.Style.alert)
+    let alert = UIAlertController(title: "SeToken", message: "allowSaveCard = \(allowSaveCard) \n seToken = \(seToken)", preferredStyle: UIAlertController.Style.alert)
     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
     controller.present(alert, animated: true)

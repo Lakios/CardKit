@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0CDCE6C0041575C85620EDD3 /* Pods_SampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90E0DAB803DD340C070713CD /* Pods_SampleApp.framework */; };
+		9234CC56247D2157009E3034 /* bindings.json in Resources */ = {isa = PBXBuildFile; fileRef = 9234CC55247D2157009E3034 /* bindings.json */; };
 		D245AB97231C444600369747 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D245AB96231C444600369747 /* AppDelegate.swift */; };
 		D245AB99231C444600369747 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D245AB98231C444600369747 /* ViewController.swift */; };
 		D245AB9E231C444700369747 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D245AB9D231C444700369747 /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 		547AE47F17B068B145C06A2D /* Pods-SampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.debug.xcconfig"; path = "Target Support Files/Pods-SampleApp/Pods-SampleApp.debug.xcconfig"; sourceTree = "<group>"; };
 		747C8D3F93DB09475EB327A9 /* Pods-SampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.release.xcconfig"; path = "Target Support Files/Pods-SampleApp/Pods-SampleApp.release.xcconfig"; sourceTree = "<group>"; };
 		90E0DAB803DD340C070713CD /* Pods_SampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9234CC55247D2157009E3034 /* bindings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bindings.json; sourceTree = "<group>"; };
 		D245AB93231C444600369747 /* SampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D245AB96231C444600369747 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D245AB98231C444600369747 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		D245AB8A231C444600369747 = {
 			isa = PBXGroup;
 			children = (
+				9234CC55247D2157009E3034 /* bindings.json */,
 				D245ABB6231C445D00369747 /* CardKit.framework */,
 				D245AB95231C444600369747 /* SampleApp */,
 				D245ABAA231C444700369747 /* SampleAppTests */,
@@ -226,6 +229,7 @@
 			files = (
 				D245ABA1231C444700369747 /* LaunchScreen.storyboard in Resources */,
 				D245AB9E231C444700369747 /* Assets.xcassets in Resources */,
+				9234CC56247D2157009E3034 /* bindings.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

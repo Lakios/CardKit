@@ -482,7 +482,8 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   }
 
   NSString *seToken = [RSA encryptString:cardData publicKey:_pubKey];
-  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken];
+  
+  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken allowSaveCard: _switchView.getSwitch.isOn];
 }
 
 - (void)_scanCard:(UITapGestureRecognizer *)gestureRecognizer {
