@@ -12,6 +12,7 @@
 #import "CardKTextField.h"
 #import "CardKFooterView.h"
 #import "CardKValidation.h"
+#import "CardKBankLogoView.h"
 
 const NSString *CardKBindingCardCellID = @"bindingCard";
 const NSString *CardKBindingButtonCellID = @"button";
@@ -27,6 +28,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   CardKTextField *_secureCodeTextField;
   NSMutableArray *_secureCodeErrors;
   NSString *_lastAnouncment;
+  CardKBankLogoView *_bankLogoView;
 }
 - (instancetype)init {
   self = [super initWithStyle:UITableViewStyleGrouped];
@@ -45,6 +47,10 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
      } else {
        _languageBundle = _bundle;
      }
+    
+    _bankLogoView = [[CardKBankLogoView alloc] init];
+    _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _languageBundle, @"Title");
     
     _secureCodeTextField = [[CardKTextField alloc] init];
     _secureCodeTextField.pattern = CardKTextFieldPatternSecureCode;
@@ -148,7 +154,10 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   
   CardKTheme *theme = CardKConfig.shared.theme;
   _button.frame = CGRectMake(0, 0, self.view.bounds.size.width, 40);
-
+  
+  _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
+  
+  self.tableView.tableHeaderView = _bankLogoView;
   self.tableView.separatorColor = theme.colorSeparatar;
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
@@ -160,7 +169,16 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   
   CGRect bounds = _button.superview.bounds;
   _button.center = CGPointMake(bounds.size.width * 0.5, bounds.size.height * 0.5);
+  
+  [_bankLogoView showNumber: [self _getKnowsCardDigit]];
 }
+
+- (NSString *) _getKnowsCardDigit {
+  NSArray *digits = [_cardKBinding.cardNumber componentsSeparatedByString:@"X"];
+  
+  return digits[0];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return _sections.count;
 }
