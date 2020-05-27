@@ -42,9 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Разрешить использование apple pay*/
 @property BOOL allowApplePay;
 
-/*! Разрешить использование apple pay*/
-@property NSString *mdOrder;
-
 /*!
 @brief Присвоить данные карты
 @param number Номер карты.

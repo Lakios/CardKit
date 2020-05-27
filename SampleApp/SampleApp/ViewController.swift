@@ -364,7 +364,6 @@ extension ViewController: CardKViewControllerDelegate {
     controller.purchaseButtonTitle = "Custom purchase button";
     controller.isTestMod = true;
     controller.allowSaveBindings = true;
-    controller.mdOrder = "mdOrder";
   }
   
   func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveCard: Bool) {
