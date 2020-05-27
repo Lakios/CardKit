@@ -33,9 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Разрешить исспользование сканера карточки. */
 @property BOOL allowedCardScaner;
 
-/*! Режим запуска */
-@property BOOL isTestMod;
-
 /*! Разрешить сохранение карты*/
 @property BOOL allowSaveBindings;
 
