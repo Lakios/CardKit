@@ -122,11 +122,9 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
   NSString *uuid = [[NSUUID UUID] UUIDString];
 
-  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@", timeStamp, uuid, _secureCodeTextField.text, @"_mdOrder", _cardKBinding.bindingId];
-  
-  NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhjH8R0jfvvEJwAHRhJi2Q4fLi1p2z10PaDMIhHbD3fp4OqypWaE7p6n6EHig9qnwC/4U7hCiOCqY6uYtgEoDHfbNA87/X0jV8UI522WjQH7Rgkmgk35r75G5m4cYeF6OvCHmAJ9ltaFsLBdr+pK6vKz/3AzwAc/5a6QcO/vR3PHnhE/qU2FOU3Vd8OYN2qcw4TFvitXY2H6YdTNF4YmlFtj4CqQoPL1u/uI0UpsG3/epWMOk44FBlXoZ7KNmJU29xbuiNEm1SWRJS2URMcUxAdUfhzQ2+Z4F0eSo2/cxwlkNA+gZcXnLbEWIfYYvASKpdXBIzgncMBro424z/KUr3QIDAQAB-----END PUBLIC KEY-----";
+  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@", timeStamp, uuid, _secureCodeTextField.text, CardKConfig.shared.mdOrder, _cardKBinding.bindingId];
 
-  NSString *seToken = [RSA encryptString:cardData publicKey:CardKTestKey];
+  NSString *seToken = [RSA encryptString:cardData publicKey:CardKConfig.shared.pubKey];
 
   [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken allowSaveCard:NO];
 }

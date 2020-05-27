@@ -29,6 +29,15 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Обязательный ввод CVC*/
 @property BOOL bindingCVCRequired;
 
+/*! Режим запуска */
+@property BOOL isTestMod;
+
+/*! Режим запуска */
+@property NSString *pubKey;
+
+/*! Разрешить использование apple pay*/
+@property NSString *mdOrder;
+
 /*! Массив связок*/
 @property NSArray<CardKBinding *> *bindings;
 

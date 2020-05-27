@@ -179,7 +179,9 @@ class ViewController: UITableViewController {
     CardKConfig.shared.allowApplePay = true;
     CardKConfig.shared.bindingCVCRequired = true;
     CardKConfig.shared.bindings = self._fetchBindingCards();
-
+    CardKConfig.shared.isTestMod = true;
+    CardKConfig.shared.mdOrder = "mdOrder";
+    
     let controller = CardKViewController();
     controller.cKitDelegate = self
 
