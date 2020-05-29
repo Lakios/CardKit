@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <PassKit/PassKit.h>
 #import "CardKTheme.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)cardKitViewController:(CardKViewController *)controller didCreateSeToken:(NSString *)seToken allowSaveCard:(BOOL) allowSaveCard;
 - (void)willShowController:(CardKViewController *) controller;
+
+- (void)willShowPaymentView:(UIView *) controller paymentRequest: (PKPaymentRequest *) paymentRequest;
 
 @optional - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller;
 

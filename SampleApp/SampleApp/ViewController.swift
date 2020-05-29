@@ -9,7 +9,6 @@
 import UIKit
 import CardKit
 
-
 let publicKey = """
 -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiDgvGLU1dFQ0tA0Epbpj
@@ -42,6 +41,7 @@ struct SectionItem {
     case navDarkTheme
     case navSystemTheme
     case language
+    case paymentView
   }
 }
 
@@ -181,6 +181,8 @@ class ViewController: UITableViewController {
     CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
+    CardKConfig.shared.paymentButtonType = .buy;
+    CardKConfig.shared.paymentButtonStyle = .black;
     
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -242,6 +244,12 @@ class ViewController: UITableViewController {
       self.present(navController, animated: true)
       CardIOUtilities.preloadCardIO()
   }
+  
+  func _openPaymentView() {
+    let controller = SampleCardKPaymentView();
+    self.present(controller, animated: true)
+  }
+  
   func _callFunctionByKindOfButton(kind: SectionItem.Kind, language: String) {
     switch kind {
     case .lightTheme: _openController()
@@ -252,6 +260,7 @@ class ViewController: UITableViewController {
     case .navDarkTheme: _openDarkUINavigation()
     case .navSystemTheme: _openSystemUINavigation()
     case .language: _openWitchChooseLanguage(language: language)
+    case .paymentView: _openPaymentView()
     }
   }
   
@@ -276,6 +285,10 @@ class ViewController: UITableViewController {
       SectionItem(title: "French - fr", kind: .language, isShowChevron: false, language: "fr"),
       SectionItem(title: "Spanish - es", kind: .language, isShowChevron: false, language: "es"),
       SectionItem(title: "Ukrainian - uk", kind: .language, isShowChevron: false, language: "uk"),
+    ]),
+    
+    Section(title: "CardKPaymentView", items: [
+      SectionItem(title: "Payment view", kind: .paymentView, isShowChevron: true, language: ""),
     ]),
   ]
 
@@ -359,6 +372,10 @@ class ViewController: UITableViewController {
 }
 
 extension ViewController: CardKViewControllerDelegate {
+  func willShowPaymentView(_ controller: UIView, paymentRequest: PKPaymentRequest) {
+    
+  }
+  
   func willShow(_ controller: CardKViewController) {
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";

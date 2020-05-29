@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <PassKit/PassKit.h>
 #import "CardKTheme.h"
 #import "CardKBinding.h"
 
@@ -40,6 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*! Массив связок*/
 @property NSArray<CardKBinding *> *bindings;
+
+@property PKPaymentRequest *request;
+
+@property PKPaymentButtonType paymentButtonType;
+
+@property PKPaymentButtonStyle paymentButtonStyle;
+
 
 @end
 
