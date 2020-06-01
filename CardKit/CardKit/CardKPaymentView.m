@@ -16,7 +16,6 @@
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSArray *_sections;
-  PKPaymentRequest *_paymentRequest;
 }
 
 - (instancetype)init {
@@ -53,7 +52,7 @@
 }
 
 - (void)layoutSubviews {
-  [_cKitDelegate willShowPaymentView:self paymentRequest: _paymentRequest];
+  [_cKitDelegate willShowPaymentView:self];
   CGRect bounds = self.bounds;
   CGRect screenRect = [[UIScreen mainScreen] bounds];
   

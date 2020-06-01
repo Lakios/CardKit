@@ -10,16 +10,18 @@
 #import <PassKit/PassKit.h>
 #import "CardKTheme.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class CardKViewController;
+@class CardKPaymentView;
 
 @protocol CardKViewControllerDelegate <NSObject>
 
 - (void)cardKitViewController:(CardKViewController *)controller didCreateSeToken:(NSString *)seToken allowSaveCard:(BOOL) allowSaveCard;
 - (void)willShowController:(CardKViewController *) controller;
 
-- (void)willShowPaymentView:(UIView *) controller paymentRequest: (PKPaymentRequest *) paymentRequest;
+- (void)willShowPaymentView:(CardKPaymentView *) paymentView;
 
 @optional - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller;
 

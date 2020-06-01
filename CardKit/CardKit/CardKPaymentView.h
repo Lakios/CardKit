@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <PassKit/PassKit.h>
 #import "CardKViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property UIViewController *controller;
 @property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
 @property NSString *merchantId;
+@property PKPaymentRequest *paymentRequest;
 
 @end
 

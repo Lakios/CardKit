@@ -372,7 +372,7 @@ class ViewController: UITableViewController {
 }
 
 extension ViewController: CardKViewControllerDelegate {
-  func willShowPaymentView(_ controller: UIView, paymentRequest: PKPaymentRequest) {
+  func willShow(_ paymentView: CardKPaymentView) {
     
   }
   

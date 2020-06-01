@@ -37,7 +37,7 @@ class SampleCardKPaymentView: UIViewController {
      self.view.addSubview(button);
     }
   }
-  
+   
   func _getButtons() -> [CGRect] {
     let height = self.view.bounds.height;
     let width = self.view.bounds.width;
@@ -56,16 +56,16 @@ class SampleCardKPaymentView: UIViewController {
 }
 
 extension SampleCardKPaymentView: CardKViewControllerDelegate {
-  func willShowPaymentView(_ controller: UIView, paymentRequest: PKPaymentRequest) {
+  func willShow(_ paymentView: CardKPaymentView) {
     let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
     let paymentItem = PKPaymentSummaryItem.init(label: "Test", amount: NSDecimalNumber(value: 10))
-    
-    paymentRequest.currencyCode = "USD"
-    paymentRequest.countryCode = "US"
-    paymentRequest.merchantIdentifier = "merchant.test"
-    paymentRequest.merchantCapabilities = PKMerchantCapability.capability3DS
-    paymentRequest.supportedNetworks = paymentNetworks
-    paymentRequest.paymentSummaryItems = [paymentItem]
+  
+    paymentView.paymentRequest.currencyCode = "USD"
+    paymentView.paymentRequest.countryCode = "US"
+    paymentView.paymentRequest.merchantIdentifier = "merchant.test"
+    paymentView.paymentRequest.merchantCapabilities = PKMerchantCapability.capability3DS
+    paymentView.paymentRequest.supportedNetworks = paymentNetworks
+    paymentView.paymentRequest.paymentSummaryItems = [paymentItem]
   }
   
   func willShow(_ controller: CardKViewController) {
