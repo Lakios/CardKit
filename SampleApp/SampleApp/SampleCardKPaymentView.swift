@@ -14,8 +14,6 @@ class SampleCardKPaymentView: UIViewController {
   
   override func viewDidLoad() {
     self.view.backgroundColor = CardKTheme.light().colorTableBackground;
-    CardKConfig.shared.paymentButtonStyle = .white;
-    CardKConfig.shared.paymentButtonType = .buy;
     let buttonsCGRect = _getButtons();
 
     for buttonCGRect in buttonsCGRect {
@@ -66,6 +64,12 @@ extension SampleCardKPaymentView: CardKViewControllerDelegate {
     paymentView.paymentRequest.merchantCapabilities = PKMerchantCapability.capability3DS
     paymentView.paymentRequest.supportedNetworks = paymentNetworks
     paymentView.paymentRequest.paymentSummaryItems = [paymentItem]
+    paymentView.paymentButtonStyle = .black;
+    paymentView.paymentButtonType = .buy;
+    
+    paymentView.button.backgroundColor = .white;
+    paymentView.button.setTitleColor(.black, for: .normal);
+    paymentView.button.setTitle("Custom title", for: .normal);
   }
   
   func willShow(_ controller: CardKViewController) {

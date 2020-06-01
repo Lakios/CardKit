@@ -181,8 +181,6 @@ class ViewController: UITableViewController {
     CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
-    CardKConfig.shared.paymentButtonType = .buy;
-    CardKConfig.shared.paymentButtonStyle = .black;
     
     let controller = CardKViewController();
     controller.cKitDelegate = self

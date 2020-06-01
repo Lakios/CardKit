@@ -18,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
 @property NSString *merchantId;
 @property PKPaymentRequest *paymentRequest;
+@property PKPaymentButtonType paymentButtonType;
+@property PKPaymentButtonStyle paymentButtonStyle;
+@property UIButton *button;
 
 @end
 

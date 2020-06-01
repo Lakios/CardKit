@@ -11,7 +11,6 @@
 #import "CardKViewController.h"
 
 @implementation CardKPaymentView {
-  UIButton *_button;
   PKPaymentButton *_applePayButton;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
@@ -32,11 +31,10 @@
        _languageBundle = _bundle;
      }
     
-    _applePayButton = [[PKPaymentButton alloc] initWithPaymentButtonType: CardKConfig.shared.paymentButtonType paymentButtonStyle: CardKConfig.shared.paymentButtonStyle];
-    [_applePayButton addTarget:self action:@selector(onApplePayButtonPressed:)
-    forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview: _applePayButton];
-    
+    _button = [UIButton buttonWithType:UIButtonTypeSystem];
+    _button.layer.cornerRadius = 4;
+    [_button setBackgroundColor: CardKConfig.shared.theme.colorCellBackground];
+    [_button setTitleColor: CardKConfig.shared.theme.colorLabel forState:UIControlStateNormal];
     [_button
       setTitle: NSLocalizedStringFromTableInBundle(@"payByCard", nil, _languageBundle,  @"Pay by card")
       forState: UIControlStateNormal];
@@ -53,6 +51,13 @@
 
 - (void)layoutSubviews {
   [_cKitDelegate willShowPaymentView:self];
+  
+  _applePayButton = [[PKPaymentButton alloc] initWithPaymentButtonType: _paymentButtonType paymentButtonStyle: _paymentButtonStyle];
+  
+  [_applePayButton addTarget:self action:@selector(onApplePayButtonPressed:)
+  forControlEvents:UIControlEventTouchUpInside];
+  [self addSubview: _applePayButton];
+  
   CGRect bounds = self.bounds;
   CGRect screenRect = [[UIScreen mainScreen] bounds];
   
@@ -88,13 +93,13 @@
   
   if (width < 100) {
     _applePayButton.frame = CGRectMake(0, 0, buttonWidth, buttonHeight);
-    _button.frame = CGRectMake(0, CGRectGetMaxY(_applePayButton.frame), buttonWidth, buttonHeight);
+    _button.frame = CGRectMake(0, CGRectGetMaxY(_applePayButton.frame) + 8, buttonWidth, buttonHeight);
     return;
   }
 
   if (height >= 100) {
     _button.frame = CGRectMake(0, 0, buttonWidth, buttonHeight);
-    _applePayButton.frame = CGRectMake(CGRectGetMaxX(_button.frame), 0, buttonWidth, buttonHeight);
+    _applePayButton.frame = CGRectMake(CGRectGetMaxX(_button.frame) + 8, 0, buttonWidth, buttonHeight);
   }
 }
 
