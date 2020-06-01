@@ -38,7 +38,6 @@
     forControlEvents:UIControlEventTouchUpInside];
     [self addSubview: _applePayButton];
     
-    
     [_button
       setTitle: NSLocalizedStringFromTableInBundle(@"payByCard", nil, _languageBundle,  @"Pay by card")
       forState: UIControlStateNormal];
@@ -46,8 +45,7 @@
     forControlEvents:UIControlEventTouchUpInside];
     
     [self addSubview:_button];
-    
-    
+
     _paymentRequest = [[PKPaymentRequest alloc] init];
     
   }
@@ -56,16 +54,48 @@
 
 - (void)layoutSubviews {
   [_cKitDelegate willShowPaymentView:self paymentRequest: _paymentRequest];
-  
   CGRect bounds = self.bounds;
-  if (self.bounds.size.width < 100) {
-    _button.frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
-    _applePayButton.frame = CGRectMake(0, CGRectGetMaxY(_button.frame), bounds.size.width, 30);
+  CGRect screenRect = [[UIScreen mainScreen] bounds];
+  
+  NSInteger screenWidth = screenRect.size.width;
+  NSInteger height = bounds.size.height;
+  NSInteger width = bounds.size.width;
+  NSInteger maxButtonWidth = screenWidth / 3;
+  NSInteger maxButtonHeight = 44;
+  NSInteger minButtonHeight = 30;
+  NSInteger minButtonWidth = 100;
+  
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    maxButtonWidth = screenWidth / 4;
+    maxButtonHeight = 60;
+    minButtonHeight = 44;
   }
 
-  if (self.bounds.size.width >= 100) {
-    _button.frame = CGRectMake(0, 0, bounds.size.width / 2, bounds.size.height);
-    _applePayButton.frame = CGRectMake(CGRectGetMaxX(_button.frame), 0, bounds.size.width / 2, 30);
+  NSInteger buttonHeight = height;
+  
+  if (height > maxButtonHeight) {
+    buttonHeight = maxButtonHeight;
+  } else if (height < minButtonHeight) {
+    buttonHeight = minButtonHeight;
+  }
+  
+  NSInteger buttonWidth = width / 2;
+  
+  if (width / 2 >= maxButtonWidth) {
+    buttonWidth = maxButtonWidth;
+  } else if (width / 2 < minButtonWidth) {
+    buttonWidth = minButtonWidth;
+  }
+  
+  if (width < 100) {
+    _applePayButton.frame = CGRectMake(0, 0, buttonWidth, buttonHeight);
+    _button.frame = CGRectMake(0, CGRectGetMaxY(_applePayButton.frame), buttonWidth, buttonHeight);
+    return;
+  }
+
+  if (height >= 100) {
+    _button.frame = CGRectMake(0, 0, buttonWidth, buttonHeight);
+    _applePayButton.frame = CGRectMake(CGRectGetMaxX(_button.frame), 0, buttonWidth, buttonHeight);
   }
 }
 
