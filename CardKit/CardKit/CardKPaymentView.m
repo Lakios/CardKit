@@ -15,12 +15,17 @@
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSArray *_sections;
+  id<CardKViewControllerDelegate> _cKitDelegate;
 }
 
-- (instancetype)init {
+- (instancetype)initWithDelegate:(id<CardKViewControllerDelegate>)cKitDelegate {
   self = [super init];
   if (self) {
+    _paymentRequest = [[PKPaymentRequest alloc] init];
+
     _cardPaybutton =  [UIButton buttonWithType:UIButtonTypeSystem];
+    
+    [cKitDelegate willShowPaymentView:self];
     
     _bundle = [NSBundle bundleForClass:[CardKPaymentView class]];
      
@@ -30,6 +35,12 @@
      } else {
        _languageBundle = _bundle;
      }
+    
+    _applePayButton = [[PKPaymentButton alloc] initWithPaymentButtonType: _paymentButtonType paymentButtonStyle: _paymentButtonStyle];
+    
+    [_applePayButton addTarget:self action:@selector(onApplePayButtonPressed:)
+    forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview: _applePayButton];
     
     _cardPaybutton = [UIButton buttonWithType:UIButtonTypeSystem];
     _cardPaybutton.layer.cornerRadius = 4;
@@ -43,21 +54,12 @@
     
     [self addSubview:_cardPaybutton];
 
-    _paymentRequest = [[PKPaymentRequest alloc] init];
-    
+    _cKitDelegate = cKitDelegate;
   }
   return self;
 }
 
 - (void)layoutSubviews {
-  [_cKitDelegate willShowPaymentView:self];
-  
-  _applePayButton = [[PKPaymentButton alloc] initWithPaymentButtonType: _paymentButtonType paymentButtonStyle: _paymentButtonStyle];
-  
-  [_applePayButton addTarget:self action:@selector(onApplePayButtonPressed:)
-  forControlEvents:UIControlEventTouchUpInside];
-  [self addSubview: _applePayButton];
-  
   CGRect bounds = self.bounds;
   CGRect screenRect = [[UIScreen mainScreen] bounds];
   

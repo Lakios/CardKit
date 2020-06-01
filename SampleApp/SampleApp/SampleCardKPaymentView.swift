@@ -17,9 +17,8 @@ class SampleCardKPaymentView: UIViewController {
     let buttonsCGRect = _getButtons();
 
     for buttonCGRect in buttonsCGRect {
-      let cardKPaymentView = CardKPaymentView();
+      let cardKPaymentView = CardKPaymentView.init(delegate: self);
       cardKPaymentView.controller = self;
-      cardKPaymentView.cKitDelegate = self;
       self.view.addSubview(cardKPaymentView);
       cardKPaymentView.frame = buttonCGRect;
       buttons.append(cardKPaymentView);

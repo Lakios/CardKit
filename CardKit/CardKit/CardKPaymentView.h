@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CardKPaymentView: UIView
 
+- (instancetype)initWithDelegate:(id<CardKViewControllerDelegate>)cKitDelegate;
 @property UIViewController *controller;
-@property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
 @property NSString *merchantId;
 @property PKPaymentRequest *paymentRequest;
 @property PKPaymentButtonType paymentButtonType;
