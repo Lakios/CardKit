@@ -20,7 +20,7 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    _button =  [UIButton buttonWithType:UIButtonTypeSystem];
+    _cardPaybutton =  [UIButton buttonWithType:UIButtonTypeSystem];
     
     _bundle = [NSBundle bundleForClass:[CardKPaymentView class]];
      
@@ -31,17 +31,17 @@
        _languageBundle = _bundle;
      }
     
-    _button = [UIButton buttonWithType:UIButtonTypeSystem];
-    _button.layer.cornerRadius = 4;
-    [_button setBackgroundColor: CardKConfig.shared.theme.colorCellBackground];
-    [_button setTitleColor: CardKConfig.shared.theme.colorLabel forState:UIControlStateNormal];
-    [_button
+    _cardPaybutton = [UIButton buttonWithType:UIButtonTypeSystem];
+    _cardPaybutton.layer.cornerRadius = 4;
+    [_cardPaybutton setBackgroundColor: CardKConfig.shared.theme.colorCellBackground];
+    [_cardPaybutton setTitleColor: CardKConfig.shared.theme.colorLabel forState:UIControlStateNormal];
+    [_cardPaybutton
       setTitle: NSLocalizedStringFromTableInBundle(@"payByCard", nil, _languageBundle,  @"Pay by card")
       forState: UIControlStateNormal];
-    [_button addTarget:self action:@selector(_buttonPressed:)
+    [_cardPaybutton addTarget:self action:@selector(_cardPaybuttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
     
-    [self addSubview:_button];
+    [self addSubview:_cardPaybutton];
 
     _paymentRequest = [[PKPaymentRequest alloc] init];
     
@@ -93,13 +93,13 @@
   
   if (width < 100) {
     _applePayButton.frame = CGRectMake(0, 0, buttonWidth, buttonHeight);
-    _button.frame = CGRectMake(0, CGRectGetMaxY(_applePayButton.frame) + 8, buttonWidth, buttonHeight);
+    _cardPaybutton.frame = CGRectMake(0, CGRectGetMaxY(_applePayButton.frame) + 8, buttonWidth, buttonHeight);
     return;
   }
 
   if (height >= 100) {
-    _button.frame = CGRectMake(0, 0, buttonWidth, buttonHeight);
-    _applePayButton.frame = CGRectMake(CGRectGetMaxX(_button.frame) + 8, 0, buttonWidth, buttonHeight);
+    _cardPaybutton.frame = CGRectMake(0, 0, buttonWidth, buttonHeight);
+    _applePayButton.frame = CGRectMake(CGRectGetMaxX(_cardPaybutton.frame) + 8, 0, buttonWidth, buttonHeight);
   }
 }
 
@@ -119,7 +119,7 @@
 {
 }
 
-- (void)_buttonPressed:(UIButton *)button {
+- (void)_cardPaybuttonPressed:(UIButton *)button {
   CardKViewController *controller = [[CardKViewController alloc] init];
   controller.cKitDelegate = _cKitDelegate;
   [_controller.navigationController pushViewController:controller animated:YES];

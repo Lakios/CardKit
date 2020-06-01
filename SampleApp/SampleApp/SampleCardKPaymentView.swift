@@ -67,9 +67,9 @@ extension SampleCardKPaymentView: CardKViewControllerDelegate {
     paymentView.paymentButtonStyle = .black;
     paymentView.paymentButtonType = .buy;
     
-    paymentView.button.backgroundColor = .white;
-    paymentView.button.setTitleColor(.black, for: .normal);
-    paymentView.button.setTitle("Custom title", for: .normal);
+    paymentView.cardPaybutton.backgroundColor = .white;
+    paymentView.cardPaybutton.setTitleColor(.black, for: .normal);
+    paymentView.cardPaybutton.setTitle("Custom title", for: .normal);
   }
   
   func willShow(_ controller: CardKViewController) {

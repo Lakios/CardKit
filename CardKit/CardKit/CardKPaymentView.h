@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property PKPaymentRequest *paymentRequest;
 @property PKPaymentButtonType paymentButtonType;
 @property PKPaymentButtonStyle paymentButtonStyle;
-@property UIButton *button;
+@property UIButton *cardPaybutton;
 
 @end
 
