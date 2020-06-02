@@ -53,6 +53,11 @@ class SampleCardKPaymentView: UIViewController {
 }
 
 extension SampleCardKPaymentView: CardKViewControllerDelegate {
+  func cardKPaymentView(_ paymentView: CardKPaymentView, didCreateToken token: [AnyHashable : Any]) {
+    <#code#>
+  }
+
+  
   func willShow(_ paymentView: CardKPaymentView) {
     let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
     let paymentItem = PKPaymentSummaryItem.init(label: "Test", amount: NSDecimalNumber(value: 10))

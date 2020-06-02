@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)willShowController:(CardKViewController *) controller;
 
 - (void)willShowPaymentView:(CardKPaymentView *) paymentView;
+- (void)cardKPaymentView:(CardKPaymentView *) paymentView didCreateToken:(NSDictionary *) token;
 
 @optional - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller;
 

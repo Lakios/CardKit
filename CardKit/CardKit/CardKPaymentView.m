@@ -16,6 +16,7 @@
   NSBundle *_languageBundle;
   NSArray *_sections;
   id<CardKViewControllerDelegate> _cKitDelegate;
+  PKPaymentAuthorizationViewController *_viewController;
 }
 
 - (instancetype)initWithDelegate:(id<CardKViewControllerDelegate>)cKitDelegate {
@@ -107,10 +108,10 @@
 
 -(IBAction)onApplePayButtonPressed:(id)sender
 {
-    PKPaymentAuthorizationViewController *payment = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest: _paymentRequest];
-
-    [_controller presentViewController:payment animated:YES completion:nil];
- }
+    _viewController = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest: _paymentRequest];
+    _viewController.delegate = self;
+    [_controller presentViewController:_viewController animated:YES completion:nil];
+}
 
 -(void)paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
 {
@@ -119,6 +120,16 @@
 
 -(void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller didAuthorizePayment:(PKPayment *)payment completion:(void (^)(PKPaymentAuthorizationStatus))completion
 {
+  NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:payment.token.paymentData options:kNilOptions error:nil];
+  
+  if (dict == nil) {
+    completion(PKPaymentAuthorizationStatusFailure);
+    
+    [_cKitDelegate cardKPaymentView:self didCreateToken:dict];
+    return;
+  }
+  
+  completion(PKPaymentAuthorizationStatusSuccess);
 }
 
 - (void)_cardPaybuttonPressed:(UIButton *)button {

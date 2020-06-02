@@ -370,6 +370,10 @@ class ViewController: UITableViewController {
 }
 
 extension ViewController: CardKViewControllerDelegate {
+  func cardKPaymentView(_ paymentView: CardKPaymentView, didCreateToken token: [AnyHashable : Any]) {
+    
+  }
+  
   func willShow(_ paymentView: CardKPaymentView) {
     
   }
