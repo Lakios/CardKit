@@ -153,7 +153,7 @@ NSString *CardKFooterID = @"footer";
 +(UIViewController *) create:(id<CardKViewControllerDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller {
   UINavigationController *_nController = [UINavigationController alloc];
  
-  if (!CardKConfig.shared.allowApplePay && !CardKConfig.shared.allowSaveBindings) {
+  if ([CardKConfig.shared.bindings count] == 0) {
     return [_nController initWithRootViewController:controller];
   }
   

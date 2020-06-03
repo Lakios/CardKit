@@ -67,7 +67,6 @@ class ViewController: UITableViewController {
   func _openController() {
     CardKConfig.shared.language = "";
     CardKConfig.shared.theme = CardKTheme.light()
-    CardKConfig.shared.allowSaveBindings = false;
     CardKConfig.shared.allowApplePay = false;
 
     let controller = CardKViewController();
@@ -175,7 +174,6 @@ class ViewController: UITableViewController {
   func _openLightUINavigation() {
     CardKConfig.shared.theme = CardKTheme.light();
     CardKConfig.shared.language = "";
-    CardKConfig.shared.allowSaveBindings = false;
     CardKConfig.shared.allowApplePay = true;
     CardKConfig.shared.bindingCVCRequired = true;
     CardKConfig.shared.bindings = self._fetchBindingCards();
@@ -245,7 +243,8 @@ class ViewController: UITableViewController {
   
   func _openPaymentView() {
     let controller = SampleCardKPaymentView();
-    self.present(controller, animated: true)
+  
+    self.navigationController?.pushViewController(controller, animated: true)
   }
   
   func _callFunctionByKindOfButton(kind: SectionItem.Kind, language: String) {

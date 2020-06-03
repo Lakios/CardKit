@@ -143,6 +143,9 @@
 - (void)_cardPaybuttonPressed:(UIButton *)button {
   CardKViewController *controller = [[CardKViewController alloc] init];
   controller.cKitDelegate = _cKitDelegate;
-  [_controller presentViewController:controller animated:YES completion:nil];
+  
+   UIViewController *viewController = [CardKViewController create:_cKitDelegate navigationController:_controller.navigationController controller: controller];
+
+  [_controller presentViewController:viewController animated:YES completion:nil];
 }
 @end

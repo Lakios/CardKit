@@ -13,6 +13,13 @@ class SampleCardKPaymentView: UIViewController {
   var buttons: [CardKPaymentView] = [];
   
   override func viewDidLoad() {
+    CardKConfig.shared.theme = CardKTheme.light();
+    CardKConfig.shared.language = "";
+    CardKConfig.shared.bindingCVCRequired = true;
+    CardKConfig.shared.bindings = [];
+    CardKConfig.shared.isTestMod = true;
+    CardKConfig.shared.mdOrder = "mdOrder";
+    
     self.view.backgroundColor = CardKTheme.light().colorTableBackground;
     let buttonsCGRect = _getButtons();
 
@@ -56,7 +63,6 @@ extension SampleCardKPaymentView: CardKViewControllerDelegate {
   func cardKPaymentView(_ paymentView: CardKPaymentView, didCreateToken token: [AnyHashable : Any]) {
     
   }
-
   
   func willShow(_ paymentView: CardKPaymentView) {
     let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
@@ -78,11 +84,15 @@ extension SampleCardKPaymentView: CardKViewControllerDelegate {
   }
   
   func willShow(_ controller: CardKViewController) {
+    controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
+    controller.purchaseButtonTitle = "Custom purchase button";
+    controller.allowSaveBindings = true;
   }
   
   func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveCard: Bool) {
   }
   
   func cardKitViewControllerScanCardRequest(_ controller: CardKViewController) {
+
   }
 }
