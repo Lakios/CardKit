@@ -21,7 +21,6 @@ class SampleCardKPaymentView: UIViewController {
       cardKPaymentView.controller = self;
       self.view.addSubview(cardKPaymentView);
       cardKPaymentView.frame = buttonCGRect;
-      cardKPaymentView.backgroundColor = .red;
       buttons.append(cardKPaymentView);
     }
   }
