@@ -25,7 +25,7 @@
     _paymentRequest = [[PKPaymentRequest alloc] init];
 
     _cardPaybutton =  [UIButton buttonWithType:UIButtonTypeSystem];
-    
+
     [cKitDelegate willShowPaymentView:self];
     
     _bundle = [NSBundle bundleForClass:[CardKPaymentView class]];
@@ -42,6 +42,7 @@
     [_applePayButton addTarget:self action:@selector(onApplePayButtonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
     [self addSubview: _applePayButton];
+    
     
     _cardPaybutton = [UIButton buttonWithType:UIButtonTypeSystem];
     _cardPaybutton.layer.cornerRadius = 4;
@@ -64,19 +65,15 @@
   CGRect bounds = self.bounds;
   CGRect screenRect = [[UIScreen mainScreen] bounds];
   
-  NSInteger screenWidth = screenRect.size.width;
+  [_cardPaybutton.titleLabel setFont:_applePayButton.titleLabel.font];
+
   NSInteger height = bounds.size.height;
   NSInteger width = bounds.size.width;
-  NSInteger maxButtonWidth = screenWidth / 3;
+  NSInteger maxButtonWidth = 288;
   NSInteger maxButtonHeight = 44;
   NSInteger minButtonHeight = 30;
-  NSInteger minButtonWidth = 100;
-  
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-    maxButtonWidth = screenWidth / 4;
-    maxButtonHeight = 60;
-    minButtonHeight = 44;
-  }
+  NSInteger minButtonWidth = 80;
+  NSInteger minMargin = 20;
 
   NSInteger buttonHeight = height;
   
@@ -94,16 +91,28 @@
     buttonWidth = minButtonWidth;
   }
   
-  if (width < 100) {
-    _applePayButton.frame = CGRectMake(0, 0, buttonWidth, buttonHeight);
-    _cardPaybutton.frame = CGRectMake(0, CGRectGetMaxY(_applePayButton.frame) + 8, buttonWidth, buttonHeight);
+  if (![PKPaymentAuthorizationViewController canMakePayments] || [[_merchantId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]  isEqual: @""]) {
+    
+    _applePayButton.hidden = YES;
+    _cardPaybutton.frame = CGRectMake(width * 0.5 - buttonWidth / 2, 0, buttonWidth, buttonHeight);
+
+    return;
+  }
+  
+  if (width / 2 < minButtonWidth) {
+    _applePayButton.frame = CGRectMake(minMargin, 0, buttonWidth - minMargin, buttonHeight);
+    _cardPaybutton.frame = CGRectMake(minMargin, CGRectGetMaxY(_applePayButton.frame) + 8, buttonWidth - minMargin, buttonHeight);
+    return;
+  }
+  
+  if (width < buttonWidth * 2 + minMargin * 2) {
+    _cardPaybutton.frame = CGRectMake(minMargin, 0, buttonWidth - minMargin - 8, buttonHeight);
+    _applePayButton.frame = CGRectMake(CGRectGetMaxX(_cardPaybutton.frame) + 8, 0, buttonWidth - minMargin, buttonHeight);
     return;
   }
 
-  if (height >= 100) {
-    _cardPaybutton.frame = CGRectMake(0, 0, buttonWidth, buttonHeight);
-    _applePayButton.frame = CGRectMake(CGRectGetMaxX(_cardPaybutton.frame) + 8, 0, buttonWidth, buttonHeight);
-  }
+  _cardPaybutton.frame = CGRectMake(width * 0.5 - buttonWidth, 0, buttonWidth, buttonHeight);
+  _applePayButton.frame = CGRectMake(CGRectGetMaxX(_cardPaybutton.frame) + 8, 0, buttonWidth - minMargin, buttonHeight);
 }
 
 -(IBAction)onApplePayButtonPressed:(id)sender
