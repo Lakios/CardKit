@@ -214,14 +214,16 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellID forIndexPath:indexPath];
 
   if ([CardKBindingCardCellID isEqual:cellID]) {
-    [cell addSubview: _cardKBinding];
+    _cardKBinding.frame = cell.contentView.bounds;
+    [cell.contentView addSubview:_cardKBinding];
+    
   } else if ([CardKBindingButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }
   
   if ([CardKBindingCardCellID isEqual:cellID] && CardKConfig.shared.bindingCVCRequired) {
-    [cell addSubview: _secureCodeTextField];
-    _secureCodeTextField.frame = CGRectMake(cell.contentView.bounds.size.width, 0, _secureCodeTextField.intrinsicContentSize.width, 44);
+    cell.accessoryView = _secureCodeTextField;
+    _secureCodeTextField.frame = CGRectMake(0, 0, _secureCodeTextField.intrinsicContentSize.width, 44);
   }
    
   CardKTheme *theme = CardKConfig.shared.theme;
@@ -231,6 +233,28 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 
   cell.textLabel.textColor = theme.colorLabel;
   return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    CGRect r = tableView.readableContentGuide.layoutFrame;
+    cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
+  }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    CGRect r = tableView.readableContentGuide.layoutFrame;
+    UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
+    v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, v.contentView.bounds.size.height);
+  }
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+  [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    [self.tableView reloadData];
+  }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
