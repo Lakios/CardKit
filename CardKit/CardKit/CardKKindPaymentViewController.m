@@ -113,7 +113,8 @@ const NSString *CardKKindPayRows = @"rows";
   if([CardKSavedCardsCellID isEqual:cellID]) {
     CardKBinding *cardKBinding = _sections[indexPath.section][CardKKindPayRows][0][CardKSavedCardsCellID][indexPath.row];
     
-    [cell addSubview:cardKBinding];
+    cardKBinding.frame = cell.contentView.bounds;
+    [cell.contentView addSubview:cardKBinding];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
@@ -145,6 +146,28 @@ const NSString *CardKKindPayRows = @"rows";
     confirmChoosedCard.cKitDelegate = _cKitDelegate;
     
     [self.navigationController pushViewController:confirmChoosedCard animated:true];
+  }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    CGRect  r = tableView.readableContentGuide.layoutFrame;
+    cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
+  }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    CGRect r = tableView.readableContentGuide.layoutFrame;
+    UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
+    v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, v.contentView.bounds.size.height);
+  }
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+  [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    [self.tableView reloadData];
   }
 }
 

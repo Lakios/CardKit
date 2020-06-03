@@ -298,7 +298,7 @@ NSString *CardKFooterID = @"footer";
   } else if ([CardKSwitchCellID isEqual:cellID]) {
     _switchView.frame = cell.contentView.bounds;
     cell.accessoryView = [_switchView getSwitch];
-    [cell addSubview:_switchView];
+    [cell.contentView addSubview:_switchView];
   }
   
   if (theme.colorCellBackground != nil) {
