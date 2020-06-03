@@ -63,7 +63,6 @@
 
 - (void)layoutSubviews {
   CGRect bounds = self.bounds;
-  CGRect screenRect = [[UIScreen mainScreen] bounds];
   
   [_cardPaybutton.titleLabel setFont:_applePayButton.titleLabel.font];
 
