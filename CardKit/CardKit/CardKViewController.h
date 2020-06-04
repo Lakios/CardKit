@@ -61,7 +61,12 @@ NS_ASSUME_NONNULL_BEGIN
 */
 - (void)showScanCardView:(UIView *)view animated:(BOOL)animated;
 
-
+/*!
+ @brief Определение первой страницы
+ @param cardKViewControllerDelegate делегат контроллера
+ @param nController навигационный контроллер
+ @param controller экземпляр контроллера CardKViewController
+*/
 +(UIViewController *) create:(id<CardKViewControllerDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller;
 
 @end

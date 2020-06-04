@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property CardKBinding *cardKBinding;
 @property CardKBankLogoView *bankLogoView;
-/*! Делегат контроллера*/
 @property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
 
 @end

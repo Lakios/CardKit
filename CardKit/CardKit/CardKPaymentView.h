@@ -14,12 +14,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CardKPaymentView: UIView
 
+/*!
+ @brief Конструктор CardKPaymentView
+ @param cKitDelegate делегат контроллера
+ */
 - (instancetype)initWithDelegate:(id<CardKViewControllerDelegate>)cKitDelegate;
+
+/*! Контроллер  */
 @property UIViewController *controller;
+
+/*! Значение merchantId */
 @property NSString *merchantId;
+
+/*! Экземпляр класса PKPaymentRequest */
 @property PKPaymentRequest *paymentRequest;
+
+/*! Тип кнопки Apple Pay */
 @property PKPaymentButtonType paymentButtonType;
+
+/*! Стиль кнопки Apple Pay */
 @property PKPaymentButtonStyle paymentButtonStyle;
+
+/*!  Управление стилем и название кнопки */
 @property UIButton *cardPaybutton;
 
 @end
