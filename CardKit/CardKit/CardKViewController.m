@@ -483,7 +483,7 @@ NSString *CardKFooterID = @"footer";
   CardKTheme *theme = CardKConfig.shared.theme;
   
   _scanViewWrapper = [[ScanViewWrapper alloc] initWithFrame:self.view.bounds];
-  _scanViewWrapper.autoresizingMask | UIViewAutoresizingFlexibleHeight;
+  _scanViewWrapper.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   _scanViewWrapper.backgroundColor = theme.colorTableBackground;
   _scanViewWrapper.scanView = view;
   [_scanViewWrapper.backButton
