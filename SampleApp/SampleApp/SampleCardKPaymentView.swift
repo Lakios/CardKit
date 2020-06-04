@@ -89,7 +89,7 @@ extension SampleCardKPaymentView: CardKDelegate {
     controller.allowSaveBinding = true;
   }
   
-  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool) {
+  func cardKitViewController(_ controller: UIViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool) {
   }
   
   func cardKitViewControllerScanCardRequest(_ controller: CardKViewController) {
