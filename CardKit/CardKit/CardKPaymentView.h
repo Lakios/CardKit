@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  @brief Конструктор CardKPaymentView
  @param cKitDelegate делегат контроллера
  */
-- (instancetype)initWithDelegate:(id<CardKViewControllerDelegate>)cKitDelegate;
+- (instancetype)initWithDelegate:(id<CardKDelegate>)cKitDelegate;
 
 /*! Контроллер  */
 @property UIViewController *controller;

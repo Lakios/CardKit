@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class CardKViewController;
 @class CardKPaymentView;
 
-@protocol CardKViewControllerDelegate <NSObject>
+@protocol CardKDelegate <NSObject>
 
 - (void)cardKitViewController:(CardKViewController *)controller didCreateSeToken:(NSString *)seToken allowSaveBinding:(BOOL) allowSaveBinding;
 - (void)willShowController:(CardKViewController *) controller;
@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CardKViewController : UITableViewController
 
 /*! Делегат контроллера*/
-@property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
+@property (weak, nonatomic) id<CardKDelegate> cKitDelegate;
 
 /*! Переопределить текст кнопки */
 @property (strong) NSString * purchaseButtonTitle;
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param nController навигационный контроллер
  @param controller экземпляр контроллера CardKViewController
 */
-+(UIViewController *) create:(id<CardKViewControllerDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller;
++(UIViewController *) create:(id<CardKDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller;
 
 @end
 

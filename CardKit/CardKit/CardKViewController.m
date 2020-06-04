@@ -150,7 +150,7 @@ NSString *CardKFooterID = @"footer";
   [_cKitDelegate willShowController:self];
 }
 
-+(UIViewController *) create:(id<CardKViewControllerDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller {
++(UIViewController *) create:(id<CardKDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller {
   UINavigationController *_nController = [UINavigationController alloc];
  
   if ([CardKConfig.shared.bindings count] == 0) {

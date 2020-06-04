@@ -59,7 +59,7 @@ class SampleCardKPaymentView: UIViewController {
   }
 }
 
-extension SampleCardKPaymentView: CardKViewControllerDelegate {
+extension SampleCardKPaymentView: CardKDelegate {
   func cardKPaymentView(_ paymentView: CardKPaymentView, didCreateToken token: [AnyHashable : Any]) {
     
   }

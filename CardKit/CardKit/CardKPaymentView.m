@@ -15,11 +15,11 @@
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSArray *_sections;
-  id<CardKViewControllerDelegate> _cKitDelegate;
+  id<CardKDelegate> _cKitDelegate;
   PKPaymentAuthorizationViewController *_viewController;
 }
 
-- (instancetype)initWithDelegate:(id<CardKViewControllerDelegate>)cKitDelegate {
+- (instancetype)initWithDelegate:(id<CardKDelegate>)cKitDelegate {
   self = [super init];
   if (self) {
     _paymentRequest = [[PKPaymentRequest alloc] init];
