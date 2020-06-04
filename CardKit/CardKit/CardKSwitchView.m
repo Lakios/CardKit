@@ -59,6 +59,10 @@
   return _toggle;
 }
 
+- (void)setIsSaveBinding:(BOOL)isSaveBinding {
+  [_toggle setOn:isSaveBinding animated:NO];
+}
+
 - (void) onSwich:(UISwitch *)paramSender{}
 
 - (void)layoutSubviews {

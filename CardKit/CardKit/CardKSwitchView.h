@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *title;
 - (UISwitch *) getSwitch;
 
+@property (nonatomic) BOOL isSaveBinding;
+
 @end
 
 NS_ASSUME_NONNULL_END

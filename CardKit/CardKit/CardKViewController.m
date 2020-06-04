@@ -81,7 +81,7 @@ NSString *CardKFooterID = @"footer";
 
 
 @implementation CardKViewController {
-  BOOL _allowSaveBindings;
+  BOOL _allowSaveBinding;
   ScanViewWrapper *_scanViewWrapper;
   CardKBankLogoView *_bankLogoView;
   CardKTextField *_ownerTextField;
@@ -190,15 +190,23 @@ NSString *CardKFooterID = @"footer";
   return _cardView.allowedCardScaner;
 }
 
-- (void)setAllowSaveBindings:(BOOL)allowSaveBindings {
-  if (allowSaveBindings) {
+- (void)setAllowSaveBinding:(BOOL)allowSaveBinding {
+  if (allowSaveBinding) {
     [_sections insertObject:@{CardKRows: @[CardKSwitchCellID]} atIndex:2];
   }
-  _allowSaveBindings = allowSaveBindings;
+  _allowSaveBinding = allowSaveBinding;
 }
 
-- (BOOL) allowSaveBindings {
-  return _allowSaveBindings;
+- (BOOL)allowSaveBinding {
+  return _allowSaveBinding;
+}
+
+- (void)setIsSaveBinding:(BOOL)isSaveBinding {
+  _switchView.isSaveBinding = isSaveBinding;
+}
+
+- (BOOL)isSaveBinding {
+  return self.isSaveBinding;
 }
 
 - (void)_cardChanged {

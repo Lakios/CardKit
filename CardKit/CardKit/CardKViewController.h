@@ -40,10 +40,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property BOOL allowedCardScaner;
 
 /*! Разрешить сохранение карты*/
-@property BOOL allowSaveBindings;
+@property BOOL allowSaveBinding;
 
-/*! Разрешить использование apple pay*/
-@property BOOL allowApplePay;
+/*! Начальное состояние отображения checkbox*/
+@property BOOL isSaveBinding;
 
 /*!
 @brief Присвоить данные карты

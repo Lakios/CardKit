@@ -86,7 +86,7 @@ extension SampleCardKPaymentView: CardKViewControllerDelegate {
   func willShow(_ controller: CardKViewController) {
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
-    controller.allowSaveBindings = true;
+    controller.allowSaveBinding = true;
   }
   
   func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveCard: Bool) {
