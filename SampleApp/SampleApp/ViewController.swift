@@ -384,10 +384,10 @@ extension ViewController: CardKViewControllerDelegate {
     controller.isSaveBinding = true;
   }
   
-  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveCard: Bool) {
+  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool) {
     debugPrint(seToken)
 
-    let alert = UIAlertController(title: "SeToken", message: "allowSaveCard = \(allowSaveCard) \n seToken = \(seToken)", preferredStyle: UIAlertController.Style.alert)
+    let alert = UIAlertController(title: "SeToken", message: "allowSaveCard = \(allowSaveBinding) \n seToken = \(seToken)", preferredStyle: UIAlertController.Style.alert)
     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
     controller.present(alert, animated: true)

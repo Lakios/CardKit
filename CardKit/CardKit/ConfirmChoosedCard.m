@@ -126,7 +126,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 
   NSString *seToken = [RSA encryptString:cardData publicKey:CardKConfig.shared.pubKey];
 
-  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken allowSaveCard:NO];
+  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken allowSaveBinding:NO];
 }
 
 - (void)_animateError {
