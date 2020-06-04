@@ -67,7 +67,6 @@ class ViewController: UITableViewController {
   func _openController() {
     CardKConfig.shared.language = "";
     CardKConfig.shared.theme = CardKTheme.light()
-    CardKConfig.shared.allowApplePay = false;
 
     let controller = CardKViewController();
     controller.cKitDelegate = self;
@@ -174,7 +173,6 @@ class ViewController: UITableViewController {
   func _openLightUINavigation() {
     CardKConfig.shared.theme = CardKTheme.light();
     CardKConfig.shared.language = "";
-    CardKConfig.shared.allowApplePay = true;
     CardKConfig.shared.bindingCVCRequired = true;
     CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
