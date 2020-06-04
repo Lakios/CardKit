@@ -290,6 +290,7 @@
 				de,
 				fr,
 				es,
+				Base,
 			);
 			mainGroup = D245AB2F231C435E00369747;
 			productRefGroup = D245AB3A231C435E00369747 /* Products */;
