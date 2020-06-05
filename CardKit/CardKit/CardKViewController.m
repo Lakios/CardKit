@@ -151,16 +151,20 @@ NSString *CardKFooterID = @"footer";
 }
 
 +(UIViewController *) create:(id<CardKDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller {
+  
   UINavigationController *_nController = [UINavigationController alloc];
  
-  if ([CardKConfig.shared.bindings count] == 0) {
-    return [_nController initWithRootViewController:controller];
-  }
-  
   CardKKindPaymentViewController *cardKKindPaymentViewController = [[CardKKindPaymentViewController alloc] init];
-  
   cardKKindPaymentViewController.cKitDelegate = cardKViewControllerDelegate;
   
+  if (nController == nil && [CardKConfig.shared.bindings count] == 0) {
+    return [_nController initWithRootViewController:controller];
+  } else if (nController == nil) {
+    return [_nController initWithRootViewController:cardKKindPaymentViewController];
+  } else if ([CardKConfig.shared.bindings count] == 0) {
+    return controller;
+  }
+
   return cardKKindPaymentViewController;
 }
 

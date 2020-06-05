@@ -66,13 +66,17 @@ class ViewController: UITableViewController {
 
   func _openController() {
     CardKConfig.shared.language = "";
-    CardKConfig.shared.theme = CardKTheme.light()
-
+    CardKConfig.shared.theme = CardKTheme.light();
+    CardKConfig.shared.bindingCVCRequired = true;
+    CardKConfig.shared.bindings = self._fetchBindingCards();
+    CardKConfig.shared.isTestMod = true;
+    CardKConfig.shared.mdOrder = "mdOrder";
+    
     let controller = CardKViewController();
     controller.cKitDelegate = self;
 
-    let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
-
+    let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
+    
     self.present(createdNavController, animated: true, completion: nil);
   }
 
@@ -169,7 +173,7 @@ class ViewController: UITableViewController {
     self.present(navController, animated: true)
     CardIOUtilities.preloadCardIO()
   }
-
+  
   func _openLightUINavigation() {
     CardKConfig.shared.theme = CardKTheme.light();
     CardKConfig.shared.language = "";
@@ -261,14 +265,14 @@ class ViewController: UITableViewController {
   
   var sections: [Section] = [
     Section(title: "Modal", items: [
-      SectionItem(title: "Open Light", kind: .lightTheme, isShowChevron: false, language: ""),
+      SectionItem(title: "Open Light with bindings", kind: .lightTheme, isShowChevron: false, language: ""),
       SectionItem(title: "Dark Light", kind: .darkTheme, isShowChevron: false, language: ""),
       SectionItem(title: "System theme", kind: .systemTheme, isShowChevron: false, language: ""),
-      SectionItem(title: "Custom theme", kind: .customTheme, isShowChevron: false, language: "")
+      SectionItem(title: "Custom theme", kind: .customTheme, isShowChevron: false, language: ""),
     ]),
     
     Section(title: "Navigation", items: [
-      SectionItem(title: "Open Light", kind: .navLightTheme, isShowChevron: true, language: ""),
+      SectionItem(title: "Open Light with bindings", kind: .navLightTheme, isShowChevron: true, language: ""),
       SectionItem(title: "Dark Light", kind: .navDarkTheme, isShowChevron: true, language: ""),
       SectionItem(title: "System theme", kind: .navSystemTheme, isShowChevron: true, language: "")
     ]),
