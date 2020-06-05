@@ -8,7 +8,7 @@
 
 #import "CardKBinding.h"
 #import "PaymentSystemProvider.h"
-
+#import "CardKConfig.h"
 
 
 @implementation CardKBinding {
@@ -25,6 +25,7 @@
     
     _paymentSystemImageView = [[UIImageView alloc] init];
     _paymentSystemImageView.contentMode = UIViewContentModeCenter;
+    
     _label = [[UILabel alloc] init];
     
     [self addSubview:_label];
@@ -35,6 +36,9 @@
 
 - (void)layoutSubviews {
   [super layoutSubviews];
+  CardKTheme *theme = CardKConfig.shared.theme;
+  
+  [_label setTextColor: theme.colorLabel];
   NSString *imageName = [PaymentSystemProvider imageNameByPaymentSystem: _paymentSystem compatibleWithTraitCollection: self.traitCollection];
   _paymentSystemImageView.image = [PaymentSystemProvider namedImage:imageName inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
   

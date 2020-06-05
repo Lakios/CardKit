@@ -84,7 +84,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.theme = CardKTheme.dark();
     CardKConfig.shared.language = "";
     CardKConfig.shared.bindingCVCRequired = true;
-    CardKConfig.shared.bindings = [];
+    CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
 
