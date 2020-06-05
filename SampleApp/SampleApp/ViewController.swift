@@ -74,6 +74,7 @@ class ViewController: UITableViewController {
     
     let controller = CardKViewController();
     controller.cKitDelegate = self;
+    
     let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
     
     self.present(createdNavController, animated: true, completion: nil);
@@ -88,7 +89,6 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mdOrder = "mdOrder";
 
     let controller = CardKViewController();
-    controller.allowedCardScaner = false;
     controller.cKitDelegate = self
     
     let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
@@ -125,7 +125,6 @@ class ViewController: UITableViewController {
 
     let controller = CardKViewController();
     controller.cKitDelegate = self
-    controller.allowedCardScaner = true
     
     let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
 
@@ -166,7 +165,6 @@ class ViewController: UITableViewController {
 
     let controller = CardKViewController();
     controller.cKitDelegate = self
-    controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     
     let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
 
@@ -213,7 +211,6 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mdOrder = "mdOrder";
     
     let controller = CardKViewController();
-    controller.allowedCardScaner = false;
     controller.cKitDelegate = self
 
     let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
@@ -236,7 +233,6 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mdOrder = "mdOrder";
     
     let controller = CardKViewController();
-    controller.allowedCardScaner = false;
     controller.cKitDelegate = self
 
     let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
@@ -252,11 +248,8 @@ class ViewController: UITableViewController {
       CardKConfig.shared.isTestMod = true;
       CardKConfig.shared.mdOrder = "mdOrder";
       
-      
       let controller = CardKViewController();
       controller.cKitDelegate = self
-      controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
-      controller.purchaseButtonTitle = "Custom purchase button";
 
       let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
     
