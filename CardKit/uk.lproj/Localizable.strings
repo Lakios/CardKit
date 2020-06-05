@@ -1,0 +1,22 @@
+/* 
+  Localizable.strings
+  CardKit
+
+  Created by Yury Korolev on 9/16/19.
+  Copyright © 2019 AnjLab. All rights reserved.
+*/
+
+"title" = "Enter card details";
+"card" = "Card";
+"cardholder" = "Власник карти";
+"Card Number" = "Номер картки";
+"MM/YY" = "MM/YY";
+"doneButton" = "Сплатити";
+"expiry" = "Термін дії картки";
+"cvc" = "Останні 3 цифри коду на смузі для підпису";
+
+"incorrectLength" = "Card number length should be 16-19 digits";
+"incorrectCardNumber" = "Номер картки вказаний невірно";
+"incorrectExpiry" = "Термін дії картки зазначений неправильно";
+"incorrectCvc" = "CVC2/CVV2 вказано невірно";
+"incorrectCardholder" = "Власник картки вказаний невірно";
