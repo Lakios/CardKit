@@ -51,6 +51,9 @@
   [self replaceTextWithCircleBullet];
   
   CGRect bounds = self.superview.bounds;
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    bounds = self.bounds;
+  }
   
   if (@available(iOS 11.0, *)) {
     _paymentSystemImageView.frame = CGRectMake(self.safeAreaInsets.left + 10, 0, 50, bounds.size.height);
