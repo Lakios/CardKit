@@ -51,8 +51,10 @@
   [self replaceTextWithCircleBullet];
   
   CGRect bounds = self.superview.bounds;
+  NSInteger leftExpireDate = bounds.size.width - _expireDateLabel.intrinsicContentSize.width - 10;
   if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     bounds = self.bounds;
+    leftExpireDate = bounds.size.width - _expireDateLabel.intrinsicContentSize.width * 2;
   }
   
   if (@available(iOS 11.0, *)) {
@@ -62,7 +64,7 @@
   }
   
   _cardNumberLabel.frame = CGRectMake(CGRectGetMaxX(_paymentSystemImageView.frame) + 10, 0, _cardNumberLabel.intrinsicContentSize.width, bounds.size.height);
-  _expireDateLabel.frame = CGRectMake(bounds.size.width - _expireDateLabel.intrinsicContentSize.width - 10, 0, _expireDateLabel.intrinsicContentSize.width, bounds.size.height);
+  _expireDateLabel.frame = CGRectMake(leftExpireDate, 0, _expireDateLabel.intrinsicContentSize.width, bounds.size.height);
 }
 
 - (void) replaceTextWithCircleBullet {
