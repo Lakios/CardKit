@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *bindingId;
 @property NSString *paymentSystem;
 @property NSString *cardNumber;
+@property NSString *expireDate;
 
 @end
 

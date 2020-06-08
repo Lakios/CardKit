@@ -14,7 +14,7 @@
 #import "ConfirmChoosedCard.h"
 #import "CardKBankLogoView.h"
 #import "CardKPaymentView.h"
-
+#import "PaymentSystemProvider.h"
 
 const NSString *CardKSavedCardsCellID = @"savedCards";
 const NSString *CardKPayCardButtonCellID = @"button";
@@ -112,10 +112,10 @@ const NSString *CardKKindPayRows = @"rows";
 
   if([CardKSavedCardsCellID isEqual:cellID]) {
     CardKBinding *cardKBinding = _sections[indexPath.section][CardKKindPayRows][0][CardKSavedCardsCellID][indexPath.row];
-    
-    cardKBinding.frame = cell.contentView.bounds;
     [cell.contentView addSubview:cardKBinding];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+  
+    cell.layoutMargins = UIEdgeInsetsMake(0, 70, 0, 0);
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }
@@ -140,7 +140,8 @@ const NSString *CardKKindPayRows = @"rows";
     cardKBinding.bindingId = selectedCardBinding.bindingId;
     cardKBinding.paymentSystem = selectedCardBinding.paymentSystem;
     cardKBinding.cardNumber = selectedCardBinding.cardNumber;
-       
+    cardKBinding.expireDate = selectedCardBinding.expireDate;
+    
     confirmChoosedCard.cardKBinding = cardKBinding;
     confirmChoosedCard.bankLogoView = _bankLogoView;
     confirmChoosedCard.cKitDelegate = _cKitDelegate;
@@ -152,6 +153,7 @@ const NSString *CardKKindPayRows = @"rows";
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     CGRect  r = tableView.readableContentGuide.layoutFrame;
+    cell.layoutMargins = UIEdgeInsetsMake(0, r.origin.x + 60, 0, 0);
     cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
   }
 }

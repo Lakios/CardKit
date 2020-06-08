@@ -381,11 +381,13 @@ class ViewController: UITableViewController {
 
       for binding in bindingItems {
         let cardKBinding = CardKBinding();
-        
+        let labelString: String = binding["label"] as! String;
+        let label = labelString.components(separatedBy: " ");
+
         cardKBinding.bindingId = binding["id"] as! String;
         cardKBinding.paymentSystem = binding["paymentSystem"] as! String;
-        cardKBinding.cardNumber = binding["label"] as! String;
-        
+        cardKBinding.cardNumber = label[0];
+        cardKBinding.expireDate = label[1];
         bindings.append(cardKBinding);
       }
       
