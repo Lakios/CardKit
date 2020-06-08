@@ -114,8 +114,8 @@ const NSString *CardKKindPayRows = @"rows";
     CardKBinding *cardKBinding = _sections[indexPath.section][CardKKindPayRows][0][CardKSavedCardsCellID][indexPath.row];
     [cell.contentView addSubview:cardKBinding];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-  
     cell.layoutMargins = UIEdgeInsetsMake(0, 70, 0, 0);
+    cardKBinding.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }
@@ -141,7 +141,7 @@ const NSString *CardKKindPayRows = @"rows";
     cardKBinding.paymentSystem = selectedCardBinding.paymentSystem;
     cardKBinding.cardNumber = selectedCardBinding.cardNumber;
     cardKBinding.expireDate = selectedCardBinding.expireDate;
-    
+
     confirmChoosedCard.cardKBinding = cardKBinding;
     confirmChoosedCard.bankLogoView = _bankLogoView;
     confirmChoosedCard.cKitDelegate = _cKitDelegate;

@@ -214,9 +214,8 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellID forIndexPath:indexPath];
 
   if ([CardKBindingCardCellID isEqual:cellID]) {
-    _cardKBinding.frame = cell.contentView.bounds;
     [cell.contentView addSubview:_cardKBinding];
-    
+    _cardKBinding.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   } else if ([CardKBindingButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }
@@ -252,9 +251,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-    [self.tableView reloadData];
-  }
+  [self.tableView reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
