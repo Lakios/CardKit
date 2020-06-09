@@ -23,3 +23,6 @@
 "incorrectCvc" = "CVC2/CVV2 указан неверно";
 "incorrectCardholder" = "Владелец карты указан неверно";
 
+"switchViewTitle" = "Сохранить данные карты";
+"payByCard" = "Новая карта";
+

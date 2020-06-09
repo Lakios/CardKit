@@ -22,3 +22,5 @@
 "incorrectCvc" = "Falso CVC2/CVV2 indicado";
 "incorrectCardholder" = "Falso tenedor indicado de la tarjeta";
 
+"switchViewTitle" = "Guardar datos de la tarjeta";
+"payByCard" = "Nueva tarjeta";

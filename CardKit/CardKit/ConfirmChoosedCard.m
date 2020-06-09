@@ -57,9 +57,9 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
     [_secureCodeTextField addTarget:self action:@selector(_clearSecureCodeErrors) forControlEvents:UIControlEventEditingDidBegin];
     [_secureCodeTextField addTarget:self action:@selector(_clearSecureCodeErrors) forControlEvents:UIControlEventValueChanged];
     [_secureCodeTextField addTarget:self action:@selector(_buttonPressed:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    
+
     [_button
-      setTitle: NSLocalizedStringFromTableInBundle(@"Pay", nil, _languageBundle,  @"Pay")
+      setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle,  @"Pay")
       forState: UIControlStateNormal];
     [_button addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];

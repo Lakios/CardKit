@@ -23,5 +23,5 @@
 "incorrectCvc" = "CVC2/CVV2 is incorrect";
 "incorrectCardholder" = "The card holder is incorrect";
 
-"switchViewTitle" = "Save card's data";
-"payByCard" = "Pay by card";
+"switchViewTitle" = "Save card data";
+"payByCard" = "New card";
