@@ -51,6 +51,10 @@
     [_cardPaybutton
       setTitle: NSLocalizedStringFromTableInBundle(@"payByCard", nil, _languageBundle,  @"Pay by card")
       forState: UIControlStateNormal];
+    _cardPaybutton.titleLabel.minimumScaleFactor = 0.5;
+    _cardPaybutton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    _cardPaybutton.titleLabel.allowsDefaultTighteningForTruncation = YES;
+    
     [_cardPaybutton addTarget:self action:@selector(_cardPaybuttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
     
