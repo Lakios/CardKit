@@ -46,7 +46,7 @@
     [_toggle addTarget:self action:@selector(onSwich:) forControlEvents:UIControlEventValueChanged];
 
     _titleLabel = [[UILabel alloc] init];
-    [_titleLabel setTextColor: _theme.colorPlaceholder];
+    [_titleLabel setTextColor: _theme.colorLabel];
     _titleLabel.text = NSLocalizedStringFromTableInBundle(@"switchViewTitle", nil, _languageBundle, @"Save card's data");
     [self addSubview:_titleLabel];
     [self addSubview:_toggle];
