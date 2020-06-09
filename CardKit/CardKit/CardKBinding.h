@@ -16,6 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *paymentSystem;
 @property NSString *cardNumber;
 @property NSString *expireDate;
+@property BOOL showCVCField;
+
+@property (strong) NSArray *errorMessages;
+@property (strong) NSString *secureCode;
+-(void)validate;
+-(void)focusSecureCode;
 
 @end
 

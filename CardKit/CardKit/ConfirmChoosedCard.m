@@ -25,9 +25,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSMutableArray *_sections;
-  CardKFooterView *_secureCodeFooterView;
-  CardKTextField *_secureCodeTextField;
-  NSMutableArray *_secureCodeErrors;
+  CardKFooterView *_cardFooterView;
   NSString *_lastAnouncment;
 }
 - (instancetype)init {
@@ -39,27 +37,15 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
     _bundle = [NSBundle bundleForClass:[ConfirmChoosedCard class]];
      
      NSString *language = CardKConfig.shared.language;
-
-     _secureCodeErrors = [[NSMutableArray alloc] init];
     
      if (language != nil) {
        _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
      } else {
        _languageBundle = _bundle;
      }
-    
-    _secureCodeTextField = [[CardKTextField alloc] init];
-    _secureCodeTextField.pattern = CardKTextFieldPatternSecureCode;
-    _secureCodeTextField.placeholder = NSLocalizedStringFromTableInBundle(@"CVC", nil, _languageBundle, @"CVC placeholder");
-    _secureCodeTextField.secureTextEntry = YES;
-    _secureCodeTextField.accessibilityLabel = NSLocalizedStringFromTableInBundle(@"cvc", nil, _languageBundle, @"CVC accessibility");
-    _secureCodeTextField.keyboardType = UIKeyboardTypeNumberPad;
-    [_secureCodeTextField addTarget:self action:@selector(_clearSecureCodeErrors) forControlEvents:UIControlEventEditingDidBegin];
-    [_secureCodeTextField addTarget:self action:@selector(_clearSecureCodeErrors) forControlEvents:UIControlEventValueChanged];
-    [_secureCodeTextField addTarget:self action:@selector(_buttonPressed:) forControlEvents:UIControlEventEditingDidEndOnExit];
 
     [_button
-      setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle,  @"Pay")
+      setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle, @"Pay")
       forState: UIControlStateNormal];
     [_button addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
@@ -70,35 +56,16 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 }
 
 - (void)_refreshErrors {
-  _secureCodeFooterView.errorMessages = _secureCodeErrors;
+  _cardFooterView.errorMessages = _cardKBinding.errorMessages;
   [self _announceError];
 }
+
 - (void)_announceError {
-  NSString *errorMessage = [_secureCodeErrors firstObject];
+  NSString *errorMessage = [_cardKBinding.errorMessages firstObject];
   if (errorMessage.length > 0 && ![_lastAnouncment isEqualToString:errorMessage]) {
     _lastAnouncment = errorMessage;
     UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, _lastAnouncment);
   }
-}
-
-- (void)_clearSecureCodeErrors {
-  [_secureCodeErrors removeAllObjects];
-  _secureCodeTextField.showError = NO;
-  [self _refreshErrors];
-}
-
-- (void)_validateSecureCode {
-  BOOL isValid = YES;
-  NSString *secureCode = _secureCodeTextField.text;
-  NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _languageBundle, @"incorrectCvc");
-  [self _clearSecureCodeErrors];
-  
-  if (![CardKValidation isValidSecureCode:secureCode]) {
-    [_secureCodeErrors addObject:incorrectCvc];
-    isValid = NO;
-  }
-  
-  _secureCodeTextField.showError = !isValid;
 }
 
 - (BOOL)_isFormValid {
@@ -106,9 +73,9 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
     return YES;
   }
   
-  [self _validateSecureCode];
+  [_cardKBinding validate];
   [self _refreshErrors];
-  return _secureCodeErrors.count == 0;
+  return _cardFooterView.errorMessages.count == 0;
 }
 
 - (void)_buttonPressed:(UIButton *)button {
@@ -122,7 +89,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
   NSString *uuid = [[NSUUID UUID] UUIDString];
 
-  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@", timeStamp, uuid, _secureCodeTextField.text, CardKConfig.shared.mdOrder, _cardKBinding.bindingId];
+  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@", timeStamp, uuid, _cardKBinding.secureCode, CardKConfig.shared.mdOrder, _cardKBinding.bindingId];
 
   NSString *seToken = [RSA encryptString:cardData publicKey:CardKConfig.shared.pubKey];
 
@@ -142,12 +109,6 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   return defaultSections;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-  if (CardKConfig.shared.bindingCVCRequired) {
-    [_secureCodeTextField becomeFirstResponder];
-  }
-}
-
 - (void)viewDidLoad {
   [super viewDidLoad];
 
@@ -163,9 +124,13 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   
-  
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
   [_bankLogoView showNumber: [self _getKnowsCardDigit]];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  [_cardKBinding focusSecureCode];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -194,12 +159,12 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   }
 
   if (section == 0) {
-    if (_secureCodeFooterView == nil) {
-      _secureCodeFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
+    if (_cardFooterView == nil) {
+      _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
     }
     
-    _secureCodeFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
-    [view.contentView addSubview:_secureCodeFooterView];
+    _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
+    [view.contentView addSubview:_cardFooterView];
   }
   
   return view;
@@ -213,18 +178,14 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   NSString *cellID = _sections[indexPath.section][CardKConfirmChoosedCardRows][indexPath.row];
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellID forIndexPath:indexPath];
 
-  if ([CardKBindingCardCellID isEqual:cellID]) {
+  if ([CardKBindingCardCellID isEqual:cellID] || ([CardKBindingCardCellID isEqual:cellID] && CardKConfig.shared.bindingCVCRequired)) {
+    _cardKBinding.showCVCField = YES;
     [cell.contentView addSubview:_cardKBinding];
     _cardKBinding.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   } else if ([CardKBindingButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }
-  
-  if ([CardKBindingCardCellID isEqual:cellID] && CardKConfig.shared.bindingCVCRequired) {
-    cell.accessoryView = _secureCodeTextField;
-    _secureCodeTextField.frame = CGRectMake(0, 0, _secureCodeTextField.intrinsicContentSize.width, 44);
-  }
-   
+
   CardKTheme *theme = CardKConfig.shared.theme;
   if (theme.colorCellBackground != nil) {
    cell.backgroundColor = theme.colorCellBackground;
@@ -250,8 +211,10 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-  [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-  [self.tableView reloadData];
+  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.tableView reloadData];
+  }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
