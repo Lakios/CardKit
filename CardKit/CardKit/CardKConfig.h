@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Режим запуска */
 @property BOOL isTestMod;
 
-/*! Режим запуска */
+/*! Публичный ключ */
 @property NSString *pubKey;
 
 /*! Разрешить использование apple pay*/
@@ -36,6 +36,17 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Массив связок*/
 @property NSArray<CardKBinding *> *bindings;
 
+/*! Публичный ключ для продакшина */
+@property NSString *cardKProdKey;
+
+/*! Публичный ключ для тестирования */
+@property NSString *cardKTestKey;
+
+/*! URL для запроса тестового ключа */
+@property NSString *testURL;
+
+/*! URL для запроса продакшин ключа */
+@property NSString *prodURL;
 
 @end
 
