@@ -35,15 +35,18 @@
     [self addSubview:_cardNumberLabel];
     [self addSubview:_paymentSystemImageView];
     [self addSubview:_expireDateLabel];
+
+    CardKTheme *theme = CardKConfig.shared.theme;
+    [_cardNumberLabel setTextColor: theme.colorLabel];
+    [_expireDateLabel setTextColor: theme.colorLabel];
   }
   return self;
 }
 
 - (void)layoutSubviews {
   [super layoutSubviews];
-  CardKTheme *theme = CardKConfig.shared.theme;
   _expireDateLabel.text = _expireDate;
-  [_cardNumberLabel setTextColor: theme.colorLabel];
+
   NSString *imageName = [PaymentSystemProvider imageNameByPaymentSystem: _paymentSystem compatibleWithTraitCollection: self.traitCollection];
   _image = [PaymentSystemProvider namedImage:imageName inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
   _paymentSystemImageView.image = _image;
