@@ -401,7 +401,7 @@ class ViewController: UITableViewController {
 }
 
 extension ViewController: CardKDelegate {
-  func cardKPaymentView(_ paymentView: CardKPaymentView, didCreateToken token: [AnyHashable : Any]) {
+  func cardKPaymentView(_ paymentView: CardKPaymentView, didAuthorizePayment pKPayment: PKPayment) {
     
   }
   

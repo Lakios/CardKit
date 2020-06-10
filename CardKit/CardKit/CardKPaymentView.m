@@ -18,6 +18,7 @@
   id<CardKDelegate> _cKitDelegate;
   PKPaymentAuthorizationViewController *_viewController;
   NSDictionary *_paymentData;
+  PKPayment *_pKPayment;
 }
 
 - (instancetype)initWithDelegate:(id<CardKDelegate>)cKitDelegate {
@@ -136,13 +137,16 @@
 
 -(void)paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
 {
-    [_cKitDelegate cardKPaymentView:self didCreateToken:_paymentData];
+    [_cKitDelegate cardKPaymentView:self didAuthorizePayment:_pKPayment];
     [_controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller didAuthorizePayment:(PKPayment *)payment completion:(void (^)(PKPaymentAuthorizationStatus))completion
 {
+  
   NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:payment.token.paymentData options:kNilOptions error:nil];
+  
+  _pKPayment = payment;
   
   if (dict == nil) {
     completion(PKPaymentAuthorizationStatusFailure);

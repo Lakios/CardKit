@@ -59,13 +59,12 @@ class SampleCardKPaymentView: UIViewController {
 }
 
 extension SampleCardKPaymentView: CardKDelegate {
-  func cardKPaymentView(_ paymentView: CardKPaymentView, didCreateToken token: [AnyHashable : Any]) {
-    let alert = UIAlertController(title: "Test", message: "Apple pay payment", preferredStyle: UIAlertController.Style.alert)
-       alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-       self.present(alert, animated: true)
-  }
-
+  func cardKPaymentView(_ paymentView: CardKPaymentView, didAuthorizePayment pKPayment: PKPayment) {
   
+  }
+  
+
+
   func willShow(_ paymentView: CardKPaymentView) {
     let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
     let paymentItem = PKPaymentSummaryItem.init(label: "Test", amount: NSDecimalNumber(value: 10))
