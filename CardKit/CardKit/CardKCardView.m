@@ -373,13 +373,8 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   if (field == _focusedField) {
     return;
   }
-  
-//  if (_focusedField != _numberTextField && field != _numberTextField) {
-//    _focusedField = field;
-//    return;
-//  }
-  _focusedField = field;
 
+  _focusedField = field;
 }
 
 - (void)_relayout {
@@ -422,7 +417,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX(_expireDateTextField.frame), 0, secCodeWidth, height);
   }
   
-  _paymentSystemImageView.frame = CGRectMake(0, 0, imageWidth, bounds.size.height);
+  _paymentSystemImageView.frame = CGRectMake(-10, 0, imageWidth, bounds.size.height);
   
   [super layoutSubviews];
 }

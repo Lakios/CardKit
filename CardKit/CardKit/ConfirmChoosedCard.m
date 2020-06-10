@@ -123,7 +123,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
-  
+  _button.tintColor = theme.colorButtonText;
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
   [_bankLogoView showNumber: [self _getKnowsCardDigit]];
 }

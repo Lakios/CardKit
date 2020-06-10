@@ -46,7 +46,7 @@
     [_toggle addTarget:self action:@selector(onSwich:) forControlEvents:UIControlEventValueChanged];
 
     _titleLabel = [[UILabel alloc] init];
-    [_titleLabel setTextColor: _theme.colorLabel];
+    [_titleLabel setTextColor: _theme.colorPlaceholder];
     _titleLabel.text = NSLocalizedStringFromTableInBundle(@"switchViewTitle", nil, _languageBundle, @"Save card's data");
     [self addSubview:_titleLabel];
     [self addSubview:_toggle];
@@ -69,8 +69,10 @@
   [super layoutSubviews];
   CGSize boundsSize = self.bounds.size;
 
+  _titleLabel.frame = CGRectMake(0, 0, boundsSize.width - 50, 44);
+  
   if (@available(iOS 11.0, *)) {
-    _titleLabel.frame = CGRectMake(self.safeAreaInsets.left + 5, 0, boundsSize.width - 50, 44);
+    _titleLabel.frame = CGRectMake(self.safeAreaInsets.left, 0, boundsSize.width - 50, 44);
   }
 }
 

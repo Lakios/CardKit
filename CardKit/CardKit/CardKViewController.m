@@ -241,25 +241,25 @@ NSString *CardKFooterID = @"footer";
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     CGRect r = tableView.readableContentGuide.layoutFrame;
     cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
-  }
+  
+    NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
+
+    if ([CardKOwnerCellID isEqual:cellID]) {
+      cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x - 6, 0, r.size.width, cell.contentView.bounds.size.height);
+    }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     CGRect r = tableView.readableContentGuide.layoutFrame;
     UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
     v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, v.contentView.bounds.size.height);
-  }
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-    [self.tableView reloadData];
-  }
+  [self.tableView reloadData];
 }
 
 - (NSString *)purchaseButtonTitle {
@@ -298,7 +298,7 @@ NSString *CardKFooterID = @"footer";
   NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
-
+  
   if ([CardKCardCellID isEqual:cellID]) {
     _cardView.frame = cell.contentView.bounds;
     [cell.contentView addSubview:_cardView];

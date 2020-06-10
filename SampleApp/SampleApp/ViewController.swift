@@ -113,7 +113,7 @@ class ViewController: UITableViewController {
   func _openSystemTheme() {
     CardKConfig.shared.language = "";
     CardKConfig.shared.bindingCVCRequired = true;
-    CardKConfig.shared.bindings = [];
+    CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
 
@@ -159,7 +159,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.theme = theme;
     CardKConfig.shared.language = "";
     CardKConfig.shared.bindingCVCRequired = true;
-    CardKConfig.shared.bindings = [];
+    CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
 
@@ -305,6 +305,10 @@ class ViewController: UITableViewController {
       SectionItem(title: "System theme", kind: .navSystemTheme, isShowChevron: true, language: "")
     ]),
     
+    Section(title: "CardKPaymentView", items: [
+      SectionItem(title: "Apple Pay", kind: .paymentView, isShowChevron: true, language: ""),
+    ]),
+    
     Section(title: "Localization", items: [
       SectionItem(title: "English - en", kind: .language, isShowChevron: false, language: "en"),
       SectionItem(title: "Russian - ru", kind: .language, isShowChevron: false, language: "ru"),
@@ -312,10 +316,6 @@ class ViewController: UITableViewController {
       SectionItem(title: "French - fr", kind: .language, isShowChevron: false, language: "fr"),
       SectionItem(title: "Spanish - es", kind: .language, isShowChevron: false, language: "es"),
       SectionItem(title: "Ukrainian - uk", kind: .language, isShowChevron: false, language: "uk"),
-    ]),
-    
-    Section(title: "CardKPaymentView", items: [
-      SectionItem(title: "Payment view", kind: .paymentView, isShowChevron: true, language: ""),
     ]),
   ]
 
