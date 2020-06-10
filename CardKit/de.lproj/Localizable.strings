@@ -22,5 +22,5 @@
 "incorrectCvc" = "CVC2/CVV2 falsch eingegeben";
 "incorrectCardholder" = "Ungültiger Karteninhaber";
 
-"switchViewTitle" = "Kartendaten speichern";
+"switchViewTitle" = "Karte speichern";
 "payByCard" = "Neue Karte";

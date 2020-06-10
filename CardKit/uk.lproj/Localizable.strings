@@ -21,5 +21,5 @@
 "incorrectCvc" = "CVC2/CVV2 вказано невірно";
 "incorrectCardholder" = "Власник картки вказаний невірно";
 
-"switchViewTitle" = "Збережіть дані картки";
+"switchViewTitle" = "Зберегти карту";
 "payByCard" = "Нова картка";
