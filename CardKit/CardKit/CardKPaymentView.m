@@ -17,6 +17,7 @@
   NSArray *_sections;
   id<CardKDelegate> _cKitDelegate;
   PKPaymentAuthorizationViewController *_viewController;
+  NSDictionary *_paymentData;
 }
 
 - (instancetype)initWithDelegate:(id<CardKDelegate>)cKitDelegate {
@@ -108,12 +109,19 @@
     return;
   }
   
+  if (width > self.superview.bounds.size.width && self.traitCollection.userInterfaceIdiom != UIUserInterfaceIdiomPad) {
+    _cardPaybutton.frame = CGRectMake(minMargin, 0, self.superview.bounds.size.width / 2 - minMargin - 8, buttonHeight);
+    _applePayButton.frame = CGRectMake(CGRectGetMaxX(_cardPaybutton.frame) + 8, 0, self.superview.bounds.size.width / 2 - minMargin, buttonHeight);
+    
+    return;
+  }
+  
   if (width < buttonWidth * 2 + minMargin * 2) {
     _cardPaybutton.frame = CGRectMake(minMargin, 0, buttonWidth - minMargin - 8, buttonHeight);
     _applePayButton.frame = CGRectMake(CGRectGetMaxX(_cardPaybutton.frame) + 8, 0, buttonWidth - minMargin, buttonHeight);
     return;
   }
-
+  
   _cardPaybutton.frame = CGRectMake(width * 0.5 - buttonWidth, 0, buttonWidth, buttonHeight);
   _applePayButton.frame = CGRectMake(CGRectGetMaxX(_cardPaybutton.frame) + 8, 0, buttonWidth - minMargin, buttonHeight);
 }
@@ -121,12 +129,14 @@
 -(IBAction)onApplePayButtonPressed:(id)sender
 {
     _viewController = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest: _paymentRequest];
+    
     _viewController.delegate = self;
     [_controller presentViewController:_viewController animated:YES completion:nil];
 }
 
 -(void)paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
 {
+    [_cKitDelegate cardKPaymentView:self didCreateToken:_paymentData];
     [_controller dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -136,11 +146,10 @@
   
   if (dict == nil) {
     completion(PKPaymentAuthorizationStatusFailure);
-    
-    [_cKitDelegate cardKPaymentView:self didCreateToken:dict];
     return;
   }
   
+  _paymentData = dict;
   completion(PKPaymentAuthorizationStatusSuccess);
 }
 

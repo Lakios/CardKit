@@ -122,7 +122,6 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   self.tableView.separatorColor = theme.colorSeparatar;
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
-  self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   _button.tintColor = theme.colorButtonText;
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
   [_bankLogoView showNumber: [self _getKnowsCardDigit]];
@@ -196,25 +195,19 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     CGRect r = tableView.readableContentGuide.layoutFrame;
     cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
-  }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     CGRect r = tableView.readableContentGuide.layoutFrame;
     UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
     v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, v.contentView.bounds.size.height);
-  }
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self.tableView reloadData];
-  }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

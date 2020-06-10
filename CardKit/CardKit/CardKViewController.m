@@ -240,15 +240,27 @@ NSString *CardKFooterID = @"footer";
   [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:CardKFooterID];
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+  CGRect r = tableView.readableContentGuide.layoutFrame;
+  UIView *uiView = [[UIView alloc] initWithFrame:r];
+  UILabel *label = [[UILabel alloc] init];
+  [label setText:_sections[section][CardKSectionTitle]];
+  [uiView addSubview:label];
+  
+  uiView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, 44);
+
+  return uiView;
+}
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     CGRect r = tableView.readableContentGuide.layoutFrame;
     cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
   
-    NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
+  NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
 
-    if ([CardKOwnerCellID isEqual:cellID]) {
-      cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x - 6, 0, r.size.width, cell.contentView.bounds.size.height);
-    }
+  if ([CardKOwnerCellID isEqual:cellID]) {
+    cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x - 6, 0, r.size.width, cell.contentView.bounds.size.height);
+  }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
@@ -287,9 +299,9 @@ NSString *CardKFooterID = @"footer";
   return [_sections[section][CardKRows] count];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  return _sections[section][CardKSectionTitle];
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//  return _sections[section][CardKSectionTitle];
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   

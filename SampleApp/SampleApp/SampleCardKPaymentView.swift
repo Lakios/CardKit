@@ -47,12 +47,11 @@ class SampleCardKPaymentView: UIViewController {
     let width = self.view.bounds.width;
     
     let buttonsCGRect = [
-      CGRect(x: 0, y: 100, width: 100, height: 100),
-      CGRect(x: width - 100, y: 100, width: 60, height: 60),
-      CGRect(x: width * 0.5 - 50 , y: height * 0.5 - 100, width: 100, height: 30),
-      CGRect(x: 0, y: height * 0.5, width: width, height: 100),
-      CGRect(x: width - 100, y: height - 100, width: 50, height: 35),
-      CGRect(x: 0, y: height - 100, width: 100, height: 100),
+      CGRect(x: width * 0.5 - 50, y: height * 0.5 - 300, width: 100, height: 100),
+      CGRect(x: width * 0.5 - 100, y: height * 0.5 - 150, width: 200, height: 100),
+      CGRect(x: width * 0.5 - 150 , y: height * 0.5 - 50, width: 300, height: 30),
+      CGRect(x: width * 0.5 - 175, y: height * 0.5 + 50, width: 350, height: 100),
+      CGRect(x: 0, y: height * 0.5 + 150, width: 800, height: 100),
     ];
     
     return buttonsCGRect;
@@ -61,8 +60,11 @@ class SampleCardKPaymentView: UIViewController {
 
 extension SampleCardKPaymentView: CardKDelegate {
   func cardKPaymentView(_ paymentView: CardKPaymentView, didCreateToken token: [AnyHashable : Any]) {
-    
+    let alert = UIAlertController(title: "Test", message: "Apple pay payment", preferredStyle: UIAlertController.Style.alert)
+       alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+       self.present(alert, animated: true)
   }
+
   
   func willShow(_ paymentView: CardKPaymentView) {
     let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]

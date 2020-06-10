@@ -82,7 +82,7 @@ const NSString *CardKKindPayRows = @"rows";
   self.tableView.separatorColor = theme.colorSeparatar;
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
-  self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
+//  self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   _button.tintColor = theme.colorButtonText;
   _bankLogoView.frame = CGRectMake(self.view.bounds.size.width * 2, 0, 0, 0);
 }
@@ -100,9 +100,9 @@ const NSString *CardKKindPayRows = @"rows";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSArray *keys = [_sections[section][CardKKindPayRows][0] allKeys];
   NSString *keyName = keys[0];
-  NSArray *test = _sections[section][CardKKindPayRows][0][keyName];
+  NSArray *rows = _sections[section][CardKKindPayRows][0][keyName];
   
-  return [test count] == 0 ? 1 : [test count];
+  return [rows count] == 0 ? 1 : [rows count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -114,8 +114,8 @@ const NSString *CardKKindPayRows = @"rows";
     CardKBinding *cardKBinding = _sections[indexPath.section][CardKKindPayRows][0][CardKSavedCardsCellID][indexPath.row];
     [cell.contentView addSubview:cardKBinding];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.layoutMargins = UIEdgeInsetsMake(0, 70, 0, 0);
-    cardKBinding.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//    cell.layoutMargins = UIEdgeInsetsMake(0, 80, 0, 0);
+//    cardKBinding.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }
@@ -151,11 +151,9 @@ const NSString *CardKKindPayRows = @"rows";
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     CGRect  r = tableView.readableContentGuide.layoutFrame;
-    cell.layoutMargins = UIEdgeInsetsMake(0, r.origin.x + 60, 0, 0);
+  cell.layoutMargins = UIEdgeInsetsMake(0, r.origin.x + 50, 0, 0);
     cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
-  }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
@@ -168,9 +166,7 @@ const NSString *CardKKindPayRows = @"rows";
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     [self.tableView reloadData];
-  }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

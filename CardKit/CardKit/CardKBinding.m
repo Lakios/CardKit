@@ -101,24 +101,18 @@
   
   [self replaceTextWithCircleBullet];
   
-  CGRect bounds = self.superview.bounds;
-  NSInteger leftExpireDate = bounds.size.width - _expireDateLabel.intrinsicContentSize.width - 10;
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-    bounds = self.bounds;
-    leftExpireDate = bounds.size.width - _expireDateLabel.intrinsicContentSize.width - 20;
-  }
-  
+  CGRect bounds = self.bounds;
+  NSInteger leftExpireDate = bounds.size.width - _expireDateLabel.intrinsicContentSize.width - 20;
+
   if (CardKConfig.shared.bindingCVCRequired &&  _showCVCField) {
     leftExpireDate = leftExpireDate - _secureCodeTextField.intrinsicContentSize.width;
   }
+
+  _paymentSystemImageView.frame = CGRectMake(-10, 0, 50, bounds.size.height);
   
-  if (@available(iOS 11.0, *)) {
-    _paymentSystemImageView.frame = CGRectMake(self.safeAreaInsets.left + 10, 0, 50, bounds.size.height);
-  } else {
-    _paymentSystemImageView.frame = CGRectMake(0, 0, 50, bounds.size.height);
-  }
   
   _cardNumberLabel.frame = CGRectMake(CGRectGetMaxX(_paymentSystemImageView.frame) + 10, 0, _cardNumberLabel.intrinsicContentSize.width, bounds.size.height);
+  
   _expireDateLabel.frame = CGRectMake(leftExpireDate, 0, _expireDateLabel.intrinsicContentSize.width, bounds.size.height);
   _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX(_expireDateLabel.frame), 0, _secureCodeTextField.intrinsicContentSize.width, bounds.size.height);
 }
