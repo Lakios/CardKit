@@ -201,7 +201,7 @@ func willShow(_ controller: CardKViewController) {
 
 ## Настройка кнопки Apple pay
 
-Инициализация CardKPaymentView
+1. Инициализация CardKPaymentView
 
 ```swift
 let cardKPaymentView = CardKPaymentView.init(delegate: self);
@@ -209,14 +209,14 @@ cardKPaymentView.controller = self;
 cardKPaymentView.frame = CGReact(x: 0, y: 0, width: 100, height: 100);
 ```
 
-## Настройка PKPaymentView
+2. Настройка PKPaymentView
 
 | Название аргумента |      Тип данных      | Значение по умолчанию | Опциональное | Описание                            |
 | :----------------: | :------------------: | :-------------------: | :----------: | ----------------------------------- |
 |     merchantId     |        String        |         `nil`         |     Нет      | `merchantId` для оплаты в apple pay |
 |   paymentRequest   |   PKPaymentRequest   |         `nil`         |     Нет      | Объект для описания данных оплаты   |
-| paymentButtonType  | PKPaymentButtonType  |         `nil`         |      Да      | Тип кнопки ApplePay                 |
-| paymentButtonStyle | PKPaymentButtonStyle |         `nil`         |      Да      | Вид кнопки ApplePay                 |
+| paymentButtonType  | PKPaymentButtonType  |         `nil`         |     Нет      | Тип кнопки ApplePay                 |
+| paymentButtonStyle | PKPaymentButtonStyle |         `nil`         |     Нет      | Вид кнопки ApplePay                 |
 |   cardPaybutton    |       UIButton       |         `nil`         |      Да      | Настройка кнопки "Оплата картой"    |
 
 ```swift
@@ -246,7 +246,7 @@ func willShow(_ paymentView: CardKPaymentView) {
   <img src="./images/apple_pay_buttons.png" width="300"/>
 </div>
 
-## Получение рузультат оплаты
+3. Получение результата оплаты
 
 Для получения PKPayment необходимо реализовать функцию `cardKPaymentView`.
 
@@ -283,8 +283,6 @@ class SampleAppCardIO: NSObject, CardIOViewDelegate {
   }
 }
 ```
-
-Пример реализации класса можно посмотреть [здесь](https://gitlab.com/yurykorolev/cardkit/blob/webview/SampleApp/SampleApp/ViewController.swift#L45).
 
 2. реализовать функцию `cardKitViewControllerScanCardRequest()`
 
