@@ -95,6 +95,7 @@ NSString *CardKFooterID = @"footer";
   NSString *_lastAnouncment;
   NSMutableArray *_ownerErrors;
   CardKSwitchView *_switchView;
+  BOOL _displayCardHolderField;
 }
 
 
@@ -171,7 +172,6 @@ NSString *CardKFooterID = @"footer";
 - (NSMutableArray *)_defaultSections {
   NSArray *sections = @[
     @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _languageBundle, @"Card section title"), CardKRows: @[CardKCardCellID]},
-    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _languageBundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID]},
     @{CardKRows: @[CardKButtonCellID]},
   ];
   
@@ -186,6 +186,18 @@ NSString *CardKFooterID = @"footer";
   [_doneButton animateError];
 }
 
+- (void)setDisplayCardHolderField:(BOOL)displayCardHolderField {
+  if (displayCardHolderField) {
+    [_sections insertObject:@{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _languageBundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID]} atIndex:1];
+  }
+  
+  _displayCardHolderField = displayCardHolderField;
+}
+
+- (BOOL)displayCardHolderField {
+  return _displayCardHolderField;
+}
+
 - (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
   _cardView.allowedCardScaner = allowedCardScaner;
 }
@@ -196,7 +208,7 @@ NSString *CardKFooterID = @"footer";
 
 - (void)setAllowSaveBinding:(BOOL)allowSaveBinding {
   if (allowSaveBinding) {
-    [_sections insertObject:@{CardKRows: @[CardKSwitchCellID]} atIndex:2];
+    [_sections insertObject:@{CardKRows: @[CardKSwitchCellID]} atIndex:[_sections count] - 1];
   }
   _allowSaveBinding = allowSaveBinding;
 }
@@ -238,18 +250,6 @@ NSString *CardKFooterID = @"footer";
   }
   
   [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:CardKFooterID];
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  CGRect r = tableView.readableContentGuide.layoutFrame;
-  UIView *uiView = [[UIView alloc] initWithFrame:r];
-  UILabel *label = [[UILabel alloc] init];
-  [label setText:_sections[section][CardKSectionTitle]];
-  [uiView addSubview:label];
-  
-  uiView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, 44);
-
-  return uiView;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -299,9 +299,9 @@ NSString *CardKFooterID = @"footer";
   return [_sections[section][CardKRows] count];
 }
 
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//  return _sections[section][CardKSectionTitle];
-//}
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+  return _sections[section][CardKSectionTitle];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
@@ -392,6 +392,12 @@ NSString *CardKFooterID = @"footer";
 - (void)_validateOwner {
   [_ownerErrors removeAllObjects];
   _ownerTextField.showError = NO;
+  
+  if (!_displayCardHolderField) {
+    [self _refreshErrors];
+    return;
+  }
+  
   NSString *incorrectCardholder = NSLocalizedStringFromTableInBundle(@"incorrectCardholder", nil, _languageBundle, @"incorrectCardholder");
   
   NSString *owner = [_ownerTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];

@@ -45,6 +45,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Начальное состояние отображения checkbox*/
 @property BOOL isSaveBinding;
 
+/*! Отобразить поле Cardholder*/
+@property BOOL displayCardHolderField;
+
 /*!
 @brief Присвоить данные карты
 @param number Номер карты.

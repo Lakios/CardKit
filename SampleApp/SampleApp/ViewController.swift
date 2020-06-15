@@ -414,6 +414,7 @@ extension ViewController: CardKDelegate {
     controller.purchaseButtonTitle = "Custom purchase button";
     controller.allowSaveBinding = true;
     controller.isSaveBinding = true;
+    controller.displayCardHolderField = true;
   }
   
   func cardKitViewController(_ controller: UIViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool) {
