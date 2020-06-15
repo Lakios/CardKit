@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Публичный ключ */
 @property NSString *pubKey;
 
-/*! Разрешить использование apple pay*/
+/*! Идентификатор заказа*/
 @property NSString *mdOrder;
 
 /*! Массив связок*/
