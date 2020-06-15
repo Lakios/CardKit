@@ -124,7 +124,7 @@ class ViewController: UITableViewController {
     };
 
     let controller = CardKViewController();
-    controller.cKitDelegate = self
+    controller.cKitDelegate
     
     let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
 
@@ -189,7 +189,7 @@ class ViewController: UITableViewController {
   func _openLightUINavigation() {
     CardKConfig.shared.theme = CardKTheme.light();
     CardKConfig.shared.language = "";
-    CardKConfig.shared.bindingCVCRequired = true;
+    CardKConfig.shared.bindingCVCRequired = false;
     CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";

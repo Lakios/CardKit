@@ -4,7 +4,9 @@ SDK содержит два класса и один делегат.
 
 [Инструкция интеграции SDK](Tutorial.md)
 
-## Выбор темы
+## Настройка параметров SDK
+
+### 1. Выбор темы
 
 ```swift
 // Светлая тема
@@ -17,14 +19,14 @@ SDK содержит два класса и один делегат.
  CardKConfig.shared.theme = CardKTheme.system();
 ```
 
-## Локализация
+### 2. Локализация
 
 ```swift
  // language = "ru" | "en" | "es" | "de" | "fr" | "uk";
  CardKConfig.shared.language = language;
 ```
 
-## Свойства объекта CardKConfig
+### 3. Свойства объекта CardKConfig
 
 | Название Свойства  |   Тип данных   |   Значение по умолчанию   | Опциональное | Описание                                                  |
 | :----------------: | :------------: | :-----------------------: | :----------: | --------------------------------------------------------- |
@@ -39,8 +41,35 @@ SDK содержит два класса и один делегат.
 |      testURL       |     String     |          `<URL>`          |      Да      | URL для запроса тестового ключа                           |
 |      prodURL       |     String     |          `<URL>`          |      Да      | URL для запроса продакшин ключа                           |
 
+### 4. Пример
+
+```swift
+  ...
+  CardKConfig.shared.theme = CardKTheme.dark();
+  CardKConfig.shared.language = "";
+  CardKConfig.shared.bindingCVCRequired = true;
+  CardKConfig.shared.bindings = [];
+  CardKConfig.shared.isTestMod = true;
+  CardKConfig.shared.mdOrder = "mdOrder";
+  ...
+```
+
+## Свойства объекта CardKViewController
+
+|   Название Свойства    |           Тип данных            |  Значение по умолчанию  | Опциональное | Описание                                   |
+| :--------------------: | :-----------------------------: | :---------------------: | :----------: | ------------------------------------------ |
+|      cKitDelegate      | id<CardKViewControllerDelegate> |          `nil`          |     Нет      | -                                          |
+|   allowedCardScaner    |              BOOL               |         `false`         |      Да      | Разрешить исспользование сканера карточки. |
+|  purchaseButtonTitle   |             String              | `Purchase` / `Оплатить` |      Да      | Переопределения текста кнопки.             |
+|    allowSaveBinding    |              BOOL               |         `false`         |      Да      | Отобразить тумблер "Сохранить карут"       |
+|     isSaveBinding      |              BOOL               |         `false`         |              | Значение тумблера по умолчанию             |
+| displayCardHolderField |              BOOL               |         `false`         |              | Отображать поле ввода обладателя карты     |
+
 ## Инициализация контроллера
 
+### 1. Описание аргументов
+
+Для отображения sdk необходимо вызвать статический метод `create` класса CardKViewController.
 Аргументы функции `create`:
 
 |  Название аргумента  |       Тип данных       | Значение по умолчанию | Опциональное | Описание                                      |
@@ -57,16 +86,109 @@ SDK содержит два класса и один делегат.
   CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
 ```
 
-## Свойства объекта CardKViewController
+### 2. Отображение контроллера в модальном окне или на новой странице
 
-|   Название Свойства    |           Тип данных            |  Значение по умолчанию  | Опциональное | Описание                                   |
-| :--------------------: | :-----------------------------: | :---------------------: | :----------: | ------------------------------------------ |
-|      cKitDelegate      | id<CardKViewControllerDelegate> |          `nil`          |     Нет      | -                                          |
-|   allowedCardScaner    |              BOOL               |         `false`         |      Да      | Разрешить исспользование сканера карточки. |
-|  purchaseButtonTitle   |             String              | `Purchase` / `Оплатить` |      Да      | Переопределения текста кнопки.             |
-|    allowSaveBinding    |              BOOL               |         `false`         |      Да      | Отобразить тумблер "Сохранить карут"       |
-|     isSaveBinding      |              BOOL               |         `false`         |              | Значение тумблера по умолчанию             |
-| displayCardHolderField |              BOOL               |         `false`         |              | Отображать поле ввода обладателя карты     |
+Для выбора отображения в модальном окне или на новой странице отвечает аргумент `navigationController` в функции `create`. Если `navigationController` == `nil` тогда результатом функции будет навигационный контроллер, в противном случае вернется `UIViewController`.
+
+В таком случае, если необходимо отобразить в модальном окне, тогда `navigationController` передовать **_не нужно_**.
+
+```swift
+  let controller = CardKViewController();
+  controller.cKitDelegate = self;
+  let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
+
+  self.present(createdNavController, animated: true, completion: nil);
+```
+
+<div align="center">
+  <img src="./images/modal_window.png" width="300"/>
+</div>
+
+Если необходимо отобразить на новой странице, тогда `navigationController` **_обязателен_**.
+
+```swift
+  let controller = CardKViewController();
+  controller.cKitDelegate = self;
+  let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
+
+  self.navigationController?.pushViewController(createdNavController, animated: true);
+```
+
+<div align="center">
+  <img src="./images/new_window.png" width="300"/>
+</div>
+
+## Работа со связками
+
+### 1. Отображение связок
+
+Контроллер со списком связок отобразиться, если массив `bindings` в `CardKConfing` не пустой массив. Если массив пустой, то будет отображаться форма создания новой карты.
+
+Свойства объекта `CardKBinding`:
+
+| Название Свойства | Тип данных | Значение по умолчанию | Опциональное | Описание            |
+| :---------------: | :--------: | :-------------------: | :----------: | ------------------- |
+|     bindingId     |   Number   |           -           |     Нет      | Id связки           |
+|   paymentSystem   |   String   |           -           |     Нет      | Платежная система   |
+|    cardNumber     |   String   |           -           |     Нет      | Номер карты         |
+|    expireDate     |   String   |           -           |     Нет      | Срок действия карты |
+
+<div align="center">
+   <img src="./images/list_bindings.png" width="300"/>
+</div>
+
+### 2. Отображение поля CVC
+
+Для отображение поля CVC в форме оплаты выбранной связки необходимо присвоить значение `true` у `bindingCVCRequired` в `CardKConfing`.
+
+```swift
+  CardKConfig.shared.bindingCVCRequired = true;
+```
+
+Пример отображение формы когда bindingCVCRequired = true или false
+
+<div align="center">
+  <div align="inline">
+   <img src="./images/cvc_show_field.png" width="300"/>
+  <img src="./images/cvc_hide_field.png" width="300"/>
+  </div>
+</div>
+
+## Отображение поля Cardholder
+
+Для отображения поля необходимо присвоить значение `true` у `displayCardHolderField` в `CardKViewController`.
+
+```swift
+controller.displayCardHolderField = true;
+```
+
+Пример отображения формы когда displayCardHolderField = true или false
+
+<div align="center">
+  <div align="inline">
+   <img src="./images/cardholder_show.png" width="300"/>
+    <img src="./images/cardholder_hide.png" width="300"/>
+  </div>
+</div>
+
+## Отображение тумблера "Сохранить карту"
+
+Для отображения тумблира в форме необходимо присвоить значение `true` у `allowSaveBinding` в `CardKViewController`.
+Для управления значения тумблера по умолчанию необходимо присвоить значение `isSaveBinding` в `CardKViewController`.
+
+```swift
+controller.allowSaveBinding = true;
+```
+
+Пример отображения формы когда allowSaveBinding = true или false
+
+<div align="center">
+  <div align="inline">
+   <img src="./images/switch_show_true.png" width="300"/>
+    <img src="./images/cardholder_show.png" width="300"/>
+    <img src="./images/switch_show_false.png" width="300"/>
+  </div>
+</div>
 
 ## Поддержка IPad. Отображение формы в Popover
 
