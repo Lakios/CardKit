@@ -96,7 +96,7 @@ import CardKit
 
 ```swift
 //ViewController.swift
-extension ViewController: CardKViewControllerDelegate {
+extension ViewController: CardKDelegate {
   func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {
     debugPrint(seToken)
 
@@ -106,31 +106,58 @@ extension ViewController: CardKViewControllerDelegate {
     controller.present(alert, animated: true)
 
   }
+  ...
 }
 ```
 
-3.2 Реализовать функцию вызова формы
+3.2 Реализовать функцию `willShow(\_ controller: CardKViewController)`
+
+В функции `willShow(\_ controller: CardKViewController)` присваиваются атрибуты контроллера `CardKViewController`
+
+```swift
+//ViewController.swift
+extension ViewController: CardKDelegate {
+  ...
+  func willShow(_ controller: CardKViewController) {
+    controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
+    controller.purchaseButtonTitle = "Custom purchase button";
+    controller.allowSaveBinding = true;
+    controller.isSaveBinding = true;
+    controller.displayCardHolderField = true;
+  }
+  ...
+}
+```
+
+3.3 Реализовать функцию вызова формы
 
 ```swift
 //ViewController.swift
 ...
 @objc func _openController() {
-  CardKConfig.shared.theme = CardKTheme.light();
-  CardKConfig.shared.language = "en";
-
-  let controller = CardKViewController(mdOrder:"mdOrder");
-  controller.cKitDelegate = self
-  controller.allowedCardScaner = false;
-  controller.purchaseButtonTitle = "Custom purchase button";
-  controller.isTestMod = `false`
+  CardKConfig.shared.language = "";
+  CardKConfig.shared.bindingCVCRequired = true;
+  CardKConfig.shared.bindings = self._fetchBindingCards();
+  CardKConfig.shared.isTestMod = true;
+  CardKConfig.shared.mdOrder = "mdOrder";
 
   if #available(iOS 13.0, *) {
-    self.present(controller, animated: true)
+    CardKConfig.shared.theme = CardKTheme.system();
+  } else {
+    CardKConfig.shared.theme = CardKTheme.default();
+  };
+
+  let controller = CardKViewController();
+  controller.cKitDelegate = self
+
+  let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
+
+  if #available(iOS 13.0, *) {
+    self.present(createdNavController, animated: true)
     return;
   }
 
-  let navController = UINavigationController(rootViewController: controller)
-  navController.modalPresentationStyle = .formSheet
+  createdNavController.modalPresentationStyle = .formSheet
 
   let closeBarButtonItem = UIBarButtonItem(
     title: "Close",
@@ -138,13 +165,13 @@ extension ViewController: CardKViewControllerDelegate {
     target: self,
     action: #selector(_close(sender:))
   )
-  controller.navigationItem.leftBarButtonItem = closeBarButtonItem
-  self.present(navController, animated: true)
+  createdNavController.navigationItem.leftBarButtonItem = closeBarButtonItem
+  self.present(createdNavController, animated: true)
 }
 ...
 ```
 
-3.3 Реализовать функцию закрытия формы
+3.4 Реализовать функцию закрытия формы
 
 ```swift
 //ViewController.swift
@@ -155,7 +182,7 @@ extension ViewController: CardKViewControllerDelegate {
 ...
 ```
 
-3.4 Добавить кнопку для вызова формы
+3.5 Добавить кнопку для вызова формы
 
 ```swift
  override func viewDidLoad() {

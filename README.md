@@ -24,22 +24,52 @@ SDK содержит два класса и один делегат.
  CardKConfig.shared.language = language;
 ```
 
-## Инициализация CardKViewController
+## Свойства объекта CardKConfig
 
-- mdOrder - строка содержащая идентификатор заказа.
+| Название Свойства  |   Тип данных   |   Значение по умолчанию   | Опциональное | Описание                                                  |
+| :----------------: | :------------: | :-----------------------: | :----------: | --------------------------------------------------------- |
+|       theme        |   CardKTheme   | CardKTheme.defaultTheme() |      Да      | Цветовая тема пользовательского интерфейса                |
+|      language      |     String     |            nil            |      Да      | Язык пользовательского интерфейса                         |
+| bindingCVCRequired |      BOOL      |          `false`          |      Да      | Обязательный ввод CVC оплачивая ранее сохранненой картой  |
+|     isTestMod      |      BOOL      |          `false`          |      Да      | Запуск в тестовом режиме, для выбора тестовых ключей.     |
+|      mdOrder       |     String     |             -             |     Нет      | идентификатор заказа который нужно оплатить криптограммой |
+|      bindings      | [CardKBinding] |             -             |     Нет      | Массив связок                                             |
+|    cardKProdKey    |     String     |    `<Публичный ключ>`     |      Да      | Публичный ключ для продакшина                             |
+|    cardKTestKey    |     String     |    `<Публичный ключ>`     |      Да      | Публичный ключ для тестирования                           |
+|      testURL       |     String     |          `<URL>`          |      Да      | URL для запроса тестового ключа                           |
+|      prodURL       |     String     |          `<URL>`          |      Да      | URL для запроса продакшин ключа                           |
+
+## Инициализация контроллера
+
+Аргументы функции `create`:
+self - контроллер,
+navigationController - навигационный контроллер,
+controller - инициализированный объект CardKViewController.
+
+|  Название аргумента  |       Тип данных       | Значение по умолчанию | Опциональное | Описание                                      |
+| :------------------: | :--------------------: | :-------------------: | :----------: | --------------------------------------------- |
+|         self         |    UIViewController    |         `nil`         |     Нет      | ссылка главного контроллера                   |
+| navigationController | UINavigationController |         `nil`         |      Да      | навигационный контроллер                      |
+|      controller      |  CardKViewController   |         `nil`         |     нет      | инициализированный объект CardKViewController |
+
+Результат функции `create` - объект класса `UIViewController`
 
 ```swift
-CardKViewController(mdOrder: mdOrder);
+  let controller = CardKViewController();
+  controller.cKitDelegate = self;
+  CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
 ```
 
 ## Свойства объекта CardKViewController
 
-|  Название Свойства  |           Тип данных            |  Значение по умолчанию  | Опциональное | Описание                                              |
-| :-----------------: | :-----------------------------: | :---------------------: | :----------: | ----------------------------------------------------- |
-|    cKitDelegate     | id<CardKViewControllerDelegate> |          `nil`          |     Нет      | -                                                     |
-|  allowedCardScaner  |              BOOL               |         `false`         |      Да      | Разрешить исспользование сканера карточки.            |
-| purchaseButtonTitle |             String              | `Purchase` / `Оплатить` |      Да      | Переопределения текста кнопки.                        |
-|      isTestMod      |              BOOL               |         `false`         |      Да      | Запуск в тестовом режиме, для выбора тестовых ключей. |
+|   Название Свойства    |           Тип данных            |  Значение по умолчанию  | Опциональное | Описание                                   |
+| :--------------------: | :-----------------------------: | :---------------------: | :----------: | ------------------------------------------ |
+|      cKitDelegate      | id<CardKViewControllerDelegate> |          `nil`          |     Нет      | -                                          |
+|   allowedCardScaner    |              BOOL               |         `false`         |      Да      | Разрешить исспользование сканера карточки. |
+|  purchaseButtonTitle   |             String              | `Purchase` / `Оплатить` |      Да      | Переопределения текста кнопки.             |
+|    allowSaveBinding    |              BOOL               |         `false`         |      Да      | Отобразить тумблер "Сохранить карут"       |
+|     isSaveBinding      |              BOOL               |         `false`         |              | Значение тумблера по умолчанию             |
+| displayCardHolderField |              BOOL               |         `false`         |              | Отображать поле ввода обладателя карты     |
 
 ## Поддержка IPad. Отображение формы в Popover
 
@@ -49,9 +79,9 @@ CardKViewController(mdOrder: mdOrder);
 // ViewController.swift
 CardKConfig.shared.theme = CardKTheme.dark();
 
-let controller = CardKViewController(mdOrder:"mdOrder");
-controller.cKitDelegate = self
-controller.allowedCardScaner = false;
+let controller = CardKViewController();
+controller.cKitDelegate = self;
+let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
 ...
 ```
 
@@ -60,7 +90,7 @@ controller.allowedCardScaner = false;
 ```swift
 ...
 if #available(iOS 13.0, *) {
-  self.present(controller, animated: true)
+  self.present(createdNavController, animated: true)
   return;
 }
 ...
@@ -70,8 +100,7 @@ if #available(iOS 13.0, *) {
 
 ```swift
 ...
-let navController = UINavigationController(rootViewController: controller)
-navController.modalPresentationStyle = .formSheet
+createdNavController.modalPresentationStyle = .formSheet
 ...
 ```
 
@@ -85,7 +114,7 @@ let closeBarButtonItem = UIBarButtonItem(
   target: self,
   action: #selector(_close(sender:)) //Функция _close реализована ниже.
 )
-controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+createdNavController.navigationItem.leftBarButtonItem = closeBarButtonItem
 ...
 ```
 
@@ -93,7 +122,7 @@ controller.navigationItem.leftBarButtonItem = closeBarButtonItem
 
 ```swift
 ...
-self.present(navController, animated: true)
+self.present(createdNavController, animated: true)
 ```
 
 **Функция \_close**
@@ -121,11 +150,7 @@ self.present(navController, animated: true)
 ```swift
 // ViewController.swift
 CardKConfig.shared.theme = CardKTheme.light();
-
-let controller = CardKViewController(mdOrder:"mdOrder");
-controller.cKitDelegate = self
-controller.allowedCardScaner = true
-controller.purchaseButtonTitle = "Custom purchase button";
+let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
 ...
 ```
 
@@ -133,7 +158,7 @@ controller.purchaseButtonTitle = "Custom purchase button";
 
 ```swift
 ...
-self.navigationController?.pushViewController(controller, animated: true)
+self.navigationController?.pushViewController(createdNavController, animated: true)
 ```
 
 **Результат**
@@ -155,6 +180,82 @@ func cardKitViewController(_ controller: CardKViewController, didCreateSeToken s
   debugPrint(seToken)
   ...
   controller.present(alert, animated: true)
+}
+```
+
+## Настройка CardKViewControler
+
+Для присваивания атрибутов СardKViewControler новыми параметрами необходимо реализовать функцию willShow(\_ controller: CardKViewController)
+В функции `willShow(\_ controller: CardKViewController)` присваиваются атрибуты контроллера `CardKViewController`
+
+```swift
+//ViewController.swift
+func willShow(_ controller: CardKViewController) {
+  controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
+  controller.purchaseButtonTitle = "Custom purchase button";
+  controller.allowSaveBinding = true;
+  controller.isSaveBinding = true;
+  controller.displayCardHolderField = true;
+}
+```
+
+## Настройка кнопки Apple pay
+
+Инициализация CardKPaymentView
+
+```swift
+let cardKPaymentView = CardKPaymentView.init(delegate: self);
+cardKPaymentView.controller = self;
+cardKPaymentView.frame = CGReact(x: 0, y: 0, width: 100, height: 100);
+```
+
+## Настройка PKPaymentView
+
+| Название аргумента |      Тип данных      | Значение по умолчанию | Опциональное | Описание                            |
+| :----------------: | :------------------: | :-------------------: | :----------: | ----------------------------------- |
+|     merchantId     |        String        |         `nil`         |     Нет      | `merchantId` для оплаты в apple pay |
+|   paymentRequest   |   PKPaymentRequest   |         `nil`         |     Нет      | Объект для описания данных оплаты   |
+| paymentButtonType  | PKPaymentButtonType  |         `nil`         |      Да      | Тип кнопки ApplePay                 |
+| paymentButtonStyle | PKPaymentButtonStyle |         `nil`         |      Да      | Вид кнопки ApplePay                 |
+|   cardPaybutton    |       UIButton       |         `nil`         |      Да      | Настройка кнопки "Оплата картой"    |
+
+```swift
+func willShow(_ paymentView: CardKPaymentView) {
+  let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
+  let paymentItem = PKPaymentSummaryItem.init(label: "Test", amount: NSDecimalNumber(value: 10))
+  let merchandId = "t";
+  paymentView.merchantId = merchandId
+  paymentView.paymentRequest.currencyCode = "USD"
+  paymentView.paymentRequest.countryCode = "US"
+  paymentView.paymentRequest.merchantIdentifier = merchandId
+  paymentView.paymentRequest.merchantCapabilities = PKMerchantCapability.capability3DS
+  paymentView.paymentRequest.supportedNetworks = paymentNetworks
+  paymentView.paymentRequest.paymentSummaryItems = [paymentItem]
+  paymentView.paymentButtonStyle = .black;
+  paymentView.paymentButtonType = .buy;
+
+  paymentView.cardPaybutton.backgroundColor = .white;
+  paymentView.cardPaybutton.setTitleColor(.black, for: .normal);
+  paymentView.cardPaybutton.setTitle("Custom title", for: .normal);
+}
+```
+
+**_Пример отображения кнопок_**
+
+<div align="center">
+  <img src="./images/apple_pay_buttons.png" width="300"/>
+</div>
+
+## Получение рузультат оплаты
+
+Для получения PKPayment необходимо реализовать функцию `cardKPaymentView`.
+
+- paymentView - объект класса `CardKPaymentView`;
+- pKPayment - рузультат оплаты, объект класса PKPayment.
+
+```swift
+func cardKPaymentView(_ paymentView: CardKPaymentView, didAuthorizePayment pKPayment: PKPayment) {
+...
 }
 ```
 
