@@ -124,7 +124,7 @@ class ViewController: UITableViewController {
     };
 
     let controller = CardKViewController();
-    controller.cKitDelegate
+    controller.cKitDelegate = self;
     
     let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
 
