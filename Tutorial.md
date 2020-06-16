@@ -137,7 +137,7 @@ extension ViewController: CardKDelegate {
 @objc func _openController() {
   CardKConfig.shared.language = "";
   CardKConfig.shared.bindingCVCRequired = true;
-  CardKConfig.shared.bindings = self._fetchBindingCards();
+  CardKConfig.shared.bindings = [];
   CardKConfig.shared.isTestMod = true;
   CardKConfig.shared.mdOrder = "mdOrder";
 
