@@ -227,7 +227,9 @@ NSString *CardKFooterID = @"footer";
 
 - (void)_cardChanged {
   NSString *number = _cardView.number;
-  [_bankLogoView showNumber:number];
+
+  
+  [_bankLogoView fetchBankInfo: CardKConfig.shared.mBinApiURL cardNumber: number];
   [self _refreshErrors];
 }
 

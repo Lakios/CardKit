@@ -48,7 +48,7 @@
 
 @end
 
-@interface CardKBankLogoView () <WKScriptMessageHandler>
+@interface CardKBankLogoView () <WKScriptMessageHandler, WKNavigationDelegate>
 @end
 
 
@@ -76,6 +76,7 @@
     [self addSubview:_webView];
     _coverView.backgroundColor = theme.colorTableBackground;
     _webView.backgroundColor = theme.colorTableBackground;
+    _webView.navigationDelegate = self;
     [self addSubview:_coverView];
     
     NSBundle *bundle = [NSBundle bundleForClass:[CardKBankLogoView class]];
@@ -83,6 +84,7 @@
     NSURL *url = [NSURL fileURLWithPath:path];
     [_webView loadFileURL:url allowingReadAccessToURL:url];
     [_webView setUserInteractionEnabled:NO];
+    
   }
   return self;
 }
@@ -108,7 +110,108 @@
   _webView.backgroundColor = UIColor.clearColor;
 }
 
+- (BOOL) isLightTheme {
+   NSString *imageAppearance = CardKConfig.shared.theme.imageAppearance;
+  
+  if (imageAppearance == nil) {
+    if (@available(iOS 12.0, *)) {
+      if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+        imageAppearance = @"dark";
+      } else {
+        imageAppearance = @"light";
+      }
+    } else {
+      imageAppearance = @"light";
+    }
+  }
+  
+  return [imageAppearance isEqualToString:@"light"];
+}
+
+- (void) fetchBankInfo:(NSString *)url cardNumber: (NSString *) cardNumber {
+  static NSMutableDictionary *hashTable = nil;
+  static NSString *currentBankName = nil;
+
+  if (cardNumber.length < 6) {
+    [_coverView setHidden:NO];
+    currentBankName = @"";
+    return;
+  }
+  
+  BOOL isLightTheme = [self isLightTheme];
+
+ 
+  
+  if (hashTable == nil) {
+    hashTable = [[NSMutableDictionary alloc] init];
+  }
+  
+  if (currentBankName == nil) {
+    currentBankName = @"";
+  }
+  
+   NSDictionary *bankLogos =  hashTable[[cardNumber substringToIndex:6]];
+  
+  if ([cardNumber length] >= 8) {
+    bankLogos = hashTable[[cardNumber substringToIndex:8]];
+  }
+  
+
+  NSDictionary *jsonBodyDict = @{@"bin":cardNumber};
+
+  if (bankLogos != nil && [bankLogos[@"name"] isEqualToString: currentBankName]) {
+    return;
+  } else if (bankLogos != nil) {
+    currentBankName = bankLogos[@"name"];
+    [self _showCardLogo:bankLogos[isLightTheme ? @"logo" : @"logoInvert"]];
+    return;
+  }
+
+  NSData *jsonBodyData = [NSJSONSerialization dataWithJSONObject:jsonBodyDict options:kNilOptions error:nil];
+
+  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+  [request setHTTPMethod:@"POST"];
+  [request setURL:[NSURL URLWithString:url]];
+  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  [request setHTTPBody:jsonBodyData];
+
+  NSURLSession *session = [NSURLSession sharedSession];
+  NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+    if(httpResponse.statusCode == 200)
+    {
+      NSError *parseError = nil;
+      NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
+      NSString *logo = [responseDictionary objectForKey:@"logo"];
+      NSString *logoInvert = [responseDictionary objectForKey:@"logoInvert"];
+
+      [hashTable setObject:responseDictionary forKey:cardNumber];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        if ([responseDictionary[@"name"] isEqualToString: currentBankName]) {
+          return;
+        }
+
+        currentBankName = responseDictionary[@"name"];
+        [self _showCardLogo:isLightTheme ? logo : logoInvert];
+      });
+    }
+  }];
+  
+  [dataTask resume];
+}
+
+- (void)_showCardLogo: (NSString *)logo {
+  NSString *script = [NSString stringWithFormat:@"__showBankLogo(\"%@%@\");", CardKConfig.shared.mBinURL, logo];
+   
+   UIView *coverView = _coverView;
+   
+   [_webView evaluateJavaScript:script completionHandler:^(id _Nullable obj, NSError * _Nullable error) {
+     [coverView setHidden:YES];
+   }];
+}
+
 - (void)showNumber:(NSString *)number {
+  
   if (number.length < 6) {
     [_coverView setHidden:NO];
     return;
@@ -135,6 +238,11 @@
   [_webView evaluateJavaScript:script completionHandler:^(id _Nullable obj, NSError * _Nullable error) {
     [coverView setHidden:YES];
   }];
+  
+}
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+  decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 @end

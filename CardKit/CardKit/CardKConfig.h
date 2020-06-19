@@ -48,6 +48,10 @@ NS_ASSUME_NONNULL_BEGIN
 /*! URL для запроса продакшин ключа */
 @property NSString *prodURL;
 
+@property NSString *mBinURL;
+
+@property NSString *mBinApiURL;
+
 @end
 
 NS_ASSUME_NONNULL_END

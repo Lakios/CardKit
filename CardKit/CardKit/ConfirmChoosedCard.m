@@ -124,7 +124,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   _button.tintColor = theme.colorButtonText;
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
-  [_bankLogoView showNumber: [self _getKnowsCardDigit]];
+  [_bankLogoView fetchBankInfo: CardKConfig.shared.mBinApiURL cardNumber: [self _getKnowsCardDigit]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
