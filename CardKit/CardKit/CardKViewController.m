@@ -245,6 +245,9 @@ NSString *CardKFooterID = @"footer";
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   
+  UINavigationBar *bar = [self.navigationController navigationBar];
+  bar.barTintColor = theme.colorCellBackground;
+  
   _doneButton.tintColor = theme.colorButtonText;
       
   for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID, CardKSwitchCellID]) {

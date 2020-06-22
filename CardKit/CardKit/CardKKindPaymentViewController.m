@@ -82,7 +82,10 @@ const NSString *CardKKindPayRows = @"rows";
   self.tableView.separatorColor = theme.colorSeparatar;
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
-//  self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
+  
+  UINavigationBar *bar = [self.navigationController navigationBar];
+  bar.barTintColor = theme.colorCellBackground;
+
   _button.tintColor = theme.colorButtonText;
   _bankLogoView.frame = CGRectMake(self.view.bounds.size.width * 2, 0, 0, 0);
 }

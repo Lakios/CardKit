@@ -122,6 +122,10 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   self.tableView.separatorColor = theme.colorSeparatar;
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
+  
+  UINavigationBar *bar = [self.navigationController navigationBar];
+  bar.barTintColor = theme.colorCellBackground;
+  
   _button.tintColor = theme.colorButtonText;
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
   [_bankLogoView fetchBankInfo: CardKConfig.shared.mrBinApiURL cardNumber: [self _getKnowsCardDigit]];
