@@ -89,6 +89,8 @@ class ViewController: UITableViewController {
     CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
+    CardKConfig.shared.mBinApiURL = "https://mrbin.io/bins/display";
+    CardKConfig.shared.mBinURL = "https://mrbin.io/bins/";
 
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -118,7 +120,9 @@ class ViewController: UITableViewController {
     CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
-
+    CardKConfig.shared.mBinApiURL = "https://mrbin.io/bins/display";
+    CardKConfig.shared.mBinURL = "https://mrbin.io/bins/";
+    
     if #available(iOS 13.0, *) {
       CardKConfig.shared.theme = CardKTheme.system();
     } else {
@@ -195,6 +199,8 @@ class ViewController: UITableViewController {
     CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
+    CardKConfig.shared.mBinApiURL = "https://mrbin.io/bins/display";
+    CardKConfig.shared.mBinURL = "https://mrbin.io/bins/";
     
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -211,6 +217,8 @@ class ViewController: UITableViewController {
     CardKConfig.shared.bindings = [];
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
+    CardKConfig.shared.mBinApiURL = "https://mrbin.io/bins/display";
+    CardKConfig.shared.mBinURL = "https://mrbin.io/bins/";
     
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -249,6 +257,8 @@ class ViewController: UITableViewController {
       CardKConfig.shared.bindings = [];
       CardKConfig.shared.isTestMod = true;
       CardKConfig.shared.mdOrder = "mdOrder";
+      CardKConfig.shared.mBinApiURL = "https://mrbin.io/bins/display";
+      CardKConfig.shared.mBinURL = "https://mrbin.io/bins/";
       
       let controller = CardKViewController();
       controller.cKitDelegate = self
