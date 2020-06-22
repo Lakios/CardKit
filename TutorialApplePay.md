@@ -95,5 +95,6 @@ extension ViewController: CardKDelegate {
 <div align="center">
   <div align="inline">
   <img src="./images/apple_pay_buttons.png" width="300"/>
+  <div align="center"> Рисунок 1.1. Пример контроллера с apple pay кнопками </div>
   </div>
 </div>

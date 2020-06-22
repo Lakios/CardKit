@@ -202,8 +202,14 @@ extension ViewController: CardKDelegate {
 **Результат:**
 
 <div align="center">
-  <div align="inline">
-  <img src="./images/tutorial/result_part_3_open_form.png" width="300"/>
-  <img src="./images/tutorial/result_part_3_form.png" width="300"/>
+  <div style="display: flex; justify-content: center;">
+  <div>
+    <img src="./images/tutorial/result_part_3_open_form.png" width="400"/>
+    <div align="center"> Рисунок 3.1a. Кнопка </div>
+  </div>
+  <div>
+    <img src="./images/tutorial/result_part_3_form.png" width="400"/>
+    <div align="center"> Рисунок 3.2b. Форма для ввода карты </div>
+  </div>
   </div>
 </div>

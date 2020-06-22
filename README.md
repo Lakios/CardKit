@@ -2,7 +2,8 @@
 
 SDK содержит два класса и один делегат.
 
-[Инструкция интеграции SDK](Tutorial.md)
+[Инструкция интеграции SDK](Tutorial.md) <br/>
+[Инструкция интеграции Apple pay](TutorialApplePay.md)
 
 ## Настройка параметров SDK
 
@@ -106,6 +107,8 @@ SDK содержит два класса и один делегат.
   <img src="./images/modal_window.png" width="300"/>
 </div>
 
+<div align="center"> Рисунок 1. Контроллер в модальном окне. </div>
+
 Если необходимо отобразить на новой странице, тогда `navigationController` **_обязателен_**.
 
 ```swift
@@ -119,6 +122,8 @@ SDK содержит два класса и один делегат.
 <div align="center">
   <img src="./images/new_window.png" width="300"/>
 </div>
+
+<div align="center"> Рисунок 2. Контроллер на новой странице </div>
 
 ## Работа со связками
 
@@ -139,6 +144,8 @@ SDK содержит два класса и один делегат.
    <img src="./images/list_bindings.png" width="300"/>
 </div>
 
+<div align="center"> Рисунок 3. Список связок </div>
+
 ### 2. Отображение поля CVC
 
 Для отображение поля CVC в форме оплаты выбранной связки необходимо присвоить значение `true` у `bindingCVCRequired` в `CardKConfing`.
@@ -150,9 +157,15 @@ SDK содержит два класса и один делегат.
 Пример отображение формы когда bindingCVCRequired = true или false
 
 <div align="center">
-  <div align="inline">
-   <img src="./images/cvc_show_field.png" width="300"/>
-  <img src="./images/cvc_hide_field.png" width="300"/>
+  <div style="display: flex; justify-content: center;">
+  <div>
+    <img src="./images/cvc_show_field.png" width="400"/>
+    <div align="center"> Рисунок 4a. Поле bindingCVCRequired = true </div>
+  </div>
+  <div>
+    <img src="./images/cvc_hide_field.png" width="400"/>
+    <div align="center"> Рисунок 4b. Поле bindingCVCRequired = false </div>
+  </div>
   </div>
 </div>
 
@@ -167,9 +180,15 @@ controller.displayCardHolderField = true;
 Пример отображения формы когда displayCardHolderField = true или false
 
 <div align="center">
-  <div align="inline">
-   <img src="./images/cardholder_show.png" width="300"/>
-    <img src="./images/cardholder_hide.png" width="300"/>
+  <div style="display: flex; justify-content: center;">
+    <div>
+      <img src="./images/cardholder_show.png" width="400"/>
+      <div align="center"> Рисунок 5a. Поле displayCardHolderField = true </div>
+    </div>
+    <div>
+      <img src="./images/cardholder_hide.png" width="400"/>
+      <div align="center"> Рисунок 5a. Поле displayCardHolderField = false </div>
+    </div>
   </div>
 </div>
 
@@ -185,10 +204,19 @@ controller.allowSaveBinding = true;
 Пример отображения формы когда allowSaveBinding = true или false
 
 <div align="center">
-  <div align="inline">
-   <img src="./images/switch_show_true.png" width="300"/>
-    <img src="./images/cardholder_show.png" width="300"/>
-    <img src="./images/switch_show_false.png" width="300"/>
+  <div style="display: flex; justify-content: center;">
+  <div>
+   <img src="./images/switch_show_true.png" width="400"/>
+   <div align="center"> Рисунок 6a. Поле allowSaveBinding = true, isSaveBinding = true</div>
+   </div>
+   <div>
+    <img src="./images/cardholder_show.png" width="400"/>
+    <div align="center"> Рисунок 6b. Поле allowSaveBinding = false </div>
+    </div>
+    <div>
+    <img src="./images/switch_show_false.png" width="400"/>
+    <div align="center"> Рисунок 6c. Поле allowSaveBinding = false, isSaveBinding = false </div>
+    </div>
   </div>
 </div>
 
@@ -254,15 +282,19 @@ self.present(createdNavController, animated: true)
 }
 ```
 
-**Результат: На риссунке 1 - IOS 13. На риссунке 2 - IOS 10.**
+**Результат: На рисунке 1 - IOS 13. На рисунке 2 - IOS 10.**
 
-![Result IOS 13](/images/ios13_popover.png)
+<div align="center">
+   <img src="./images/ios13_popover.png" width="600"/>
+</div>
 
-  <div align="center"> Рисунок 1. Popover iPadOS 13 </div>
+  <div align="center"> Рисунок 7. Popover iPadOS 13 </div>
 
-![Result IOS 13](/images/ios10_popover.png)
+<div align="center">
+   <img src="./images/ios10_popover.png" width="600"/>
+</div>
 
-<div align="center"> Рисунок 1. Popover iOS 10 </div>
+<div align="center"> Рисунок 8. Popover iOS 10 </div>
 
 ## Отображение формы на отдельной странице
 
@@ -284,9 +316,10 @@ self.navigationController?.pushViewController(createdNavController, animated: tr
 
 **Результат**
 
-![Result IOS 13](/images/form_in_new_window.png)
-
-  <div align="center"> Рисунок 3. Форма на отдельной странице. </div>
+<div align="center">
+   <img src="./images/form_in_new_window.png" width="600"/>
+   <div align="center"> Рисунок 9. Форма на отдельной странице </div>
+</div>
 
 ## Получение SeToken
 
@@ -365,6 +398,7 @@ func willShow(_ paymentView: CardKPaymentView) {
 
 <div align="center">
   <img src="./images/apple_pay_buttons.png" width="300"/>
+   <div align="center"> Рисунок 10. Пример отображения конопок Apple Pay </div>
 </div>
 
 3. Получение результата оплаты
@@ -453,9 +487,10 @@ func _openController() {
 |   6   | colorSeparatar       |
 |   7   | colorButtonText      |
 
-![Result IOS 13](/images/custom_theme.png)
-
-  <div align="center"> Рисунок 3. Нумерация свойств. </div>
+<div align="center">
+  <img src="./images/custom_theme.png" width="600"/>
+  <div align="center"> Рисунок 11. Нумерация свойств </div>
+</div>
 
 Пример переопределения темы:
 
