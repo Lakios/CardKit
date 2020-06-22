@@ -36,7 +36,7 @@
   theme.colorSeparatar = [UIColor colorWithRed:0.10f green:0.10f blue:0.11f alpha:1.0f];
   theme.imageAppearance = @"dark";
   theme.colorButtonText = UIColor.systemBlueColor;
-  //45/44/45
+
   return theme;
 }
 
