@@ -19,8 +19,8 @@ class SampleCardKPaymentView: UIViewController {
     CardKConfig.shared.bindings = [];
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
-    CardKConfig.shared.mBinApiURL = "https://mrbin.io/bins/display";
-    CardKConfig.shared.mBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
+    CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
     
     self.view.backgroundColor = CardKTheme.light().colorTableBackground;
     let buttonsCGRect = _getButtons();

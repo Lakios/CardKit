@@ -229,7 +229,7 @@ NSString *CardKFooterID = @"footer";
   NSString *number = _cardView.number;
 
   
-  [_bankLogoView fetchBankInfo: CardKConfig.shared.mBinApiURL cardNumber: number];
+  [_bankLogoView fetchBankInfo: CardKConfig.shared.mrBinApiURL cardNumber: number];
   [self _refreshErrors];
 }
 

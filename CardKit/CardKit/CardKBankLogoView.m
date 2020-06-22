@@ -139,8 +139,6 @@
   }
   
   BOOL isLightTheme = [self isLightTheme];
-
- 
   
   if (hashTable == nil) {
     hashTable = [[NSMutableDictionary alloc] init];
@@ -156,7 +154,6 @@
     bankLogos = hashTable[[cardNumber substringToIndex:8]];
   }
   
-
   NSDictionary *jsonBodyDict = @{@"bin":cardNumber};
 
   if (bankLogos != nil && [bankLogos[@"name"] isEqualToString: currentBankName]) {
@@ -176,7 +173,17 @@
   [request setHTTPBody:jsonBodyData];
 
   NSURLSession *session = [NSURLSession sharedSession];
+  
   NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    
+    if (error != nil) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self _showCardLogo:nil];
+      });
+
+      return;
+    }
+    
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     if(httpResponse.statusCode == 200)
     {
@@ -194,20 +201,37 @@
         currentBankName = responseDictionary[@"name"];
         [self _showCardLogo:isLightTheme ? logo : logoInvert];
       });
+      return;
     }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self _showCardLogo:nil];
+    });
+    
+    return;
   }];
   
   [dataTask resume];
 }
 
 - (void)_showCardLogo: (NSString *)logo {
-  NSString *script = [NSString stringWithFormat:@"__showBankLogo(\"%@%@\");", CardKConfig.shared.mBinURL, logo];
-   
-   UIView *coverView = _coverView;
-   
-   [_webView evaluateJavaScript:script completionHandler:^(id _Nullable obj, NSError * _Nullable error) {
-     [coverView setHidden:YES];
-   }];
+  NSString *script;
+  
+  if (logo == nil) {
+    BOOL isLightTheme = [self isLightTheme];
+    NSString *folderName = isLightTheme ? @"color" : @"white";
+
+    script = [NSString stringWithFormat:@"__showBankLogo(\"%@%@%@\");", @"./images/bank-logos/", folderName ,@"/ru-unknown.svg"];
+
+  } else {
+    script = [NSString stringWithFormat:@"__showBankLogo(\"%@%@\");", CardKConfig.shared.mrBinURL, logo];
+  }
+
+  UIView *coverView = _coverView;
+
+  [_webView evaluateJavaScript:script completionHandler:^(id _Nullable obj, NSError * _Nullable error) {
+    [coverView setHidden:YES];
+  }];
 }
 
 - (void)showNumber:(NSString *)number {
