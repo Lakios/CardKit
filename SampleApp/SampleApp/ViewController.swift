@@ -77,9 +77,25 @@ class ViewController: UITableViewController {
     let controller = CardKViewController();
     controller.cKitDelegate = self;
     
-    let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
+    let createdUiController = CardKViewController.create(self, controller: controller);
     
-    self.present(createdNavController, animated: true, completion: nil);
+    if #available(iOS 13.0, *) {
+      self.present(createdUiController, animated: true)
+      return;
+    }
+
+    let navController = UINavigationController(rootViewController: createdUiController)
+    navController.modalPresentationStyle = .formSheet
+
+    let closeBarButtonItem = UIBarButtonItem(
+     title: "Close",
+     style: .done,
+     target: self,
+     action: #selector(_close(sender:))
+    )
+    createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
+    self.present(navController, animated: true)
+    CardIOUtilities.preloadCardIO()
   }
 
   func _openDark() {
@@ -95,23 +111,25 @@ class ViewController: UITableViewController {
     let controller = CardKViewController();
     controller.cKitDelegate = self
     
-    let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
+    let createdUiController = CardKViewController.create(self, controller: controller);
 
     if #available(iOS 13.0, *) {
-      self.present(createdNavController, animated: true)
+      self.present(createdUiController, animated: true)
       return;
     }
 
-    createdNavController.modalPresentationStyle = .formSheet
+    let navController = UINavigationController(rootViewController: createdUiController)
+    navController.modalPresentationStyle = .formSheet
 
     let closeBarButtonItem = UIBarButtonItem(
-      title: "Close",
-      style: .done,
-      target: self,
-      action: #selector(_close(sender:))
+     title: "Close",
+     style: .done,
+     target: self,
+     action: #selector(_close(sender:))
     )
-    createdNavController.navigationItem.leftBarButtonItem = closeBarButtonItem
-    self.present(createdNavController, animated: true)
+    createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
+    self.present(navController, animated: true)
+    CardIOUtilities.preloadCardIO()
   }
 
   func _openSystemTheme() {
@@ -132,23 +150,25 @@ class ViewController: UITableViewController {
     let controller = CardKViewController();
     controller.cKitDelegate = self;
     
-    let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
+    let createdUiController = CardKViewController.create(self, controller: controller);
 
     if #available(iOS 13.0, *) {
-      self.present(createdNavController, animated: true)
+      self.present(createdUiController, animated: true)
       return;
     }
 
-    createdNavController.modalPresentationStyle = .formSheet
+    let navController = UINavigationController(rootViewController: createdUiController)
+    navController.modalPresentationStyle = .formSheet
 
     let closeBarButtonItem = UIBarButtonItem(
-      title: "Close",
-      style: .done,
-      target: self,
-      action: #selector(_close(sender:))
+     title: "Close",
+     style: .done,
+     target: self,
+     action: #selector(_close(sender:))
     )
-    createdNavController.navigationItem.leftBarButtonItem = closeBarButtonItem
-    self.present(createdNavController, animated: true)
+    createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
+    self.present(navController, animated: true)
+    CardIOUtilities.preloadCardIO()
   }
   
   func _openCustomTheme() {
@@ -172,23 +192,24 @@ class ViewController: UITableViewController {
     let controller = CardKViewController();
     controller.cKitDelegate = self
     
-    let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
+    let createdUiController = CardKViewController.create(self, controller: controller);
 
     if #available(iOS 13.0, *) {
-      self.present(createdNavController, animated: true)
+      self.present(createdUiController, animated: true)
       return;
     }
 
-    createdNavController.modalPresentationStyle = .formSheet
+    let navController = UINavigationController(rootViewController: createdUiController)
+    navController.modalPresentationStyle = .formSheet
 
     let closeBarButtonItem = UIBarButtonItem(
-      title: "Close",
-      style: .done,
-      target: self,
-      action: #selector(_close(sender:))
+     title: "Close",
+     style: .done,
+     target: self,
+     action: #selector(_close(sender:))
     )
-    createdNavController.navigationItem.leftBarButtonItem = closeBarButtonItem
-    self.present(createdNavController, animated: true)
+    createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
+    self.present(navController, animated: true)
     CardIOUtilities.preloadCardIO()
   }
   
@@ -205,9 +226,9 @@ class ViewController: UITableViewController {
     let controller = CardKViewController();
     controller.cKitDelegate = self
 
-    let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
+    let createdUiController = CardKViewController.create(self, controller: controller);
     
-    self.navigationController?.pushViewController(createdNavController, animated: true);
+    self.navigationController?.pushViewController(createdUiController, animated: true);
   }
 
   func _openDarkUINavigation() {
@@ -223,9 +244,9 @@ class ViewController: UITableViewController {
     let controller = CardKViewController();
     controller.cKitDelegate = self
 
-    let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
+    let createdUiController = CardKViewController.create(self, controller: controller);
     
-    self.navigationController?.pushViewController(createdNavController, animated: true)
+    self.navigationController?.pushViewController(createdUiController, animated: true)
   }
 
   func _openSystemUINavigation() {
@@ -245,9 +266,9 @@ class ViewController: UITableViewController {
     let controller = CardKViewController();
     controller.cKitDelegate = self
 
-    let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
+    let createdUiController = CardKViewController.create(self, controller: controller);
     
-    self.navigationController?.pushViewController(createdNavController, animated: true)
+    self.navigationController?.pushViewController(createdUiController, animated: true)
   }
   
   func _openWitchChooseLanguage(language: String) {
@@ -263,14 +284,14 @@ class ViewController: UITableViewController {
       let controller = CardKViewController();
       controller.cKitDelegate = self
 
-      let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
+      let createdUiController = CardKViewController.create(self, controller: controller);
     
       if #available(iOS 13.0, *) {
-        self.present(createdNavController, animated: true)
+        self.present(createdUiController, animated: true)
         return;
       }
 
-      createdNavController.modalPresentationStyle = .formSheet
+      createdUiController.modalPresentationStyle = .formSheet
 
       let closeBarButtonItem = UIBarButtonItem(
         title: "Close",
@@ -279,7 +300,7 @@ class ViewController: UITableViewController {
         action: #selector(_close(sender:))
       )
       controller.navigationItem.leftBarButtonItem = closeBarButtonItem
-      self.present(createdNavController, animated: true)
+      self.present(createdUiController, animated: true)
       CardIOUtilities.preloadCardIO()
   }
   

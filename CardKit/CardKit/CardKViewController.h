@@ -67,10 +67,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  @brief Определение первой страницы
  @param cardKViewControllerDelegate делегат контроллера
- @param nController навигационный контроллер
  @param controller экземпляр контроллера CardKViewController
 */
-+(UIViewController *) create:(id<CardKDelegate>)cardKViewControllerDelegate navigationController:(UINavigationController * _Nullable) nController controller:(CardKViewController *) controller;
++(UIViewController *) create:(id<CardKDelegate>)cardKViewControllerDelegate controller:(CardKViewController *) controller;
 
 @end
 

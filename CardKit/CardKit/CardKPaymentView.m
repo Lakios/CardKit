@@ -161,7 +161,7 @@
   CardKViewController *controller = [[CardKViewController alloc] init];
   controller.cKitDelegate = _cKitDelegate;
   
-   UIViewController *viewController = [CardKViewController create:_cKitDelegate navigationController:_controller.navigationController controller: controller];
+  UIViewController *viewController = [CardKViewController create:_cKitDelegate controller: controller];
 
   [_controller presentViewController:viewController animated:YES completion:nil];
 }
