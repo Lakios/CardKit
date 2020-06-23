@@ -131,7 +131,7 @@
 {
     _viewController = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest: _paymentRequest];
     
-    _viewController.delegate = self;
+    _viewController.delegate = (id <PKPaymentAuthorizationViewControllerDelegate>)self;
     [_controller presentViewController:_viewController animated:YES completion:nil];
 }
 
