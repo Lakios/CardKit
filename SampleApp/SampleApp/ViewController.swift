@@ -112,13 +112,13 @@ class ViewController: UITableViewController {
     controller.cKitDelegate = self
     
     let createdUiController = CardKViewController.create(self, controller: controller);
-
+    let navController = UINavigationController(rootViewController: createdUiController)
+    
     if #available(iOS 13.0, *) {
-      self.present(createdUiController, animated: true)
+      self.present(navController, animated: true)
       return;
     }
-
-    let navController = UINavigationController(rootViewController: createdUiController)
+    
     navController.modalPresentationStyle = .formSheet
 
     let closeBarButtonItem = UIBarButtonItem(
@@ -151,13 +151,13 @@ class ViewController: UITableViewController {
     controller.cKitDelegate = self;
     
     let createdUiController = CardKViewController.create(self, controller: controller);
+    let navController = UINavigationController(rootViewController: createdUiController);
 
     if #available(iOS 13.0, *) {
       self.present(createdUiController, animated: true)
       return;
     }
 
-    let navController = UINavigationController(rootViewController: createdUiController)
     navController.modalPresentationStyle = .formSheet
 
     let closeBarButtonItem = UIBarButtonItem(
@@ -193,13 +193,13 @@ class ViewController: UITableViewController {
     controller.cKitDelegate = self
     
     let createdUiController = CardKViewController.create(self, controller: controller);
+    let navController = UINavigationController(rootViewController: createdUiController);
 
     if #available(iOS 13.0, *) {
       self.present(createdUiController, animated: true)
       return;
     }
 
-    let navController = UINavigationController(rootViewController: createdUiController)
     navController.modalPresentationStyle = .formSheet
 
     let closeBarButtonItem = UIBarButtonItem(
