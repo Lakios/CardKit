@@ -265,7 +265,7 @@ NSString *CardKFooterID = @"footer";
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
     CGRect r = tableView.readableContentGuide.layoutFrame;
     UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
-    v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, v.contentView.bounds.size.height);
+    v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, v.contentView.bounds.size.width, v.contentView.bounds.size.height);
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -332,11 +332,11 @@ NSString *CardKFooterID = @"footer";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return section == 0 ? 34 : 38;
+  return 38;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-  return section == 0 ? 34 : 38;
+  return 38;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -360,16 +360,16 @@ NSString *CardKFooterID = @"footer";
   if(section == 0) {
     if (_cardFooterView == nil) {
       _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
+      
     }
-    _cardFooterView.errorMessages = _cardView.errorMessages;
-
+    
     [view.contentView addSubview:_cardFooterView];
+    view.contentView.frame = view.contentView.bounds; 
   } else if (section == 1) {
     if (_ownerFooterView == nil) {
       _ownerFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
     }
     
-    _ownerFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
     [view.contentView addSubview:_ownerFooterView];
   }
 

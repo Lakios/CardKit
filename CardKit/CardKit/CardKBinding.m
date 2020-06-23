@@ -174,6 +174,7 @@
 }
 
 - (void)validate {
+  [self _clearSecureCodeErrors];
   [self _validateSecureCode];
 }
 

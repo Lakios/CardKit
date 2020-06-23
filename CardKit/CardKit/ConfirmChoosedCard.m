@@ -166,7 +166,6 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
       _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
     }
     
-    _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
     [view.contentView addSubview:_cardFooterView];
   }
   
@@ -206,7 +205,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
     CGRect r = tableView.readableContentGuide.layoutFrame;
     UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
-    v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, v.contentView.bounds.size.height);
+    v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, v.contentView.bounds.size.width, v.contentView.bounds.size.height);
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
