@@ -148,19 +148,19 @@
     currentBankName = @"";
   }
   
-   NSDictionary *bankLogos =  hashTable[[cardNumber substringToIndex:6]];
+   NSDictionary *bankInfo =  hashTable[[cardNumber substringToIndex:6]];
   
   if ([cardNumber length] >= 8) {
-    bankLogos = hashTable[[cardNumber substringToIndex:8]];
+    bankInfo = hashTable[[cardNumber substringToIndex:8]];
   }
   
   NSDictionary *jsonBodyDict = @{@"bin":cardNumber};
 
-  if (bankLogos != nil && [bankLogos[@"name"] isEqualToString: currentBankName]) {
+  if (bankInfo != nil && [bankInfo[@"name"] isEqualToString: currentBankName]) {
     return;
-  } else if (bankLogos != nil) {
-    currentBankName = bankLogos[@"name"];
-    [self _showCardLogo:bankLogos[isLightTheme ? @"logo" : @"logoInvert"]];
+  } else if (bankInfo != nil) {
+    currentBankName = bankInfo[@"name"];
+    [self _showCardLogo:bankInfo[isLightTheme ? @"logo" : @"logoInvert"]];
     return;
   }
 
