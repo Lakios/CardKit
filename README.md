@@ -86,21 +86,7 @@ SDK содержит два класса и один делегат.
 ```swift
   let controller = CardKViewController();
   controller.cKitDelegate = self;
-  CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
-```
-
-### 2. Отображение контроллера в модальном окне или на новой странице
-
-Для выбора отображения в модальном окне или на новой странице отвечает аргумент `navigationController` в функции `create`. Если `navigationController` == `nil` тогда результатом функции будет навигационный контроллер, в противном случае вернется `UIViewController`.
-
-В таком случае, если необходимо отобразить в модальном окне, тогда `navigationController` передовать **_не нужно_**.
-
-```swift
-  let controller = CardKViewController();
-  controller.cKitDelegate = self;
-  let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
-
-  self.present(createdNavController, animated: true, completion: nil);
+  CardKViewController.create(self, controller: controller);
 ```
 
 <div align="center">
@@ -108,22 +94,6 @@ SDK содержит два класса и один делегат.
 </div>
 
 <div align="center"> Рисунок 1. Контроллер в модальном окне. </div>
-
-Если необходимо отобразить на новой странице, тогда `navigationController` **_обязателен_**.
-
-```swift
-  let controller = CardKViewController();
-  controller.cKitDelegate = self;
-  let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
-
-  self.navigationController?.pushViewController(createdNavController, animated: true);
-```
-
-<div align="center">
-  <img src="./images/new_window.png" width="300"/>
-</div>
-
-<div align="center"> Рисунок 2. Контроллер на новой странице </div>
 
 ## Работа со связками
 
@@ -144,7 +114,7 @@ SDK содержит два класса и один делегат.
    <img src="./images/list_bindings.png" width="300"/>
 </div>
 
-<div align="center"> Рисунок 3. Список связок </div>
+<div align="center"> Рисунок 2. Список связок </div>
 
 ### 2. Отображение поля CVC
 
@@ -160,11 +130,11 @@ SDK содержит два класса и один делегат.
   <div style="display: flex; justify-content: center;">
   <div>
     <img src="./images/cvc_show_field.png" width="400"/>
-    <div align="center"> Рисунок 4a. Поле bindingCVCRequired = true </div>
+    <div align="center"> Рисунок 3a. Поле bindingCVCRequired = true </div>
   </div>
   <div>
     <img src="./images/cvc_hide_field.png" width="400"/>
-    <div align="center"> Рисунок 4b. Поле bindingCVCRequired = false </div>
+    <div align="center"> Рисунок 3b. Поле bindingCVCRequired = false </div>
   </div>
   </div>
 </div>
@@ -183,11 +153,11 @@ controller.displayCardHolderField = true;
   <div style="display: flex; justify-content: center;">
     <div>
       <img src="./images/cardholder_show.png" width="400"/>
-      <div align="center"> Рисунок 5a. Поле displayCardHolderField = true </div>
+      <div align="center"> Рисунок 4a. Поле displayCardHolderField = true </div>
     </div>
     <div>
       <img src="./images/cardholder_hide.png" width="400"/>
-      <div align="center"> Рисунок 5a. Поле displayCardHolderField = false </div>
+      <div align="center"> Рисунок 4b. Поле displayCardHolderField = false </div>
     </div>
   </div>
 </div>
@@ -207,15 +177,15 @@ controller.allowSaveBinding = true;
   <div style="display: flex; justify-content: center;">
   <div>
    <img src="./images/switch_show_true.png" width="400"/>
-   <div align="center"> Рисунок 6a. Поле allowSaveBinding = true, isSaveBinding = true</div>
+   <div align="center"> Рисунок 5a. Поле allowSaveBinding = true, isSaveBinding = true</div>
    </div>
    <div>
     <img src="./images/cardholder_show.png" width="400"/>
-    <div align="center"> Рисунок 6b. Поле allowSaveBinding = false </div>
+    <div align="center"> Рисунок 5b. Поле allowSaveBinding = false </div>
     </div>
     <div>
     <img src="./images/switch_show_false.png" width="400"/>
-    <div align="center"> Рисунок 6c. Поле allowSaveBinding = false, isSaveBinding = false </div>
+    <div align="center"> Рисунок 5c. Поле allowSaveBinding = false, isSaveBinding = false </div>
     </div>
   </div>
 </div>
@@ -230,7 +200,8 @@ CardKConfig.shared.theme = CardKTheme.dark();
 
 let controller = CardKViewController();
 controller.cKitDelegate = self;
-let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
+let createdUiController = CardKViewController.create(self, controller: controller);
+let navController = UINavigationController(rootViewController: createdUiController);
 ...
 ```
 
@@ -239,7 +210,7 @@ let createdNavController = CardKViewController.create(self, navigationController
 ```swift
 ...
 if #available(iOS 13.0, *) {
-  self.present(createdNavController, animated: true)
+  self.present(createdUiController, animated: true)
   return;
 }
 ...
@@ -249,7 +220,7 @@ if #available(iOS 13.0, *) {
 
 ```swift
 ...
-createdNavController.modalPresentationStyle = .formSheet
+navController.modalPresentationStyle = .formSheet
 ...
 ```
 
@@ -263,7 +234,7 @@ let closeBarButtonItem = UIBarButtonItem(
   target: self,
   action: #selector(_close(sender:)) //Функция _close реализована ниже.
 )
-createdNavController.navigationItem.leftBarButtonItem = closeBarButtonItem
+createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
 ...
 ```
 
@@ -271,7 +242,7 @@ createdNavController.navigationItem.leftBarButtonItem = closeBarButtonItem
 
 ```swift
 ...
-self.present(createdNavController, animated: true)
+self.present(navController, animated: true)
 ```
 
 **Функция \_close**
@@ -282,19 +253,19 @@ self.present(createdNavController, animated: true)
 }
 ```
 
-**Результат: На рисунке 7 - IOS 13. На рисунке 8 - IOS 10.**
+**Результат: На рисунке 6 - IOS 13. На рисунке 7 - IOS 10.**
 
 <div align="center">
    <img src="./images/ios13_popover.png" width="600"/>
 </div>
 
-  <div align="center"> Рисунок 7. Popover iPadOS 13 </div>
+  <div align="center"> Рисунок 6. Popover iPadOS 13 </div>
 
 <div align="center">
    <img src="./images/ios10_popover.png" width="600"/>
 </div>
 
-<div align="center"> Рисунок 8. Popover iOS 10 </div>
+<div align="center"> Рисунок 7. Popover iOS 10 </div>
 
 ## Отображение формы на отдельной странице
 
@@ -303,7 +274,7 @@ self.present(createdNavController, animated: true)
 ```swift
 // ViewController.swift
 CardKConfig.shared.theme = CardKTheme.light();
-let createdNavController = CardKViewController.create(self, navigationController: self.navigationController, controller: controller);
+let createdUiController = CardKViewController.create(self, controller: controller);
 ...
 ```
 
@@ -311,14 +282,14 @@ let createdNavController = CardKViewController.create(self, navigationController
 
 ```swift
 ...
-self.navigationController?.pushViewController(createdNavController, animated: true)
+self.navigationController?.pushViewController(createdUiController, animated: true)
 ```
 
 **Результат**
 
 <div align="center">
    <img src="./images/form_in_new_window.png" width="600"/>
-   <div align="center"> Рисунок 9. Форма на отдельной странице </div>
+   <div align="center"> Рисунок 8. Форма на отдельной странице </div>
 </div>
 
 ## Получение SeToken
@@ -398,7 +369,7 @@ func willShow(_ paymentView: CardKPaymentView) {
 
 <div align="center">
   <img src="./images/apple_pay_buttons.png" width="300"/>
-   <div align="center"> Рисунок 10. Пример отображения конопок Apple Pay </div>
+   <div align="center"> Рисунок 9. Пример отображения конопок Apple Pay </div>
 </div>
 
 3. Получение результата оплаты
@@ -489,7 +460,7 @@ func _openController() {
 
 <div align="center">
   <img src="./images/custom_theme.png" width="600"/>
-  <div align="center"> Рисунок 11. Нумерация свойств </div>
+  <div align="center"> Рисунок 10. Нумерация свойств </div>
 </div>
 
 Пример переопределения темы:

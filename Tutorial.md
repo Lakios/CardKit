@@ -150,14 +150,14 @@ extension ViewController: CardKDelegate {
   let controller = CardKViewController();
   controller.cKitDelegate = self
 
-  let createdNavController = CardKViewController.create(self, navigationController: nil, controller: controller);
-
+  let createdUiController = CardKViewController.create(self, controller: controller);
+  let navController = UINavigationController(rootViewController: createdUiController);
   if #available(iOS 13.0, *) {
-    self.present(createdNavController, animated: true)
+    self.present(createdUiController, animated: true)
     return;
   }
 
-  createdNavController.modalPresentationStyle = .formSheet
+  navController.modalPresentationStyle = .formSheet
 
   let closeBarButtonItem = UIBarButtonItem(
     title: "Close",
@@ -165,8 +165,8 @@ extension ViewController: CardKDelegate {
     target: self,
     action: #selector(_close(sender:))
   )
-  createdNavController.navigationItem.leftBarButtonItem = closeBarButtonItem
-  self.present(createdNavController, animated: true)
+  createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
+  self.present(navController, animated: true)
 }
 ...
 ```
