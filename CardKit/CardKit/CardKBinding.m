@@ -186,4 +186,11 @@
   _secureCodeErrors = [errorMessages mutableCopy];
 }
 
+- (void)setSecureCode:(NSString *)secureCode {
+  _secureCodeTextField.text = secureCode;
+}
+
+- (NSString *)secureCode {
+  return _secureCodeTextField.text;
+}
 @end
