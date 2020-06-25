@@ -131,7 +131,12 @@
 - (void) fetchBankInfo:(NSString *)url cardNumber: (NSString *) cardNumber {
   static NSMutableDictionary *hashTable = nil;
   static NSString *currentBankName = nil;
-
+  if ([_titleLabel.text isEqual:@""]) {
+     [_coverView setHidden:NO];
+     [self _showCardLogo:nil];
+     currentBankName = @"";
+   }
+  
   if (cardNumber.length < 6) {
     [_coverView setHidden:NO];
     currentBankName = @"";

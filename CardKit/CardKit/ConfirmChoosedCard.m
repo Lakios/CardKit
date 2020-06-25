@@ -128,6 +128,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   
   _button.tintColor = theme.colorButtonText;
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
+  _bankLogoView.title = @"";
   [_bankLogoView fetchBankInfo: CardKConfig.shared.mrBinApiURL cardNumber: [self _getKnowsCardDigit]];
 }
 
