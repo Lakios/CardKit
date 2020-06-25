@@ -463,7 +463,7 @@ NSString *CardKFooterID = @"footer";
 
   NSString *seToken = [RSA encryptString:cardData publicKey: CardKConfig.shared.pubKey];
   
-  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken allowSaveBinding: _switchView.getSwitch.isOn];
+  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken allowSaveBinding: _switchView.getSwitch.isOn isNewCard: YES];
 }
 
 - (void)_scanCard:(UITapGestureRecognizer *)gestureRecognizer {
