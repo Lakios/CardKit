@@ -9,7 +9,7 @@
 ```swift
 //SampleCardKPaymentView.swift
 extension SampleCardKPaymentView: CardKDelegate {
-  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {
+  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
     debugPrint(seToken)
 
     let alert = UIAlertController(title: "SeToken", message: seToken, preferredStyle: UIAlertController.Style.alert)

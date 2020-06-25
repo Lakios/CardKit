@@ -298,10 +298,12 @@ self.navigationController?.pushViewController(createdUiController, animated: tru
 
 - cotroller - объект класса `CardKViewController`;
 - didCreateSeToken - готовый `SeToken`.
+- allowSaveBinding - согласие пользователя на сохранение данных новой карты
+- isNewCard - оплата новоый карты или связкой. Новая карта - `true`, связкой - `false`
 
 ```swift
 // ViewController.swift
-func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {
+func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
   debugPrint(seToken)
   ...
   controller.present(alert, animated: true)
