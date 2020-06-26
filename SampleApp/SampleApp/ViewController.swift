@@ -356,6 +356,7 @@ class ViewController: UITableViewController {
     super.viewDidLoad()
     title = "Examples"
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellIdentifier")
+    tableView.cellLayoutMarginsFollowReadableWidth = true;
   }
 
   override func numberOfSections(in tableView: UITableView) -> Int {

@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *cardNumber;
 @property NSString *expireDate;
 @property BOOL showCVCField;
+@property UIImage *imagePath;
 
 @property (strong) NSArray *errorMessages;
 @property (strong) NSString *secureCode;

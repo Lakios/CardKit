@@ -122,6 +122,7 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   self.tableView.separatorColor = theme.colorSeparatar;
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
+  self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   
   UINavigationBar *bar = [self.navigationController navigationBar];
   bar.barTintColor = theme.colorCellBackground;
@@ -183,8 +184,12 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 
   if ([CardKBindingCardCellID isEqual:cellID] || ([CardKBindingCardCellID isEqual:cellID] && CardKConfig.shared.bindingCVCRequired)) {
     _cardKBinding.showCVCField = YES;
-    [cell.contentView addSubview:_cardKBinding];
-    _cardKBinding.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [cell addSubview:_cardKBinding];
+    cell.imageView.image = _cardKBinding.imagePath;
+    _cardKBinding.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    
+    CGRect r = tableView.readableContentGuide.layoutFrame;
+    _cardKBinding.frame = CGRectMake(r.origin.x + 45, 0, r.size.width - 70, cell.contentView.bounds.size.height);
   } else if ([CardKBindingButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }
@@ -199,8 +204,6 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGRect r = tableView.readableContentGuide.layoutFrame;
-    cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {

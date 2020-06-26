@@ -82,6 +82,7 @@ const NSString *CardKKindPayRows = @"rows";
   self.tableView.separatorColor = theme.colorSeparatar;
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
+  self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   
   UINavigationBar *bar = [self.navigationController navigationBar];
   bar.barTintColor = theme.colorCellBackground;
@@ -115,10 +116,15 @@ const NSString *CardKKindPayRows = @"rows";
 
   if([CardKSavedCardsCellID isEqual:cellID]) {
     CardKBinding *cardKBinding = _sections[indexPath.section][CardKKindPayRows][0][CardKSavedCardsCellID][indexPath.row];
-    [cell.contentView addSubview:cardKBinding];
+    
+    CGRect r = tableView.readableContentGuide.layoutFrame;
+    cardKBinding.frame = CGRectMake(r.origin.x + 50, 0, r.size.width - 70, cell.contentView.bounds.size.height);
+    
+    [cell addSubview:cardKBinding];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//    cell.layoutMargins = UIEdgeInsetsMake(0, 80, 0, 0);
-//    cardKBinding.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    cell.imageView.image = cardKBinding.imagePath;
+    cardKBinding.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+
   } else if ([CardKPayCardButtonCellID isEqual:cellID]) {
     [cell addSubview:_button];
   }
@@ -154,22 +160,17 @@ const NSString *CardKKindPayRows = @"rows";
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGRect  r = tableView.readableContentGuide.layoutFrame;
-  cell.layoutMargins = UIEdgeInsetsMake(0, r.origin.x + 50, 0, 0);
-    cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     CGRect r = tableView.readableContentGuide.layoutFrame;
     UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
     v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, v.contentView.bounds.size.height);
-  }
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-  [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self.tableView reloadData];
+   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+   [self.tableView reloadData];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

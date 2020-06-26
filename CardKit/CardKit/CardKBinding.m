@@ -56,15 +56,12 @@
     [_secureCodeTextField addTarget:self action:@selector(_clearSecureCodeErrors) forControlEvents:UIControlEventValueChanged];
     
     _expireDateLabel = [[UILabel alloc] init];
-    _paymentSystemImageView = [[UIImageView alloc] init];
-    _paymentSystemImageView.contentMode = UIViewContentModeCenter;
     
     UIFont *font = [self _font];
     _cardNumberLabel = [[UILabel alloc] init];
     _cardNumberLabel.font = font;
     
     [self addSubview:_cardNumberLabel];
-    [self addSubview:_paymentSystemImageView];
     [self addSubview:_expireDateLabel];
 
     CardKTheme *theme = CardKConfig.shared.theme;
@@ -91,29 +88,29 @@
   }
 }
 
+- (void)setImagePath:(UIImage *)imagePath {
+  
+}
+- (UIImage *)imagePath {
+  NSString *imageName = [PaymentSystemProvider imageNameByPaymentSystem: _paymentSystem compatibleWithTraitCollection: self.traitCollection];
+  return [PaymentSystemProvider namedImage:imageName inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
+}
 - (void)layoutSubviews {
   [super layoutSubviews];
   _expireDateLabel.text = _expireDate;
 
-  NSString *imageName = [PaymentSystemProvider imageNameByPaymentSystem: _paymentSystem compatibleWithTraitCollection: self.traitCollection];
-  _image = [PaymentSystemProvider namedImage:imageName inBundle:_bundle compatibleWithTraitCollection:self.traitCollection];
-  _paymentSystemImageView.image = _image;
-  
   [self replaceTextWithCircleBullet];
   
   CGRect bounds = self.bounds;
-  NSInteger leftExpireDate = bounds.size.width - _expireDateLabel.intrinsicContentSize.width - 20;
-
+  NSInteger leftExpireDate = bounds.size.width - _expireDateLabel.intrinsicContentSize.width;
   if (CardKConfig.shared.bindingCVCRequired &&  _showCVCField) {
     leftExpireDate = leftExpireDate - _secureCodeTextField.intrinsicContentSize.width;
   }
 
-  _paymentSystemImageView.frame = CGRectMake(-10, 0, 50, bounds.size.height);
-  
-  
-  _cardNumberLabel.frame = CGRectMake(CGRectGetMaxX(_paymentSystemImageView.frame) + 10, 0, _cardNumberLabel.intrinsicContentSize.width, bounds.size.height);
+  _cardNumberLabel.frame = CGRectMake(0, 0, _cardNumberLabel.intrinsicContentSize.width, bounds.size.height);
   
   _expireDateLabel.frame = CGRectMake(leftExpireDate, 0, _expireDateLabel.intrinsicContentSize.width, bounds.size.height);
+
   _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX(_expireDateLabel.frame), 0, _secureCodeTextField.intrinsicContentSize.width, bounds.size.height);
 }
 
