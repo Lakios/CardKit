@@ -159,6 +159,14 @@ const NSString *CardKKindPayRows = @"rows";
   }
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+  if (section == 1) {
+    return CardKConfig.shared.bindingsSectionTitle;
+  }
+  
+  return @"";
+}
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
