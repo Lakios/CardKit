@@ -73,6 +73,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mdOrder = "mdOrder";
     CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
     
     let controller = CardKViewController();
     controller.cKitDelegate = self;
@@ -107,6 +108,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mdOrder = "mdOrder";
     CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
 
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -140,6 +142,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mdOrder = "mdOrder";
     CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
     
     if #available(iOS 13.0, *) {
       CardKConfig.shared.theme = CardKTheme.system();
@@ -188,7 +191,8 @@ class ViewController: UITableViewController {
     CardKConfig.shared.bindings = self._fetchBindingCards();
     CardKConfig.shared.isTestMod = true;
     CardKConfig.shared.mdOrder = "mdOrder";
-
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
+    
     let controller = CardKViewController();
     controller.cKitDelegate = self
     
@@ -222,6 +226,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mdOrder = "mdOrder";
     CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
     
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -240,6 +245,7 @@ class ViewController: UITableViewController {
     CardKConfig.shared.mdOrder = "mdOrder";
     CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
     CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
     
     let controller = CardKViewController();
     controller.cKitDelegate = self
@@ -280,7 +286,8 @@ class ViewController: UITableViewController {
       CardKConfig.shared.mdOrder = "mdOrder";
       CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
       CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
-      
+      CardKConfig.shared.bindingsSectionTitle = "Your cards";
+    
       let controller = CardKViewController();
       controller.cKitDelegate = self
 
