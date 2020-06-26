@@ -59,7 +59,7 @@ NSString *CardKFooterID = @"footer";
     _clippingView.frame = CGRectMake(0, 0, _clippingView.frame.size.width, 300);
   }
   _scanView.center = CGPointMake(_clippingView.bounds.size.width * 0.5, _clippingView.bounds.size.height * 0.5);
-  _backButton.frame = CGRectMake(0, self.bounds.size.height, self.bounds.size.width, 44);
+  _backButton.frame = CGRectMake(0, self.bounds.size.height - 44, self.bounds.size.width, 44);
   if (@available(iOS 11.0, *)) {
     if (self.safeAreaInsets.bottom > 0) {
       _backButton.center = CGPointMake(_backButton.center.x, _backButton.center.y - 72 - self.safeAreaInsets.bottom);
@@ -507,6 +507,7 @@ NSString *CardKFooterID = @"footer";
   _scanViewWrapper.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   _scanViewWrapper.backgroundColor = theme.colorTableBackground;
   _scanViewWrapper.scanView = view;
+  _scanViewWrapper.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
   [_scanViewWrapper.backButton
     setTitle: NSLocalizedStringFromTableInBundle(@"scanBackButton", nil, _languageBundle, "scanBackButton")
     forState:UIControlStateNormal
