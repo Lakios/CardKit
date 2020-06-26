@@ -30,6 +30,7 @@ class SampleCardKPaymentView: UIViewController {
       cardKPaymentView.controller = self;
       self.view.addSubview(cardKPaymentView);
       cardKPaymentView.frame = buttonCGRect;
+      cardKPaymentView.center.x = self.view.center.x;
       buttons.append(cardKPaymentView);
     }
   }
@@ -40,19 +41,19 @@ class SampleCardKPaymentView: UIViewController {
 
     for (index, button) in buttons.enumerated() {
       button.frame = buttonsCGRect[index];
+      button.center.x = self.view.center.x;
       self.view.addSubview(button);
     }
   }
    
   func _getButtons() -> [CGRect] {
     let height = self.view.bounds.height;
-    let width = self.view.bounds.width;
     
     let buttonsCGRect = [
-      CGRect(x: width * 0.5 - 50, y: height * 0.5 - 300, width: 100, height: 100),
-      CGRect(x: width * 0.5 - 100, y: height * 0.5 - 150, width: 200, height: 100),
-      CGRect(x: width * 0.5 - 150 , y: height * 0.5 - 50, width: 300, height: 30),
-      CGRect(x: width * 0.5 - 175, y: height * 0.5 + 50, width: 350, height: 100),
+      CGRect(x: 0, y: height * 0.5 - 300, width: 100, height: 100),
+      CGRect(x: 0, y: height * 0.5 - 150, width: 200, height: 100),
+      CGRect(x: 0, y: height * 0.5 - 50, width: 300, height: 30),
+      CGRect(x: 0, y: height * 0.5 + 50, width: 350, height: 100),
       CGRect(x: 0, y: height * 0.5 + 150, width: 800, height: 100),
     ];
     
