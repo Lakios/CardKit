@@ -281,7 +281,7 @@ class ViewController: UITableViewController {
       CardKConfig.shared.language = language;
       CardKConfig.shared.theme = CardKTheme.light()
       CardKConfig.shared.bindingCVCRequired = true;
-      CardKConfig.shared.bindings = [];
+      CardKConfig.shared.bindings = self._fetchBindingCards();
       CardKConfig.shared.isTestMod = true;
       CardKConfig.shared.mdOrder = "mdOrder";
       CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
@@ -292,22 +292,23 @@ class ViewController: UITableViewController {
       controller.cKitDelegate = self
 
       let createdUiController = CardKViewController.create(self, controller: controller);
-    
+      let navController = UINavigationController(rootViewController: createdUiController);
+
       if #available(iOS 13.0, *) {
-        self.present(createdUiController, animated: true)
+        self.present(navController, animated: true)
         return;
       }
-
-      createdUiController.modalPresentationStyle = .formSheet
+      
+      navController.modalPresentationStyle = .formSheet
 
       let closeBarButtonItem = UIBarButtonItem(
-        title: "Close",
-        style: .done,
-        target: self,
-        action: #selector(_close(sender:))
+       title: "Close",
+       style: .done,
+       target: self,
+       action: #selector(_close(sender:))
       )
-      controller.navigationItem.leftBarButtonItem = closeBarButtonItem
-      self.present(createdUiController, animated: true)
+      createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
+      self.present(navController, animated: true)
       CardIOUtilities.preloadCardIO()
   }
   
