@@ -167,26 +167,17 @@ const NSString *CardKKindPayRows = @"rows";
   return @"";
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
-    CGRect r = tableView.readableContentGuide.layoutFrame;
-    UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
-    v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, v.contentView.bounds.size.height);
-}
-
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
    [self.tableView reloadData];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return section == 0 ? 34 : 38;
+  return 38;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-  return section == 0 ? 34 : 38;
+  return 38;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
