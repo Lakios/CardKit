@@ -31,6 +31,7 @@ class SampleCardKPaymentView: UIViewController {
       self.view.addSubview(cardKPaymentView);
       cardKPaymentView.frame = buttonCGRect;
       cardKPaymentView.center.x = self.view.center.x;
+      cardKPaymentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
       buttons.append(cardKPaymentView);
     }
   }
@@ -54,7 +55,7 @@ class SampleCardKPaymentView: UIViewController {
       CGRect(x: 0, y: height * 0.5 - 150, width: 200, height: 100),
       CGRect(x: 0, y: height * 0.5 - 50, width: 300, height: 30),
       CGRect(x: 0, y: height * 0.5 + 50, width: 350, height: 100),
-      CGRect(x: 0, y: height * 0.5 + 150, width: 800, height: 100),
+      CGRect(x: 0, y: height * 0.5 + 150, width: self.view.bounds.width, height: 100),
     ];
     
     return buttonsCGRect;

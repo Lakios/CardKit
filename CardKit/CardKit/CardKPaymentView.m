@@ -27,8 +27,16 @@
     _paymentRequest = [[PKPaymentRequest alloc] init];
 
     _cardPaybutton =  [UIButton buttonWithType:UIButtonTypeSystem];
+    _cardPaybutton.layer.cornerRadius = 4;
+    [_cardPaybutton setBackgroundColor: UIColor.whiteColor];
+    [_cardPaybutton setTitleColor: UIColor.blackColor forState:UIControlStateNormal];
+    _cardPaybutton.titleLabel.minimumScaleFactor = 0.5;
+    _cardPaybutton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    _cardPaybutton.titleLabel.allowsDefaultTighteningForTruncation = YES;
+    [_cardPaybutton addTarget:self action:@selector(_cardPaybuttonPressed:)
+    forControlEvents:UIControlEventTouchUpInside];
+    
 
-    [cKitDelegate willShowPaymentView:self];
     
     _bundle = [NSBundle bundleForClass:[CardKPaymentView class]];
      
@@ -39,26 +47,19 @@
        _languageBundle = _bundle;
      }
     
+    [_cardPaybutton
+      setTitle: NSLocalizedStringFromTableInBundle(@"payByCard", nil, _languageBundle,  @"Pay by card")
+      forState: UIControlStateNormal];
+    
+    [cKitDelegate willShowPaymentView:self];
+    
     _applePayButton = [[PKPaymentButton alloc] initWithPaymentButtonType: _paymentButtonType paymentButtonStyle: _paymentButtonStyle];
     
     [_applePayButton addTarget:self action:@selector(onApplePayButtonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
     [self addSubview: _applePayButton];
     
-    
-    _cardPaybutton = [UIButton buttonWithType:UIButtonTypeSystem];
-    _cardPaybutton.layer.cornerRadius = 4;
-    [_cardPaybutton setBackgroundColor: CardKConfig.shared.theme.colorCellBackground];
-    [_cardPaybutton setTitleColor: CardKConfig.shared.theme.colorLabel forState:UIControlStateNormal];
-    [_cardPaybutton
-      setTitle: NSLocalizedStringFromTableInBundle(@"payByCard", nil, _languageBundle,  @"Pay by card")
-      forState: UIControlStateNormal];
-    _cardPaybutton.titleLabel.minimumScaleFactor = 0.5;
-    _cardPaybutton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    _cardPaybutton.titleLabel.allowsDefaultTighteningForTruncation = YES;
-    
-    [_cardPaybutton addTarget:self action:@selector(_cardPaybuttonPressed:)
-    forControlEvents:UIControlEventTouchUpInside];
+  
     
     [self addSubview:_cardPaybutton];
 
@@ -111,9 +112,9 @@
   }
   
   if (width > self.superview.bounds.size.width && self.traitCollection.userInterfaceIdiom != UIUserInterfaceIdiomPad) {
-    _cardPaybutton.frame = CGRectMake(minMargin, 0, self.superview.bounds.size.width / 2 - minMargin - 8, buttonHeight);
-    _applePayButton.frame = CGRectMake(CGRectGetMaxX(_cardPaybutton.frame) + 8, 0, self.superview.bounds.size.width / 2 - minMargin, buttonHeight);
-    
+    _cardPaybutton.frame = CGRectMake(minMargin, 0, self.superview.bounds.size.width / 2 - minMargin, buttonHeight);
+    _applePayButton.frame = CGRectMake(CGRectGetMaxX(_cardPaybutton.frame) + 8, 0, self.superview.bounds.size.width / 2 - minMargin - 8, buttonHeight);
+
     return;
   }
   
@@ -165,4 +166,5 @@
 
   [_controller presentViewController:viewController animated:YES completion:nil];
 }
+
 @end
