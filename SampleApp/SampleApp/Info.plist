@@ -22,7 +22,7 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Scan credit card</string>
-	<key>NSPhotoLibraryUsageDescription </key>
+	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Scan card</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

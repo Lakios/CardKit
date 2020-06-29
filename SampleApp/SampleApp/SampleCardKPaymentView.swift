@@ -68,11 +68,11 @@ extension SampleCardKPaymentView: CardKDelegate {
   
   func willShow(_ paymentView: CardKPaymentView) {
     let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
-    let paymentItem = PKPaymentSummaryItem.init(label: "Test", amount: NSDecimalNumber(value: 10))
-    let merchandId = "t";
+    let paymentItem = PKPaymentSummaryItem.init(label: "Коробка", amount: NSDecimalNumber(value: 0.1))
+    let merchandId = "merchant.cardkit";
     paymentView.merchantId = merchandId
-    paymentView.paymentRequest.currencyCode = "USD"
-    paymentView.paymentRequest.countryCode = "US"
+    paymentView.paymentRequest.currencyCode = "RUB"
+    paymentView.paymentRequest.countryCode = "RU"
     paymentView.paymentRequest.merchantIdentifier = merchandId
     paymentView.paymentRequest.merchantCapabilities = PKMerchantCapability.capability3DS
     paymentView.paymentRequest.supportedNetworks = paymentNetworks
