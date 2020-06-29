@@ -203,9 +203,6 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
   return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-}
-
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
     CGRect r = tableView.readableContentGuide.layoutFrame;
     UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
@@ -217,20 +214,16 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
     [self.tableView reloadData];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
   return @" ";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return section == 0 ? 34 : 38;
+  return 38;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-  return section == 0 ? 34 : 38;
+  return 38;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
