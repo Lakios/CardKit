@@ -8,17 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0CDCE6C0041575C85620EDD3 /* Pods_SampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90E0DAB803DD340C070713CD /* Pods_SampleApp.framework */; };
+		9234CC56247D2157009E3034 /* bindings.json in Resources */ = {isa = PBXBuildFile; fileRef = 9234CC55247D2157009E3034 /* bindings.json */; };
+		9234CC5D247FDA8F009E3034 /* SampleCardKPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9234CC5C247FDA8F009E3034 /* SampleCardKPaymentView.swift */; };
 		D245AB97231C444600369747 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D245AB96231C444600369747 /* AppDelegate.swift */; };
 		D245AB99231C444600369747 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D245AB98231C444600369747 /* ViewController.swift */; };
 		D245AB9E231C444700369747 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D245AB9D231C444700369747 /* Assets.xcassets */; };
 		D245ABA1231C444700369747 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D245AB9F231C444700369747 /* LaunchScreen.storyboard */; };
 		D245ABAC231C444700369747 /* SampleAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D245ABAB231C444700369747 /* SampleAppTests.swift */; };
-		D2FF0888231F8EAE0015800C /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2FF0883231F8E640015800C /* CocoaLumberjack.framework */; };
-		D2FF0889231F8EAE0015800C /* CocoaLumberjack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D2FF0883231F8E640015800C /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D2FF088A231F8EAE0015800C /* SVGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2FF087C231F8C900015800C /* SVGKit.framework */; };
-		D2FF088B231F8EAE0015800C /* SVGKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D2FF087C231F8C900015800C /* SVGKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D2FF0896231F8EE20015800C /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2FF0895231F8EE20015800C /* CardKit.framework */; };
-		D2FF0897231F8EE20015800C /* CardKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D2FF0895231F8EE20015800C /* CardKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D245ABB7231C445D00369747 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245ABB6231C445D00369747 /* CardKit.framework */; };
+		D245ABB8231C445D00369747 /* CardKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D245ABB6231C445D00369747 /* CardKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,15 +30,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D2FF088F231F8EAF0015800C /* Embed Frameworks */ = {
+		D245ABB9231C445D00369747 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D2FF088B231F8EAE0015800C /* SVGKit.framework in Embed Frameworks */,
-				D2FF0897231F8EE20015800C /* CardKit.framework in Embed Frameworks */,
-				D2FF0889231F8EAE0015800C /* CocoaLumberjack.framework in Embed Frameworks */,
+				D245ABB8231C445D00369747 /* CardKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,6 +47,9 @@
 		547AE47F17B068B145C06A2D /* Pods-SampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.debug.xcconfig"; path = "Target Support Files/Pods-SampleApp/Pods-SampleApp.debug.xcconfig"; sourceTree = "<group>"; };
 		747C8D3F93DB09475EB327A9 /* Pods-SampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.release.xcconfig"; path = "Target Support Files/Pods-SampleApp/Pods-SampleApp.release.xcconfig"; sourceTree = "<group>"; };
 		90E0DAB803DD340C070713CD /* Pods_SampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9234CC55247D2157009E3034 /* bindings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bindings.json; sourceTree = "<group>"; };
+		9234CC57247E90AB009E3034 /* SampleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SampleApp.entitlements; sourceTree = "<group>"; };
+		9234CC5C247FDA8F009E3034 /* SampleCardKPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleCardKPaymentView.swift; sourceTree = "<group>"; };
 		D245AB93231C444600369747 /* SampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D245AB96231C444600369747 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D245AB98231C444600369747 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -60,15 +59,8 @@
 		D245ABA7231C444700369747 /* SampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D245ABAB231C444700369747 /* SampleAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleAppTests.swift; sourceTree = "<group>"; };
 		D245ABAD231C444700369747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		D2FF087C231F8C900015800C /* SVGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SVGKit.framework; sourceTree = "<group>"; };
-		D2FF0883231F8E640015800C /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CocoaLumberjack.framework; sourceTree = "<group>"; };
-		D2FF0894231F8ED50015800C /* CardKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CardKit.framework; path = "../../../../Library/Developer/Xcode/DerivedData/CardKit-anptxvdhqtaiyeaoxvsrbjnkebqu/Build/Products/Debug-iphoneos/CardKit.framework"; sourceTree = "<group>"; };
-		D2FF0895231F8EE20015800C /* CardKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CardKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-=======
 		D245ABB6231C445D00369747 /* CardKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CardKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F44D11233898D900B6EEAB /* SampleApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SampleApp-Bridging-Header.h"; sourceTree = "<group>"; };
->>>>>>> webview
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,14 +68,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-<<<<<<< HEAD
-				D2FF088A231F8EAE0015800C /* SVGKit.framework in Frameworks */,
-				D2FF0896231F8EE20015800C /* CardKit.framework in Frameworks */,
-				D2FF0888231F8EAE0015800C /* CocoaLumberjack.framework in Frameworks */,
-=======
 				D245ABB7231C445D00369747 /* CardKit.framework in Frameworks */,
 				0CDCE6C0041575C85620EDD3 /* Pods_SampleApp.framework in Frameworks */,
->>>>>>> webview
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,8 +104,8 @@
 		D245AB8A231C444600369747 = {
 			isa = PBXGroup;
 			children = (
-				D2FF0895231F8EE20015800C /* CardKit.framework */,
-				D2FF0886231F8E830015800C /* Frameworks */,
+				9234CC55247D2157009E3034 /* bindings.json */,
+				D245ABB6231C445D00369747 /* CardKit.framework */,
 				D245AB95231C444600369747 /* SampleApp */,
 				D245ABAA231C444700369747 /* SampleAppTests */,
 				D245AB94231C444600369747 /* Products */,
@@ -141,11 +127,13 @@
 		D245AB95231C444600369747 /* SampleApp */ = {
 			isa = PBXGroup;
 			children = (
+				9234CC57247E90AB009E3034 /* SampleApp.entitlements */,
 				D245AB96231C444600369747 /* AppDelegate.swift */,
 				D245AB98231C444600369747 /* ViewController.swift */,
 				D245AB9D231C444700369747 /* Assets.xcassets */,
 				D245AB9F231C444700369747 /* LaunchScreen.storyboard */,
 				D245ABA2231C444700369747 /* Info.plist */,
+				9234CC5C247FDA8F009E3034 /* SampleCardKPaymentView.swift */,
 			);
 			path = SampleApp;
 			sourceTree = "<group>";
@@ -159,16 +147,6 @@
 			path = SampleAppTests;
 			sourceTree = "<group>";
 		};
-		D2FF0886231F8E830015800C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D2FF0894231F8ED50015800C /* CardKit.framework */,
-				D2FF0883231F8E640015800C /* CocoaLumberjack.framework */,
-				D2FF087C231F8C900015800C /* SVGKit.framework */,
-			);
-			path = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -180,7 +158,7 @@
 				D245AB8F231C444600369747 /* Sources */,
 				D245AB90231C444600369747 /* Frameworks */,
 				D245AB91231C444600369747 /* Resources */,
-				D2FF088F231F8EAF0015800C /* Embed Frameworks */,
+				D245ABB9231C445D00369747 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -256,6 +234,7 @@
 			files = (
 				D245ABA1231C444700369747 /* LaunchScreen.storyboard in Resources */,
 				D245AB9E231C444700369747 /* Assets.xcassets in Resources */,
+				9234CC56247D2157009E3034 /* bindings.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D245AB99231C444600369747 /* ViewController.swift in Sources */,
+				9234CC5D247FDA8F009E3034 /* SampleCardKPaymentView.swift in Sources */,
 				D245AB97231C444600369747 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,21 +437,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SampleApp/SampleApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = FD6ZML48V9;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Frameworks",
-				);
 				INFOPLIST_FILE = SampleApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.anjlab.SampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -488,21 +465,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SampleApp/SampleApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = FD6ZML48V9;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Frameworks",
-				);
 				INFOPLIST_FILE = SampleApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.anjlab.SampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

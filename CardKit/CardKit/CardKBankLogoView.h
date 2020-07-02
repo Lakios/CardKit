@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, strong) NSString *title;
 - (void)showNumber:(NSString *)number;
-
+- (void)fetchBankInfo: (NSString *)url cardNumber: (NSString *) cardNumber;
 @end
 
 NS_ASSUME_NONNULL_END

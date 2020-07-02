@@ -7,23 +7,31 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <PassKit/PassKit.h>
 #import "CardKTheme.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class CardKViewController;
+@class CardKPaymentView;
 
-@protocol CardKViewControllerDelegate <NSObject>
+@protocol CardKDelegate <NSObject>
 
-- (void)cardKitViewController:(CardKViewController *)controller didCreateSeToken:(NSString *)seToken;
+- (void)cardKitViewController:(UIViewController *)controller didCreateSeToken:(NSString *)seToken allowSaveBinding:(BOOL) allowSaveBinding isNewCard:(BOOL) isNewCard;
+- (void)willShowController:(CardKViewController *) controller;
+
+- (void)willShowPaymentView:(CardKPaymentView *) paymentView;
+- (void)cardKPaymentView:(CardKPaymentView *) paymentView didAuthorizePayment:(PKPayment *) pKPayment;
+
 @optional - (void)cardKitViewControllerScanCardRequest:(CardKViewController *)controller;
 
 @end
 
 @interface CardKViewController : UITableViewController
 
-/*! Lелегат контроллера*/
-@property (weak, nonatomic) id<CardKViewControllerDelegate> cKitDelegate;
+/*! Делегат контроллера*/
+@property (weak, nonatomic) id<CardKDelegate> cKitDelegate;
 
 /*! Переопределить текст кнопки */
 @property (strong) NSString * purchaseButtonTitle;
@@ -31,13 +39,14 @@ NS_ASSUME_NONNULL_BEGIN
 /*! Разрешить исспользование сканера карточки. */
 @property BOOL allowedCardScaner;
 
-/*! Режим запуска */
-@property BOOL isTestMod;
-/*!
-@brief Инициализация CardKViewController
-@param mdOrder Строка содержащая идентификатор заказа.
-*/
-- (instancetype)initWithMdOrder:(NSString *)mdOrder;
+/*! Разрешить сохранение карты*/
+@property BOOL allowSaveBinding;
+
+/*! Начальное состояние отображения checkbox*/
+@property BOOL isSaveBinding;
+
+/*! Отобразить поле Cardholder*/
+@property BOOL displayCardHolderField;
 
 /*!
 @brief Присвоить данные карты
@@ -46,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @param date Дата истечения срока действия.
 @param cvc Код проверки подлинности карты.
 */
-- (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc;
+- (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc bindingId:(nullable NSString *)bindingId;
 
 /*!
 @brief Отобразить сканера карты
@@ -54,6 +63,13 @@ NS_ASSUME_NONNULL_BEGIN
 @param animated Анимировать появления сканера карты.
 */
 - (void)showScanCardView:(UIView *)view animated:(BOOL)animated;
+
+/*!
+ @brief Определение первой страницы
+ @param cardKViewControllerDelegate делегат контроллера
+ @param controller экземпляр контроллера CardKViewController
+*/
++(UIViewController *) create:(id<CardKDelegate>)cardKViewControllerDelegate controller:(CardKViewController *) controller;
 
 @end
 

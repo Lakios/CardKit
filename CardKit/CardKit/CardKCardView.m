@@ -11,6 +11,7 @@
 #import "PaymentSystemProvider.h"
 #import "Luhn.h"
 #import "CardKConfig.h"
+#import "CardKValidation.h"
 
 NSInteger EXPIRE_YEARS_DIFF = 10;
 
@@ -195,11 +196,6 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   [_errorMessagesArray removeObject:incorrectCardNumber];
 }
 
-- (BOOL)_allDigitsInString:(NSString *)str {
-  NSString *string = [str stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, str.length)];
-  return [str isEqual:string];
-}
-
 - (void)_validateCardNumber {
   BOOL isValid = YES;
   NSString *cardNumber = [self number];
@@ -212,7 +208,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   if (len < 16 || len > 19) {
     [_errorMessagesArray addObject:incorrectLength];
     isValid = NO;
-  } else if (![self _allDigitsInString: cardNumber] || ![cardNumber isValidCreditCardNumber]) {
+  } else if (![CardKValidation allDigitsInString:cardNumber] || ![cardNumber isValidCreditCardNumber]) {
     [_errorMessagesArray addObject:incorrectCardNumber];
     isValid = NO;
   }
@@ -269,7 +265,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   NSString *incorrectCvc = NSLocalizedStringFromTableInBundle(@"incorrectCvc", nil, _languageBundle, @"incorrectCvc");
   [self _clearSecureCodeErrors];
   
-  if ([secureCode length] != 3 || ![self _allDigitsInString:secureCode]) {
+  if (![CardKValidation isValidSecureCode:secureCode]) {
     [_errorMessagesArray addObject:incorrectCvc];
     isValid = NO;
   }
@@ -377,13 +373,8 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
   if (field == _focusedField) {
     return;
   }
-  
-//  if (_focusedField != _numberTextField && field != _numberTextField) {
-//    _focusedField = field;
-//    return;
-//  }
-  _focusedField = field;
 
+  _focusedField = field;
 }
 
 - (void)_relayout {
@@ -426,7 +417,7 @@ NSInteger EXPIRE_YEARS_DIFF = 10;
     _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX(_expireDateTextField.frame), 0, secCodeWidth, height);
   }
   
-  _paymentSystemImageView.frame = CGRectMake(0, 0, imageWidth, bounds.size.height);
+  _paymentSystemImageView.frame = CGRectMake(-10, 0, imageWidth, bounds.size.height);
   
   [super layoutSubviews];
 }

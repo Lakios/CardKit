@@ -430,6 +430,7 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   _textField.frame = CGRectMake(delta, 0, textFieldWidth, boundsSize.height);
 
   CGFloat x = _textField.leftView.bounds.size.width;
+  
   CGFloat width = textFieldWidth - x - _textField.leftView.bounds.size.width;
   for (UIView *v in @[_formatLabel, _patternLabel]) {
     v.frame = CGRectMake(x, 0, width, boundsSize.height);
@@ -437,7 +438,6 @@ NSString *CardKTextFieldPatternSecureCode = @"XXX";
   
   _coverView.frame = CGRectMake(0, 10, 6, boundsSize.height - 20);
 
-//  if (_textField.text.length )
   [_coverView setHidden:NO];
 }
 

@@ -7,26 +7,21 @@
 //
 
 #import "CardKViewController.h"
-<<<<<<< HEAD
-#import "BankImageProvider.h"
-=======
 #import "CardKTextField.h"
 #import "CardKCardView.h"
 #import "CardKBankLogoView.h"
 #import "CardKFooterView.h"
 #import "RSA.h"
 #import "CardKConfig.h"
->>>>>>> webview
-
+#import "CardKSwitchView.h"
+#import "CardKKindPaymentViewController.h"
 const NSString *CardKCardCellID = @"card";
 const NSString *CardKOwnerCellID = @"owner";
+const NSString *CardKSwitchCellID = @"switch";
 const NSString *CardKButtonCellID = @"button";
 const NSString *CardKRows = @"rows";
 const NSString *CardKSectionTitle = @"title";
 NSString *CardKFooterID = @"footer";
-
-NSString *CardKProdKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoIITqh9xlGx4tWA+aucb0V0YuFC9aXzJb0epdioSkq3qzNdRSZIxe/dHqcbMN2SyhzvN6MRVl3xyjGAV+lwk8poD4BRW3VwPUkT8xG/P/YLzi5N8lY6ILlfw6WCtRPK5bKGGnERcX5dqL60LhOPRDSYT5NHbbp/J2eFWyLigdU9Sq7jvz9ixOLh6xD7pgNgHtnOJ3Cw0Gqy03r3+m3+CBZwrzcp7ZFs41bit7/t1nIqgx78BCTPugap88Gs+8ZjdfDvuDM+/3EwwK0UVTj0SQOv0E5KcEHENL9QQg3ujmEi+zAavulPqXH5907q21lwQeemzkTJH4o2RCCVeYO+YrQIDAQAB-----END PUBLIC KEY-----";
-NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhjH8R0jfvvEJwAHRhJi2Q4fLi1p2z10PaDMIhHbD3fp4OqypWaE7p6n6EHig9qnwC/4U7hCiOCqY6uYtgEoDHfbNA87/X0jV8UI522WjQH7Rgkmgk35r75G5m4cYeF6OvCHmAJ9ltaFsLBdr+pK6vKz/3AzwAc/5a6QcO/vR3PHnhE/qU2FOU3Vd8OYN2qcw4TFvitXY2H6YdTNF4YmlFtj4CqQoPL1u/uI0UpsG3/epWMOk44FBlXoZ7KNmJU29xbuiNEm1SWRJS2URMcUxAdUfhzQ2+Z4F0eSo2/cxwlkNA+gZcXnLbEWIfYYvASKpdXBIzgncMBro424z/KUr3QIDAQAB-----END PUBLIC KEY-----";
 
 @interface ScanViewWrapper: UIView
 
@@ -64,7 +59,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
     _clippingView.frame = CGRectMake(0, 0, _clippingView.frame.size.width, 300);
   }
   _scanView.center = CGPointMake(_clippingView.bounds.size.width * 0.5, _clippingView.bounds.size.height * 0.5);
-  _backButton.frame = CGRectMake(0, self.bounds.size.height, self.bounds.size.width, 44);
+  _backButton.frame = CGRectMake(0, self.bounds.size.height - 44, self.bounds.size.width, 44);
   if (@available(iOS 11.0, *)) {
     if (self.safeAreaInsets.bottom > 0) {
       _backButton.center = CGPointMake(_backButton.center.x, _backButton.center.y - 72 - self.safeAreaInsets.bottom);
@@ -86,59 +81,41 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
 
 
 @implementation CardKViewController {
-  NSString *_pubKey;
-
-  NSString *_mdOrder;
-<<<<<<< HEAD
-  BankImageProvider *_bankImageProvider;
-  SVGKImageView *_svgImageView;
-=======
-  BOOL _isTestMod;
-  
+  BOOL _allowSaveBinding;
   ScanViewWrapper *_scanViewWrapper;
-  
   CardKBankLogoView *_bankLogoView;
-  
   CardKTextField *_ownerTextField;
   CardKCardView *_cardView;
   UIButton *_doneButton;
-  NSArray *_sections;
+  NSMutableArray *_sections;
   CardKFooterView *_cardFooterView;
   CardKFooterView *_ownerFooterView;
   NSBundle *_bundle;
   NSBundle *_languageBundle;
   NSString *_lastAnouncment;
   NSMutableArray *_ownerErrors;
->>>>>>> webview
+  CardKSwitchView *_switchView;
+  BOOL _displayCardHolderField;
 }
 
-- (instancetype)initWithMdOrder:(NSString *)mdOrder {
+
+- (instancetype)init {
   if (self = [super initWithStyle:UITableViewStyleGrouped]) {
     _bundle = [NSBundle bundleForClass:[CardKViewController class]];
-    
+
     NSString *language = CardKConfig.shared.language;
     if (language != nil) {
       _languageBundle = [NSBundle bundleWithPath:[_bundle pathForResource:language ofType:@"lproj"]];
     } else {
       _languageBundle = _bundle;
     }
-    
-    _pubKey = CardKProdKey;
 
-    _mdOrder = mdOrder;
-<<<<<<< HEAD
-    _theme = [CardKTheme defaultTheme];
-    _bankImageProvider = [[BankImageProvider alloc] init];
-    
-//    SVGKImage * image = [_bankImageProvider svgImageForNumber:@""];
-=======
-    
     _ownerErrors = [[NSMutableArray alloc] init];
 
     _bankLogoView = [[CardKBankLogoView alloc] init];
     _bankLogoView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _bankLogoView.title = NSLocalizedStringFromTableInBundle(@"title", nil, _languageBundle, @"Title");
-    
+
     _cardView = [[CardKCardView alloc] init];
     [_cardView addTarget:self action:@selector(_cardChanged) forControlEvents:UIControlEventValueChanged];
     [_cardView addTarget:self action:@selector(_switchToOwner) forControlEvents:UIControlEventEditingDidEndOnExit];
@@ -152,33 +129,67 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
     _ownerTextField.stripRegexp = @"[^a-zA-Z' .]";
     _ownerTextField.keyboardType = UIKeyboardTypeASCIICapable;
     _ownerTextField.returnKeyType = UIReturnKeyContinue;
-    
+
     _doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [_doneButton
       setTitle: NSLocalizedStringFromTableInBundle(@"doneButton", nil, _languageBundle, "Submit payment button")
       forState: UIControlStateNormal];
     _doneButton.frame = CGRectMake(0, 0, 200, 44);
-    
+
     [_doneButton addTarget:self action:@selector(_buttonPressed:)
     forControlEvents:UIControlEventTouchUpInside];
-  
+
+    _switchView = [[CardKSwitchView alloc] init];
+
     _sections = [self _defaultSections];
->>>>>>> webview
   }
   
   return self;
 }
 
-- (NSArray *)_defaultSections {
-  return @[
-    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _languageBundle, @"Card section title"), CardKRows: @[CardKCardCellID] },
-    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _languageBundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID] },
-    @{CardKRows: @[CardKButtonCellID] },
+- (void)viewWillAppear:(BOOL)animated {
+  [_cKitDelegate willShowController:self];
+}
+
++(UIViewController *) create:(id<CardKDelegate>)cardKViewControllerDelegate controller:(CardKViewController *) controller {
+  
+  CardKKindPaymentViewController *cardKKindPaymentViewController = [[CardKKindPaymentViewController alloc] init];
+  cardKKindPaymentViewController.cKitDelegate = cardKViewControllerDelegate;
+  
+  if ([CardKConfig.shared.bindings count] == 0) {
+    return controller;
+  }
+  
+  return cardKKindPaymentViewController;
+}
+
+- (NSMutableArray *)_defaultSections {
+  NSArray *sections = @[
+    @{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"card", nil, _languageBundle, @"Card section title"), CardKRows: @[CardKCardCellID]},
+    @{CardKRows: @[CardKButtonCellID]},
   ];
+  
+  NSMutableArray *defaultSections = [[NSMutableArray alloc] initWithCapacity:3];
+  
+  [defaultSections setArray:sections];
+
+  return defaultSections;
 }
 
 - (void)_animateError {
   [_doneButton animateError];
+}
+
+- (void)setDisplayCardHolderField:(BOOL)displayCardHolderField {
+  if (displayCardHolderField) {
+    [_sections insertObject:@{CardKSectionTitle: NSLocalizedStringFromTableInBundle(@"cardholder", nil, _languageBundle, @"Cardholder section title"), CardKRows: @[CardKOwnerCellID]} atIndex:1];
+  }
+  
+  _displayCardHolderField = displayCardHolderField;
+}
+
+- (BOOL)displayCardHolderField {
+  return _displayCardHolderField;
 }
 
 - (void)setAllowedCardScaner:(BOOL)allowedCardScaner {
@@ -189,62 +200,35 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   return _cardView.allowedCardScaner;
 }
 
+- (void)setAllowSaveBinding:(BOOL)allowSaveBinding {
+  if (allowSaveBinding) {
+    [_sections insertObject:@{CardKRows: @[CardKSwitchCellID]} atIndex:[_sections count] - 1];
+  }
+  _allowSaveBinding = allowSaveBinding;
+}
+
+- (BOOL)allowSaveBinding {
+  return _allowSaveBinding;
+}
+
+- (void)setIsSaveBinding:(BOOL)isSaveBinding {
+  _switchView.isSaveBinding = isSaveBinding;
+}
+
+- (BOOL)isSaveBinding {
+  return self.isSaveBinding;
+}
+
 - (void)_cardChanged {
   NSString *number = _cardView.number;
-  [_bankLogoView showNumber:number];
+
+  
+  [_bankLogoView fetchBankInfo: CardKConfig.shared.mrBinApiURL cardNumber: number];
   [self _refreshErrors];
-}
-
-- (BOOL)isTestMod {
-  return _isTestMod;
-}
-
-- (void)setIsTestMod:(BOOL)isTestMod {
-  _isTestMod = isTestMod;
-  
-  if (isTestMod) {
-    _pubKey = CardKTestKey;
-  }
-}
-
-- (void)fetchKeys {
-  NSString *prodURL = @"https://securepayments.sberbank.ru/payment/se/keys.do";
-  NSString *testURL = @"https://3dsec.sberbank.ru/payment/se/keys.do";
-  NSMutableString *URL = [[NSMutableString alloc] initWithString:prodURL];
-  if (_isTestMod) {
-    [URL setString:testURL];
-  };
-
-  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]];
-
-  NSURLSession *session = [NSURLSession sharedSession];
-  
-  NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if(httpResponse.statusCode == 200)
-      {
-        NSError *parseError = nil;
-        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-        NSArray *keys = [responseDictionary objectForKey:@"keys"];
-        NSDictionary *lastKey = [keys lastObject];
-        NSString *keyValue = [lastKey objectForKey:@"keyValue"];
-
-        self->_pubKey = keyValue;
-      }
-  }];
-  [dataTask resume];
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-<<<<<<< HEAD
-  [_bankImageProvider preloadData];
-  
-  _svgImageView = [[SVGKImageView alloc] init];
-  [self.view addSubview:_svgImageView];
-=======
-
-  [self fetchKeys];
 
   CardKTheme *theme = CardKConfig.shared.theme;
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
@@ -255,9 +239,12 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   
-  _doneButton.tintColor = theme.colorButtonText;
+  UINavigationBar *bar = [self.navigationController navigationBar];
+  bar.barTintColor = theme.colorCellBackground;
   
-  for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID]) {
+  _doneButton.tintColor = theme.colorButtonText;
+      
+  for (NSString *cellID in @[CardKCardCellID, CardKOwnerCellID, CardKButtonCellID, CardKSwitchCellID]) {
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
   }
   
@@ -265,25 +252,25 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     CGRect r = tableView.readableContentGuide.layoutFrame;
     cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, cell.contentView.bounds.size.height);
+  
+  NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
+
+  if ([CardKOwnerCellID isEqual:cellID]) {
+    cell.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x - 6, 0, r.size.width, cell.contentView.bounds.size.height);
   }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(nonnull UIView *)view forSection:(NSInteger)section {
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     CGRect r = tableView.readableContentGuide.layoutFrame;
     UITableViewHeaderFooterView * v = (UITableViewHeaderFooterView *)view;
-    v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, r.size.width, v.contentView.bounds.size.height);
-  }
+    v.contentView.subviews.firstObject.frame = CGRectMake(r.origin.x, 0, v.contentView.bounds.size.width, v.contentView.bounds.size.height);
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-  if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-    [self.tableView reloadData];
-  }
+  [self.tableView reloadData];
 }
 
 - (NSString *)purchaseButtonTitle {
@@ -299,7 +286,6 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   
   CGRect bounds = _doneButton.superview.bounds;
   _doneButton.center = CGPointMake(bounds.size.width * 0.5, bounds.size.height * 0.5);
->>>>>>> webview
 }
 
 #pragma mark - Table view data source
@@ -323,7 +309,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   NSString *cellID = _sections[indexPath.section][CardKRows][indexPath.row] ?: @"unknown";
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
-
+  
   if ([CardKCardCellID isEqual:cellID]) {
     _cardView.frame = cell.contentView.bounds;
     [cell.contentView addSubview:_cardView];
@@ -332,6 +318,10 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
     [cell.contentView addSubview:_ownerTextField];
   } else if ([CardKButtonCellID isEqual:cellID]) {
     [cell addSubview:_doneButton];
+  } else if ([CardKSwitchCellID isEqual:cellID]) {
+    _switchView.frame = cell.contentView.bounds;
+    cell.accessoryView = [_switchView getSwitch];
+    [cell.contentView addSubview:_switchView];
   }
   
   if (theme.colorCellBackground != nil) {
@@ -342,11 +332,11 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return section == 0 ? 34 : 38;
+  return 38;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-  return section == 0 ? 34 : 38;
+  return 38;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -370,16 +360,16 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   if(section == 0) {
     if (_cardFooterView == nil) {
       _cardFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
+      
     }
-    _cardFooterView.errorMessages = _cardView.errorMessages;
-
+    
     [view.contentView addSubview:_cardFooterView];
+    view.contentView.frame = view.contentView.bounds; 
   } else if (section == 1) {
     if (_ownerFooterView == nil) {
       _ownerFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
     }
     
-    _ownerFooterView = [[CardKFooterView alloc] initWithFrame:view.contentView.bounds];
     [view.contentView addSubview:_ownerFooterView];
   }
 
@@ -401,6 +391,12 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
 - (void)_validateOwner {
   [_ownerErrors removeAllObjects];
   _ownerTextField.showError = NO;
+  
+  if (!_displayCardHolderField) {
+    [self _refreshErrors];
+    return;
+  }
+  
   NSString *incorrectCardholder = NSLocalizedStringFromTableInBundle(@"incorrectCardholder", nil, _languageBundle, @"incorrectCardholder");
   
   NSString *owner = [_ownerTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -457,10 +453,17 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   NSString *month = _cardView.getMonthFromExpirationDate;
   NSString *expirationDate = [NSString stringWithFormat:@"%@%@", fullYear, month];
   
-  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@/%@", timeStamp, uuid, cardNumber, secureCode, expirationDate, _mdOrder];
+  NSString *cardData = [NSString stringWithFormat:@"%f/%@/%@/%@/%@", timeStamp, uuid, cardNumber, secureCode, expirationDate];
+  
+  if (CardKConfig.shared.mdOrder != nil) {
+    cardData = [NSString stringWithFormat:@"%@/%@", cardData, CardKConfig.shared.mdOrder];
+  } else {
+    cardData = [NSString stringWithFormat:@"%@//", cardData];
+  }
 
-  NSString *seToken = [RSA encryptString:cardData publicKey:_pubKey];
-  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken];
+  NSString *seToken = [RSA encryptString:cardData publicKey: CardKConfig.shared.pubKey];
+  
+  [_cKitDelegate cardKitViewController:self didCreateSeToken:seToken allowSaveBinding: _switchView.getSwitch.isOn isNewCard: YES];
 }
 
 - (void)_scanCard:(UITapGestureRecognizer *)gestureRecognizer {
@@ -474,7 +477,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   [_cKitDelegate cardKitViewControllerScanCardRequest:self];
 }
 
-- (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc {
+- (void)setCardNumber:(nullable NSString *)number holderName:(nullable NSString *)holderName expirationDate:(nullable NSString *)date cvc:(nullable NSString *)cvc bindingId:(nullable NSString *)bindingId {
   if (number.length > 0) {
     _cardView.number = number;
   }
@@ -490,6 +493,10 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
     _cardView.secureCode = cvc;
   }
   
+  if (bindingId.length > 0) {
+    _cardView.bindingId = bindingId;
+  }
+  
   [_scanViewWrapper removeFromSuperview];
 }
 
@@ -500,6 +507,7 @@ NSString *CardKTestKey = @"-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAO
   _scanViewWrapper.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   _scanViewWrapper.backgroundColor = theme.colorTableBackground;
   _scanViewWrapper.scanView = view;
+  _scanViewWrapper.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
   [_scanViewWrapper.backButton
     setTitle: NSLocalizedStringFromTableInBundle(@"scanBackButton", nil, _languageBundle, "scanBackButton")
     forState:UIControlStateNormal

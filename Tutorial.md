@@ -96,40 +96,66 @@ import CardKit
 
 ```swift
 //ViewController.swift
-extension ViewController: CardKViewControllerDelegate {
-  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {
+extension ViewController: CardKDelegate {
+  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
     debugPrint(seToken)
 
-    let alert = UIAlertController(title: "SeToken", message: seToken, preferredStyle: UIAlertController.Style.alert)
+    let alert = UIAlertController(title: "SeToken", message: "allowSaveCard = \(allowSaveBinding) \n isNewCard = \(isNewCard) \n seToken = \(seToken)", preferredStyle: UIAlertController.Style.alert)
     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
     controller.present(alert, animated: true)
-
   }
+  ...
 }
 ```
 
-3.2 Реализовать функцию вызова формы
+3.2 Реализовать функцию `willShow(\_ controller: CardKViewController)`
+
+В функции `willShow(\_ controller: CardKViewController)` присваиваются атрибуты контроллера `CardKViewController`
+
+```swift
+//ViewController.swift
+extension ViewController: CardKDelegate {
+  ...
+  func willShow(_ controller: CardKViewController) {
+    controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
+    controller.purchaseButtonTitle = "Custom purchase button";
+    controller.allowSaveBinding = true;
+    controller.isSaveBinding = true;
+    controller.displayCardHolderField = true;
+  }
+  ...
+}
+```
+
+3.3 Реализовать функцию вызова формы
 
 ```swift
 //ViewController.swift
 ...
 @objc func _openController() {
-  CardKConfig.shared.theme = CardKTheme.light();
-  CardKConfig.shared.language = "en";
-
-  let controller = CardKViewController(mdOrder:"mdOrder");
-  controller.cKitDelegate = self
-  controller.allowedCardScaner = false;
-  controller.purchaseButtonTitle = "Custom purchase button";
-  controller.isTestMod = `false`
+  CardKConfig.shared.language = "";
+  CardKConfig.shared.bindingCVCRequired = true;
+  CardKConfig.shared.bindings = [];
+  CardKConfig.shared.isTestMod = true;
+  CardKConfig.shared.mdOrder = "mdOrder";
 
   if #available(iOS 13.0, *) {
-    self.present(controller, animated: true)
+    CardKConfig.shared.theme = CardKTheme.system();
+  } else {
+    CardKConfig.shared.theme = CardKTheme.default();
+  };
+
+  let controller = CardKViewController();
+  controller.cKitDelegate = self
+
+  let createdUiController = CardKViewController.create(self, controller: controller);
+  let navController = UINavigationController(rootViewController: createdUiController);
+  if #available(iOS 13.0, *) {
+    self.present(createdUiController, animated: true)
     return;
   }
 
-  let navController = UINavigationController(rootViewController: controller)
   navController.modalPresentationStyle = .formSheet
 
   let closeBarButtonItem = UIBarButtonItem(
@@ -138,13 +164,13 @@ extension ViewController: CardKViewControllerDelegate {
     target: self,
     action: #selector(_close(sender:))
   )
-  controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+  createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
   self.present(navController, animated: true)
 }
 ...
 ```
 
-3.3 Реализовать функцию закрытия формы
+3.4 Реализовать функцию закрытия формы
 
 ```swift
 //ViewController.swift
@@ -155,7 +181,7 @@ extension ViewController: CardKViewControllerDelegate {
 ...
 ```
 
-3.4 Добавить кнопку для вызова формы
+3.5 Добавить кнопку для вызова формы
 
 ```swift
  override func viewDidLoad() {
@@ -175,8 +201,14 @@ extension ViewController: CardKViewControllerDelegate {
 **Результат:**
 
 <div align="center">
-  <div align="inline">
-  <img src="./images/tutorial/result_part_3_open_form.png" width="300"/>
-  <img src="./images/tutorial/result_part_3_form.png" width="300"/>
+  <div style="display: flex; justify-content: center;">
+  <div>
+    <img src="./images/tutorial/result_part_3_open_form.png" width="400"/>
+    <div align="center"> Рисунок 3.1a. Кнопка </div>
+  </div>
+  <div>
+    <img src="./images/tutorial/result_part_3_form.png" width="400"/>
+    <div align="center"> Рисунок 3.2b. Форма для ввода карты </div>
+  </div>
   </div>
 </div>

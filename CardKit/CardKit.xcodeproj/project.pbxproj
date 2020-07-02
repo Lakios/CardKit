@@ -9,8 +9,20 @@
 /* Begin PBXBuildFile section */
 		9219F465232B8EF100841B98 /* CardKFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9219F463232B8EF100841B98 /* CardKFooterView.h */; };
 		9219F466232B8EF100841B98 /* CardKFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9219F464232B8EF100841B98 /* CardKFooterView.m */; };
+		9234CC4E247BC315009E3034 /* CardKValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9234CC4C247BC315009E3034 /* CardKValidation.h */; };
+		9234CC4F247BC315009E3034 /* CardKValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9234CC4D247BC315009E3034 /* CardKValidation.m */; };
+		9234CC5A247FBCDD009E3034 /* CardKPaymentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9234CC58247FBCDD009E3034 /* CardKPaymentView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9234CC5B247FBCDD009E3034 /* CardKPaymentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9234CC59247FBCDD009E3034 /* CardKPaymentView.m */; };
+		92985C85246A96F4009B7392 /* CardKSwitchView.h in Headers */ = {isa = PBXBuildFile; fileRef = 92985C83246A96F4009B7392 /* CardKSwitchView.h */; };
+		92985C86246A96F4009B7392 /* CardKSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92985C84246A96F4009B7392 /* CardKSwitchView.m */; };
+		92985C89246BEE1E009B7392 /* CardKKindPaymentViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 92985C87246BEE1E009B7392 /* CardKKindPaymentViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		92985C8A246BEE1E009B7392 /* CardKKindPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92985C88246BEE1E009B7392 /* CardKKindPaymentViewController.m */; };
 		92A1461A23435C6B002FBCC3 /* CardKConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 92A1461823435C6B002FBCC3 /* CardKConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92A1461B23435C6B002FBCC3 /* CardKConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 92A1461923435C6B002FBCC3 /* CardKConfig.m */; };
+		92E247F22475481700C2EF6C /* CardKBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 92E247F02475481700C2EF6C /* CardKBinding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		92E247F32475481700C2EF6C /* CardKBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E247F12475481700C2EF6C /* CardKBinding.m */; };
+		92E247F6247676A900C2EF6C /* ConfirmChoosedCard.h in Headers */ = {isa = PBXBuildFile; fileRef = 92E247F4247676A900C2EF6C /* ConfirmChoosedCard.h */; };
+		92E247F7247676A900C2EF6C /* ConfirmChoosedCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E247F5247676A900C2EF6C /* ConfirmChoosedCard.m */; };
 		D20CEBCD232F660400F9407C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D20CEBCF232F660400F9407C /* Localizable.strings */; };
 		D245AB43231C435E00369747 /* CardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D245AB39231C435E00369747 /* CardKit.framework */; };
 		D245AB48231C435E00369747 /* CardKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D245AB47231C435E00369747 /* CardKitTests.m */; };
@@ -23,15 +35,6 @@
 		D245ABC5231C4E6700369747 /* Luhn.m in Sources */ = {isa = PBXBuildFile; fileRef = D245ABC4231C4E6700369747 /* Luhn.m */; };
 		D245ABC8231C529D00369747 /* CardKTheme.h in Headers */ = {isa = PBXBuildFile; fileRef = D245ABC6231C529D00369747 /* CardKTheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D245ABC9231C529D00369747 /* CardKTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D245ABC7231C529D00369747 /* CardKTheme.m */; };
-<<<<<<< HEAD
-		D245ABCB231C619300369747 /* svg in Resources */ = {isa = PBXBuildFile; fileRef = D245ABCA231C619300369747 /* svg */; };
-		D245ABD2231C65C300369747 /* BankImageProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = D245ABD0231C65C300369747 /* BankImageProvider.h */; };
-		D245ABD3231C65C300369747 /* BankImageProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D245ABD1231C65C300369747 /* BankImageProvider.m */; };
-		D2FF087A231F8BA60015800C /* SVGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2FF0878231F8BA50015800C /* SVGKit.framework */; };
-		D2FF087B231F8BA60015800C /* SVGKit.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = D2FF0879231F8BA60015800C /* SVGKit.framework.dSYM */; };
-		D2FF0881231F8E5C0015800C /* CocoaLumberjack.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = D2FF087F231F8E5C0015800C /* CocoaLumberjack.framework.dSYM */; };
-		D2FF0882231F8E5C0015800C /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2FF0880231F8E5C0015800C /* CocoaLumberjack.framework */; };
-=======
 		D269080D231FA894001CB863 /* CardKTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = D269080B231FA894001CB863 /* CardKTextField.h */; };
 		D269080E231FA894001CB863 /* CardKTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = D269080C231FA894001CB863 /* CardKTextField.m */; };
 		D2690811231FB000001CB863 /* CardKCardView.h in Headers */ = {isa = PBXBuildFile; fileRef = D269080F231FB000001CB863 /* CardKCardView.h */; };
@@ -42,7 +45,6 @@
 		D2D0B367232122620007B3B9 /* PaymentSystemProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = D2D0B365232122620007B3B9 /* PaymentSystemProvider.h */; };
 		D2D0B368232122620007B3B9 /* PaymentSystemProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D0B366232122620007B3B9 /* PaymentSystemProvider.m */; };
 		D2D0B36A232124120007B3B9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2D0B369232124120007B3B9 /* Images.xcassets */; };
->>>>>>> webview
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,8 +60,20 @@
 /* Begin PBXFileReference section */
 		9219F463232B8EF100841B98 /* CardKFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKFooterView.h; sourceTree = "<group>"; };
 		9219F464232B8EF100841B98 /* CardKFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKFooterView.m; sourceTree = "<group>"; };
+		9234CC4C247BC315009E3034 /* CardKValidation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKValidation.h; sourceTree = "<group>"; };
+		9234CC4D247BC315009E3034 /* CardKValidation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKValidation.m; sourceTree = "<group>"; };
+		9234CC58247FBCDD009E3034 /* CardKPaymentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKPaymentView.h; sourceTree = "<group>"; };
+		9234CC59247FBCDD009E3034 /* CardKPaymentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKPaymentView.m; sourceTree = "<group>"; };
+		92985C83246A96F4009B7392 /* CardKSwitchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKSwitchView.h; sourceTree = "<group>"; };
+		92985C84246A96F4009B7392 /* CardKSwitchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKSwitchView.m; sourceTree = "<group>"; };
+		92985C87246BEE1E009B7392 /* CardKKindPaymentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKKindPaymentViewController.h; sourceTree = "<group>"; };
+		92985C88246BEE1E009B7392 /* CardKKindPaymentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKKindPaymentViewController.m; sourceTree = "<group>"; };
 		92A1461823435C6B002FBCC3 /* CardKConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKConfig.h; sourceTree = "<group>"; };
 		92A1461923435C6B002FBCC3 /* CardKConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKConfig.m; sourceTree = "<group>"; };
+		92E247F02475481700C2EF6C /* CardKBinding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKBinding.h; sourceTree = "<group>"; };
+		92E247F12475481700C2EF6C /* CardKBinding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKBinding.m; sourceTree = "<group>"; };
+		92E247F4247676A900C2EF6C /* ConfirmChoosedCard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmChoosedCard.h; sourceTree = "<group>"; };
+		92E247F5247676A900C2EF6C /* ConfirmChoosedCard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfirmChoosedCard.m; sourceTree = "<group>"; };
 		D20CEBCE232F660400F9407C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D20CEBD0232F660A00F9407C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D20CEBD1232F660B00F9407C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -80,15 +94,6 @@
 		D245ABC4231C4E6700369747 /* Luhn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Luhn.m; sourceTree = "<group>"; };
 		D245ABC6231C529D00369747 /* CardKTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKTheme.h; sourceTree = "<group>"; };
 		D245ABC7231C529D00369747 /* CardKTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKTheme.m; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		D245ABCA231C619300369747 /* svg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = svg; sourceTree = "<group>"; };
-		D245ABD0231C65C300369747 /* BankImageProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BankImageProvider.h; sourceTree = "<group>"; };
-		D245ABD1231C65C300369747 /* BankImageProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BankImageProvider.m; sourceTree = "<group>"; };
-		D2FF0878231F8BA50015800C /* SVGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SVGKit.framework; sourceTree = "<group>"; };
-		D2FF0879231F8BA60015800C /* SVGKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = SVGKit.framework.dSYM; sourceTree = "<group>"; };
-		D2FF087F231F8E5C0015800C /* CocoaLumberjack.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = CocoaLumberjack.framework.dSYM; sourceTree = "<group>"; };
-		D2FF0880231F8E5C0015800C /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CocoaLumberjack.framework; sourceTree = "<group>"; };
-=======
 		D269080B231FA894001CB863 /* CardKTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKTextField.h; sourceTree = "<group>"; };
 		D269080C231FA894001CB863 /* CardKTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKTextField.m; sourceTree = "<group>"; };
 		D269080F231FB000001CB863 /* CardKCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKCardView.h; sourceTree = "<group>"; };
@@ -99,7 +104,6 @@
 		D2D0B365232122620007B3B9 /* PaymentSystemProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentSystemProvider.h; sourceTree = "<group>"; };
 		D2D0B366232122620007B3B9 /* PaymentSystemProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentSystemProvider.m; sourceTree = "<group>"; };
 		D2D0B369232124120007B3B9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
->>>>>>> webview
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,12 +130,8 @@
 		D245AB2F231C435E00369747 = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				D2FF0877231F8B6D0015800C /* Frameworks */,
-=======
 				D20CEBCF232F660400F9407C /* Localizable.strings */,
 				D2D0B3632320F3A60007B3B9 /* banks-info */,
->>>>>>> webview
 				D245AB3B231C435E00369747 /* CardKit */,
 				D245AB46231C435E00369747 /* CardKitTests */,
 				D245AB3A231C435E00369747 /* Products */,
@@ -150,11 +150,7 @@
 		D245AB3B231C435E00369747 /* CardKit */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				D245ABCA231C619300369747 /* svg */,
-=======
 				D2D0B369232124120007B3B9 /* Images.xcassets */,
->>>>>>> webview
 				D245AB3C231C435E00369747 /* CardKit.h */,
 				D245AB3D231C435E00369747 /* Info.plist */,
 				D245ABBA231C449F00369747 /* CardKViewController.h */,
@@ -177,6 +173,18 @@
 				9219F464232B8EF100841B98 /* CardKFooterView.m */,
 				92A1461823435C6B002FBCC3 /* CardKConfig.h */,
 				92A1461923435C6B002FBCC3 /* CardKConfig.m */,
+				92985C83246A96F4009B7392 /* CardKSwitchView.h */,
+				92985C84246A96F4009B7392 /* CardKSwitchView.m */,
+				92985C87246BEE1E009B7392 /* CardKKindPaymentViewController.h */,
+				92985C88246BEE1E009B7392 /* CardKKindPaymentViewController.m */,
+				92E247F02475481700C2EF6C /* CardKBinding.h */,
+				92E247F12475481700C2EF6C /* CardKBinding.m */,
+				92E247F4247676A900C2EF6C /* ConfirmChoosedCard.h */,
+				92E247F5247676A900C2EF6C /* ConfirmChoosedCard.m */,
+				9234CC4C247BC315009E3034 /* CardKValidation.h */,
+				9234CC4D247BC315009E3034 /* CardKValidation.m */,
+				9234CC58247FBCDD009E3034 /* CardKPaymentView.h */,
+				9234CC59247FBCDD009E3034 /* CardKPaymentView.m */,
 			);
 			path = CardKit;
 			sourceTree = "<group>";
@@ -209,11 +217,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				D245ABC0231C4C2900369747 /* RSA.h in Headers */,
+				92E247F6247676A900C2EF6C /* ConfirmChoosedCard.h in Headers */,
+				92985C85246A96F4009B7392 /* CardKSwitchView.h in Headers */,
+				9234CC4E247BC315009E3034 /* CardKValidation.h in Headers */,
+				92E247F22475481700C2EF6C /* CardKBinding.h in Headers */,
 				D245ABC8231C529D00369747 /* CardKTheme.h in Headers */,
+				92985C89246BEE1E009B7392 /* CardKKindPaymentViewController.h in Headers */,
 				D2D0B367232122620007B3B9 /* PaymentSystemProvider.h in Headers */,
 				D2690811231FB000001CB863 /* CardKCardView.h in Headers */,
 				92A1461A23435C6B002FBCC3 /* CardKConfig.h in Headers */,
 				9219F465232B8EF100841B98 /* CardKFooterView.h in Headers */,
+				9234CC5A247FBCDD009E3034 /* CardKPaymentView.h in Headers */,
 				D269080D231FA894001CB863 /* CardKTextField.h in Headers */,
 				D2D0B35E2320E3AC0007B3B9 /* CardKBankLogoView.h in Headers */,
 				D245ABBC231C449F00369747 /* CardKViewController.h in Headers */,
@@ -267,7 +281,7 @@
 		D245AB30231C435E00369747 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = AnjLab;
 				TargetAttributes = {
 					D245AB38231C435E00369747 = {
@@ -289,6 +303,7 @@
 				de,
 				fr,
 				es,
+				Base,
 			);
 			mainGroup = D245AB2F231C435E00369747;
 			productRefGroup = D245AB3A231C435E00369747 /* Products */;
@@ -306,15 +321,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-<<<<<<< HEAD
-				D2FF0881231F8E5C0015800C /* CocoaLumberjack.framework.dSYM in Resources */,
-				D2FF087B231F8BA60015800C /* SVGKit.framework.dSYM in Resources */,
-				D245ABCB231C619300369747 /* svg in Resources */,
-=======
 				D2D0B3642320F3A60007B3B9 /* banks-info in Resources */,
 				D20CEBCD232F660400F9407C /* Localizable.strings in Resources */,
 				D2D0B36A232124120007B3B9 /* Images.xcassets in Resources */,
->>>>>>> webview
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,13 +342,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2D0B368232122620007B3B9 /* PaymentSystemProvider.m in Sources */,
+				92985C86246A96F4009B7392 /* CardKSwitchView.m in Sources */,
 				D2D0B35F2320E3AC0007B3B9 /* CardKBankLogoView.m in Sources */,
 				9219F466232B8EF100841B98 /* CardKFooterView.m in Sources */,
+				92E247F7247676A900C2EF6C /* ConfirmChoosedCard.m in Sources */,
 				D269080E231FA894001CB863 /* CardKTextField.m in Sources */,
+				9234CC5B247FBCDD009E3034 /* CardKPaymentView.m in Sources */,
+				92985C8A246BEE1E009B7392 /* CardKKindPaymentViewController.m in Sources */,
 				D2690812231FB000001CB863 /* CardKCardView.m in Sources */,
 				D245ABC9231C529D00369747 /* CardKTheme.m in Sources */,
+				92E247F32475481700C2EF6C /* CardKBinding.m in Sources */,
 				D245ABC1231C4C2900369747 /* RSA.m in Sources */,
 				D245ABC5231C4E6700369747 /* Luhn.m in Sources */,
+				9234CC4F247BC315009E3034 /* CardKValidation.m in Sources */,
 				D245ABBD231C449F00369747 /* CardKViewController.m in Sources */,
 				92A1461B23435C6B002FBCC3 /* CardKConfig.m in Sources */,
 			);
@@ -384,6 +399,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -446,6 +462,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

@@ -8,11 +8,6 @@
 
 #import "CardKTheme.h"
 #import <UIKit/UIKit.h>
-<<<<<<< HEAD
-
-@implementation CardKTheme
-=======
->>>>>>> webview
 
 @implementation CardKTheme
 + (CardKTheme *)defaultTheme {
@@ -33,14 +28,15 @@
 + (CardKTheme *)darkTheme {
   CardKTheme *theme = [[CardKTheme alloc] init];
 
+  theme.colorLabel = UIColor.whiteColor;
   theme.colorErrorLabel = UIColor.redColor;
   theme.colorPlaceholder = [UIColor colorWithRed:0.39f green:0.39f blue:0.40f alpha:1.0f];
-  theme.colorTableBackground = [UIColor colorWithRed:0.10f green:0.10f blue:0.11f alpha:1.0f];
-  theme.colorCellBackground = [UIColor colorWithRed:0.17f green:0.17f blue:0.18f alpha:1.0f];
+  theme.colorTableBackground = [UIColor blackColor];
+  theme.colorCellBackground = [UIColor colorWithRed:0.11f green:0.11f blue:0.12f alpha:1.0f];
   theme.colorSeparatar = [UIColor colorWithRed:0.10f green:0.10f blue:0.11f alpha:1.0f];
   theme.imageAppearance = @"dark";
   theme.colorButtonText = UIColor.systemBlueColor;
-  
+
   return theme;
 }
 

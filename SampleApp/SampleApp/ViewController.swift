@@ -9,7 +9,6 @@
 import UIKit
 import CardKit
 
-
 let publicKey = """
 -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiDgvGLU1dFQ0tA0Epbpj
@@ -42,6 +41,7 @@ struct SectionItem {
     case navDarkTheme
     case navSystemTheme
     case language
+    case paymentView
   }
 }
 
@@ -50,7 +50,7 @@ class SampleAppCardIO: NSObject, CardIOViewDelegate {
   
   func cardIOView(_ cardIOView: CardIOView!, didScanCard cardInfo: CardIOCreditCardInfo!) {
     if let info = cardInfo {
-      cardKController?.setCardNumber(info.cardNumber, holderName: info.cardholderName, expirationDate: nil, cvc: nil)
+      cardKController?.setCardNumber(info.cardNumber, holderName: info.cardholderName, expirationDate: nil, cvc: nil, bindingId: nil)
     }
     cardIOView?.removeFromSuperview()
   }
@@ -66,29 +66,35 @@ class ViewController: UITableViewController {
 
   func _openController() {
     CardKConfig.shared.language = "";
-    CardKConfig.shared.theme = CardKTheme.light()
+    CardKConfig.shared.theme = CardKTheme.light();
+    CardKConfig.shared.bindingCVCRequired = true;
+    CardKConfig.shared.bindings = self._fetchBindingCards();
+    CardKConfig.shared.isTestMod = true;
+    CardKConfig.shared.mdOrder = "mdOrder";
+    CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
+    CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
     
-    let controller = CardKViewController(mdOrder:"mdOrder");
-    controller.cKitDelegate = self
-    controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
-    controller.purchaseButtonTitle = "Custom purchase button";
-    controller.isTestMod = true;
+    let controller = CardKViewController();
+    controller.cKitDelegate = self;
+    
+    let createdUiController = CardKViewController.create(self, controller: controller);
+    let navController = UINavigationController(rootViewController: createdUiController)
     
     if #available(iOS 13.0, *) {
-      self.present(controller, animated: true)
+      self.present(navController, animated: true)
       return;
     }
-
-    let navController = UINavigationController(rootViewController: controller)
+    
     navController.modalPresentationStyle = .formSheet
 
     let closeBarButtonItem = UIBarButtonItem(
-      title: "Close",
-      style: .done,
-      target: self,
-      action: #selector(_close(sender:))
+     title: "Close",
+     style: .done,
+     target: self,
+     action: #selector(_close(sender:))
     )
-    controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+    createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
     self.present(navController, animated: true)
     CardIOUtilities.preloadCardIO()
   }
@@ -96,57 +102,76 @@ class ViewController: UITableViewController {
   func _openDark() {
     CardKConfig.shared.theme = CardKTheme.dark();
     CardKConfig.shared.language = "";
+    CardKConfig.shared.bindingCVCRequired = true;
+    CardKConfig.shared.bindings = self._fetchBindingCards();
+    CardKConfig.shared.isTestMod = true;
+    CardKConfig.shared.mdOrder = "mdOrder";
+    CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
+    CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
 
-    let controller = CardKViewController(mdOrder:"mdOrder");
-    controller.allowedCardScaner = false;
+    let controller = CardKViewController();
     controller.cKitDelegate = self
-
+    
+    let createdUiController = CardKViewController.create(self, controller: controller);
+    let navController = UINavigationController(rootViewController: createdUiController)
+    
     if #available(iOS 13.0, *) {
-      self.present(controller, animated: true)
+      self.present(navController, animated: true)
       return;
     }
-
-    let navController = UINavigationController(rootViewController: controller)
+    
     navController.modalPresentationStyle = .formSheet
 
     let closeBarButtonItem = UIBarButtonItem(
-      title: "Close",
-      style: .done,
-      target: self,
-      action: #selector(_close(sender:))
+     title: "Close",
+     style: .done,
+     target: self,
+     action: #selector(_close(sender:))
     )
-    controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+    createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
     self.present(navController, animated: true)
+    CardIOUtilities.preloadCardIO()
   }
 
   func _openSystemTheme() {
     CardKConfig.shared.language = "";
+    CardKConfig.shared.bindingCVCRequired = true;
+    CardKConfig.shared.bindings = self._fetchBindingCards();
+    CardKConfig.shared.isTestMod = true;
+    CardKConfig.shared.mdOrder = "mdOrder";
+    CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
+    CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
+    
     if #available(iOS 13.0, *) {
       CardKConfig.shared.theme = CardKTheme.system();
     } else {
       CardKConfig.shared.theme = CardKTheme.default();
     };
 
-    let controller = CardKViewController(mdOrder:"mdOrder");
-    controller.cKitDelegate = self
-    controller.allowedCardScaner = true
+    let controller = CardKViewController();
+    controller.cKitDelegate = self;
+    
+    let createdUiController = CardKViewController.create(self, controller: controller);
+    let navController = UINavigationController(rootViewController: createdUiController);
 
     if #available(iOS 13.0, *) {
-      self.present(controller, animated: true)
+      self.present(navController, animated: true)
       return;
     }
-
-    let navController = UINavigationController(rootViewController: controller)
+    
     navController.modalPresentationStyle = .formSheet
 
     let closeBarButtonItem = UIBarButtonItem(
-      title: "Close",
-      style: .done,
-      target: self,
-      action: #selector(_close(sender:))
+     title: "Close",
+     style: .done,
+     target: self,
+     action: #selector(_close(sender:))
     )
-    controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+    createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
     self.present(navController, animated: true)
+    CardIOUtilities.preloadCardIO()
   }
   
   func _openCustomTheme() {
@@ -162,53 +187,72 @@ class ViewController: UITableViewController {
     
     CardKConfig.shared.theme = theme;
     CardKConfig.shared.language = "";
-
-    let controller = CardKViewController(mdOrder:"mdOrder");
+    CardKConfig.shared.bindingCVCRequired = true;
+    CardKConfig.shared.bindings = self._fetchBindingCards();
+    CardKConfig.shared.isTestMod = true;
+    CardKConfig.shared.mdOrder = "mdOrder";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
+    
+    let controller = CardKViewController();
     controller.cKitDelegate = self
-    controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
-    controller.purchaseButtonTitle = "Custom purchase button";
+    
+    let createdUiController = CardKViewController.create(self, controller: controller);
+    let navController = UINavigationController(rootViewController: createdUiController);
 
     if #available(iOS 13.0, *) {
-      self.present(controller, animated: true)
+      self.present(navController, animated: true)
       return;
     }
-
-    let navController = UINavigationController(rootViewController: controller)
+    
     navController.modalPresentationStyle = .formSheet
 
     let closeBarButtonItem = UIBarButtonItem(
-      title: "Close",
-      style: .done,
-      target: self,
-      action: #selector(_close(sender:))
+     title: "Close",
+     style: .done,
+     target: self,
+     action: #selector(_close(sender:))
     )
-    controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+    createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
     self.present(navController, animated: true)
     CardIOUtilities.preloadCardIO()
   }
-
+  
   func _openLightUINavigation() {
     CardKConfig.shared.theme = CardKTheme.light();
     CardKConfig.shared.language = "";
-
-    let controller = CardKViewController(mdOrder:"mdOrder");
+    CardKConfig.shared.bindingCVCRequired = false;
+    CardKConfig.shared.bindings = self._fetchBindingCards();
+    CardKConfig.shared.isTestMod = true;
+    CardKConfig.shared.mdOrder = "mdOrder";
+    CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
+    CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
+    
+    let controller = CardKViewController();
     controller.cKitDelegate = self
-    controller.allowedCardScaner = false;
-    controller.purchaseButtonTitle = "Custom purchase button";
-    controller.isTestMod = true;
 
-    self.navigationController?.pushViewController(controller, animated: true)
+    let createdUiController = CardKViewController.create(self, controller: controller);
+    
+    self.navigationController?.pushViewController(createdUiController, animated: true);
   }
 
   func _openDarkUINavigation() {
     CardKConfig.shared.theme = CardKTheme.dark();
     CardKConfig.shared.language = "";
+    CardKConfig.shared.bindingCVCRequired = true;
+    CardKConfig.shared.bindings = [];
+    CardKConfig.shared.isTestMod = true;
+    CardKConfig.shared.mdOrder = "mdOrder";
+    CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
+    CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+    CardKConfig.shared.bindingsSectionTitle = "Your cards";
     
-    let controller = CardKViewController(mdOrder:"mdOrder");
-    controller.allowedCardScaner = false;
+    let controller = CardKViewController();
     controller.cKitDelegate = self
 
-    self.navigationController?.pushViewController(controller, animated: true)
+    let createdUiController = CardKViewController.create(self, controller: controller);
+    
+    self.navigationController?.pushViewController(createdUiController, animated: true)
   }
 
   func _openSystemUINavigation() {
@@ -219,39 +263,61 @@ class ViewController: UITableViewController {
       CardKConfig.shared.theme = CardKTheme.default();
     };
 
-    let controller = CardKViewController(mdOrder:"mdOrder");
+    CardKConfig.shared.language = "";
+    CardKConfig.shared.bindingCVCRequired = true;
+    CardKConfig.shared.bindings = [];
+    CardKConfig.shared.isTestMod = true;
+    CardKConfig.shared.mdOrder = "mdOrder";
+    
+    let controller = CardKViewController();
     controller.cKitDelegate = self
-    controller.allowedCardScaner = false
-    self.navigationController?.pushViewController(controller, animated: true)
+
+    let createdUiController = CardKViewController.create(self, controller: controller);
+    
+    self.navigationController?.pushViewController(createdUiController, animated: true)
   }
   
   func _openWitchChooseLanguage(language: String) {
       CardKConfig.shared.language = language;
       CardKConfig.shared.theme = CardKTheme.light()
-      
-      let controller = CardKViewController(mdOrder:"mdOrder");
+      CardKConfig.shared.bindingCVCRequired = true;
+      CardKConfig.shared.bindings = self._fetchBindingCards();
+      CardKConfig.shared.isTestMod = true;
+      CardKConfig.shared.mdOrder = "mdOrder";
+      CardKConfig.shared.mrBinApiURL = "https://mrbin.io/bins/display";
+      CardKConfig.shared.mrBinURL = "https://mrbin.io/bins/";
+      CardKConfig.shared.bindingsSectionTitle = "Your cards";
+    
+      let controller = CardKViewController();
       controller.cKitDelegate = self
-      controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
-      controller.purchaseButtonTitle = "Custom purchase button";
+
+      let createdUiController = CardKViewController.create(self, controller: controller);
+      let navController = UINavigationController(rootViewController: createdUiController);
 
       if #available(iOS 13.0, *) {
-        self.present(controller, animated: true)
+        self.present(navController, animated: true)
         return;
       }
-
-      let navController = UINavigationController(rootViewController: controller)
+      
       navController.modalPresentationStyle = .formSheet
 
       let closeBarButtonItem = UIBarButtonItem(
-        title: "Close",
-        style: .done,
-        target: self,
-        action: #selector(_close(sender:))
+       title: "Close",
+       style: .done,
+       target: self,
+       action: #selector(_close(sender:))
       )
-      controller.navigationItem.leftBarButtonItem = closeBarButtonItem
+      createdUiController.navigationItem.leftBarButtonItem = closeBarButtonItem
       self.present(navController, animated: true)
       CardIOUtilities.preloadCardIO()
   }
+  
+  func _openPaymentView() {
+    let controller = SampleCardKPaymentView();
+  
+    self.navigationController?.pushViewController(controller, animated: true)
+  }
+  
   func _callFunctionByKindOfButton(kind: SectionItem.Kind, language: String) {
     switch kind {
     case .lightTheme: _openController()
@@ -262,21 +328,26 @@ class ViewController: UITableViewController {
     case .navDarkTheme: _openDarkUINavigation()
     case .navSystemTheme: _openSystemUINavigation()
     case .language: _openWitchChooseLanguage(language: language)
+    case .paymentView: _openPaymentView()
     }
   }
   
   var sections: [Section] = [
     Section(title: "Modal", items: [
-      SectionItem(title: "Open Light", kind: .lightTheme, isShowChevron: false, language: ""),
+      SectionItem(title: "Open Light with bindings", kind: .lightTheme, isShowChevron: false, language: ""),
       SectionItem(title: "Dark Light", kind: .darkTheme, isShowChevron: false, language: ""),
       SectionItem(title: "System theme", kind: .systemTheme, isShowChevron: false, language: ""),
-      SectionItem(title: "Custom theme", kind: .customTheme, isShowChevron: false, language: "")
+      SectionItem(title: "Custom theme", kind: .customTheme, isShowChevron: false, language: ""),
     ]),
     
     Section(title: "Navigation", items: [
-      SectionItem(title: "Open Light", kind: .navLightTheme, isShowChevron: true, language: ""),
+      SectionItem(title: "Open Light with bindings", kind: .navLightTheme, isShowChevron: true, language: ""),
       SectionItem(title: "Dark Light", kind: .navDarkTheme, isShowChevron: true, language: ""),
       SectionItem(title: "System theme", kind: .navSystemTheme, isShowChevron: true, language: "")
+    ]),
+    
+    Section(title: "CardKPaymentView", items: [
+      SectionItem(title: "Apple Pay", kind: .paymentView, isShowChevron: true, language: ""),
     ]),
     
     Section(title: "Localization", items: [
@@ -293,6 +364,7 @@ class ViewController: UITableViewController {
     super.viewDidLoad()
     title = "Examples"
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellIdentifier")
+    tableView.cellLayoutMarginsFollowReadableWidth = true;
   }
 
   override func numberOfSections(in tableView: UITableView) -> Int {
@@ -328,17 +400,72 @@ class ViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
     return true
   }
+  
+  func _readJSONFile() -> NSData? {
+    let path = Bundle.main.path(forResource: "bindings", ofType: "json");
+    return NSData.init(contentsOfFile: path ?? "");
+  }
+
+  
+  func _fetchBindingCards() -> [CardKBinding] {
+    let data = self._readJSONFile();
+    
+    if (data == nil) {
+      return []
+    }
+    
+    do {
+      let responseDictionary: NSDictionary = try JSONSerialization.jsonObject(with: data! as Data, options: []) as! NSDictionary
+        
+      let bindingItems = responseDictionary["bindingItems"] as! [Dictionary<String,AnyObject>]
+
+      var bindings = [CardKBinding]();
+
+      for binding in bindingItems {
+        let cardKBinding = CardKBinding();
+        let labelString: String = binding["label"] as! String;
+        let label = labelString.components(separatedBy: " ");
+
+        cardKBinding.bindingId = binding["id"] as! String;
+        cardKBinding.paymentSystem = binding["paymentSystem"] as! String;
+        cardKBinding.cardNumber = label[0];
+        cardKBinding.expireDate = label[1];
+        bindings.append(cardKBinding);
+      }
+      
+      return bindings;
+    } catch {
+        print("error writing JSON: \(error)")
+      
+      return []
+    }
+  }
 }
 
-extension ViewController: CardKViewControllerDelegate {
-  func cardKitViewController(_ controller: CardKViewController, didCreateSeToken seToken: String) {
+extension ViewController: CardKDelegate {
+  func cardKPaymentView(_ paymentView: CardKPaymentView, didAuthorizePayment pKPayment: PKPayment) {
+    
+  }
+  
+  func willShow(_ paymentView: CardKPaymentView) {
+    
+  }
+  
+  func willShow(_ controller: CardKViewController) {
+    controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
+    controller.purchaseButtonTitle = "Custom purchase button";
+    controller.allowSaveBinding = true;
+    controller.isSaveBinding = true;
+    controller.displayCardHolderField = true;
+  }
+  
+  func cardKitViewController(_ controller: UIViewController, didCreateSeToken seToken: String, allowSaveBinding: Bool, isNewCard: Bool) {
     debugPrint(seToken)
 
-    let alert = UIAlertController(title: "SeToken", message: seToken, preferredStyle: UIAlertController.Style.alert)
+    let alert = UIAlertController(title: "SeToken", message: "allowSaveCard = \(allowSaveBinding) \n isNewCard = \(isNewCard) \n seToken = \(seToken)", preferredStyle: UIAlertController.Style.alert)
     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
     controller.present(alert, animated: true)
-    
   }
   
   func cardKitViewControllerScanCardRequest(_ controller: CardKViewController) {

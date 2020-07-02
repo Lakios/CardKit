@@ -20,3 +20,6 @@
 "incorrectExpiry" = "Термін дії картки зазначений неправильно";
 "incorrectCvc" = "CVC2/CVV2 вказано невірно";
 "incorrectCardholder" = "Власник картки вказаний невірно";
+
+"switchViewTitle" = "Зберегти карту";
+"payByCard" = "Нова картка";

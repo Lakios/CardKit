@@ -22,3 +22,5 @@
 "incorrectCvc" = "Code de sûreté incorrect";
 "incorrectCardholder" = "Nom incorrect";
 
+"switchViewTitle" = "Enregistrer la carte";
+"payByCard" = "Nouvelle carte";

@@ -97,6 +97,18 @@ NSString * __getImageAppearanceWithTraitCollection(UITraitCollection *traitColle
   return imageName;
 }
 
++ (NSString *)imageNameByPaymentSystem:(NSString *) paymentSysten compatibleWithTraitCollection:(UITraitCollection *) traitCollection {
+  NSString *systemName = [paymentSysten lowercaseString];
+  NSString *imageAppearance = CardKConfig.shared.theme.imageAppearance;
+  
+  if (imageAppearance == nil) {
+    imageAppearance = __getImageAppearanceWithTraitCollection(traitCollection);
+  }
+  
+  NSString *imageName = [NSString stringWithFormat:@"%@-%@", systemName, imageAppearance];
+  return imageName;
+}
+
 + (UIImage *)namedImage:(NSString *)imageName inBundle: (NSBundle *)bundle compatibleWithTraitCollection:(UITraitCollection *) traitCollection {
   
   UIImage *image = [UIImage imageNamed:imageName inBundle:bundle compatibleWithTraitCollection:nil];

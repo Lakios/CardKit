@@ -44,7 +44,7 @@
 
 - (void)layoutSubviews {
   [super layoutSubviews];
-  _label.frame = CGRectInset(self.bounds, 10, 0);
+  _label.frame = CGRectInset(self.bounds, 0, 0);
 }
 
 @end
