@@ -56,10 +56,7 @@
     [_secureCodeTextField addTarget:self action:@selector(_clearSecureCodeErrors) forControlEvents:UIControlEventValueChanged];
     
     _expireDateLabel = [[UILabel alloc] init];
-    
-    UIFont *font = [self _font];
     _cardNumberLabel = [[UILabel alloc] init];
-    _cardNumberLabel.font = font;
     
     [self addSubview:_cardNumberLabel];
     [self addSubview:_expireDateLabel];
@@ -101,20 +98,30 @@
 
   [self replaceTextWithCircleBullet];
   
+  UIFont *font = [self _font];
+  _cardNumberLabel.font = font;
+  _expireDateLabel.font = font;
+
   CGRect bounds = self.bounds;
   NSInteger leftExpireDate = bounds.size.width - _expireDateLabel.intrinsicContentSize.width;
   if (CardKConfig.shared.bindingCVCRequired &&  _showCVCField) {
-    leftExpireDate = leftExpireDate - _secureCodeTextField.intrinsicContentSize.width;
+    leftExpireDate = leftExpireDate - 5;
   }
 
+
   _cardNumberLabel.frame = CGRectMake(0, 0, _cardNumberLabel.intrinsicContentSize.width, bounds.size.height);
-  
+
   _expireDateLabel.frame = CGRectMake(leftExpireDate, 0, _expireDateLabel.intrinsicContentSize.width, bounds.size.height);
 
   _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX(_expireDateLabel.frame), 0, _secureCodeTextField.intrinsicContentSize.width, bounds.size.height);
 }
 
 - (void) replaceTextWithCircleBullet {
+  NSInteger fontSize = 22;
+  if (self.superview.frame.size.width <= 320) {
+    fontSize = 19;
+  }
+  
   NSString *bullet = @"\u2022";
   NSString *displayText = [_cardNumber stringByReplacingOccurrencesOfString:@"X" withString:bullet];
   NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:displayText];
@@ -123,17 +130,20 @@
   NSRange lastBullet = [displayText rangeOfString:bullet options:NSBackwardsSearch];
   NSRange bulletsRange = NSMakeRange(firstBullet.location,  lastBullet.location - firstBullet.location + 1);
   
-  [attributedString addAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Menlo-bold" size:22.0]} range:bulletsRange];
+  [attributedString addAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Menlo-bold" size:fontSize]} range:bulletsRange];
   [attributedString addAttribute:NSBaselineOffsetAttributeName value:[NSNumber numberWithFloat:-2.0] range:bulletsRange];
   
-  [_cardNumberLabel setTextAlignment:NSTextAlignmentCenter];
-  _cardNumberLabel.attributedText = attributedString ;
-  _cardNumberLabel.adjustsFontSizeToFitWidth = YES;
+
+  _cardNumberLabel.attributedText = attributedString;
   [_cardNumberLabel setBaselineAdjustment:UIBaselineAdjustmentAlignCenters];
   
 }
 
 - (UIFont *)_font {
+  if (self.superview.frame.size.width == 320) {
+    return [UIFont fontWithName:@"Menlo" size: 16];
+  }
+  
   return [UIFont fontWithName:@"Menlo" size: 17];
 }
 
