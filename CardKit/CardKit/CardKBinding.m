@@ -95,25 +95,21 @@
 - (void)layoutSubviews {
   [super layoutSubviews];
   _expireDateLabel.text = _expireDate;
-
-  [self replaceTextWithCircleBullet];
   
   UIFont *font = [self _font];
   _cardNumberLabel.font = font;
   _expireDateLabel.font = font;
 
+ [self replaceTextWithCircleBullet];
+  
   CGRect bounds = self.bounds;
   NSInteger leftExpireDate = bounds.size.width - _expireDateLabel.intrinsicContentSize.width;
-  if (CardKConfig.shared.bindingCVCRequired &&  _showCVCField) {
-    leftExpireDate = leftExpireDate - 5;
-  }
-
 
   _cardNumberLabel.frame = CGRectMake(0, 0, _cardNumberLabel.intrinsicContentSize.width, bounds.size.height);
 
   _expireDateLabel.frame = CGRectMake(leftExpireDate, 0, _expireDateLabel.intrinsicContentSize.width, bounds.size.height);
 
-  _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX(_expireDateLabel.frame), 0, _secureCodeTextField.intrinsicContentSize.width, bounds.size.height);
+  _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX(_expireDateLabel.frame) - 3, 0, _secureCodeTextField.intrinsicContentSize.width, bounds.size.height);
 }
 
 - (void) replaceTextWithCircleBullet {
@@ -121,7 +117,7 @@
   if (self.superview.frame.size.width <= 320) {
     fontSize = 19;
   }
-  
+
   NSString *bullet = @"\u2022";
   NSString *displayText = [_cardNumber stringByReplacingOccurrencesOfString:@"X" withString:bullet];
   NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:displayText];
