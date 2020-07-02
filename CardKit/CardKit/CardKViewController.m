@@ -239,6 +239,17 @@ NSString *CardKFooterID = @"footer";
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
   
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                     selector:@selector(keyboardWillShow:)
+                     name:UIKeyboardWillShowNotification
+                     object:nil];
+  
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                     selector:@selector(keyboardWillHide:)
+                     name:UIKeyboardWillHideNotification
+                     object:nil];
+  
   UINavigationBar *bar = [self.navigationController navigationBar];
   bar.barTintColor = theme.colorCellBackground;
   
@@ -327,6 +338,7 @@ NSString *CardKFooterID = @"footer";
   if (theme.colorCellBackground != nil) {
     cell.backgroundColor = theme.colorCellBackground;
   }
+  
   cell.textLabel.textColor = theme.colorLabel;
   return cell;
 }
@@ -349,6 +361,17 @@ NSString *CardKFooterID = @"footer";
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
   return NO;
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+  NSDictionary* keyboardInfo = [notification userInfo];
+  NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+  CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+  self.tableView.contentInset = UIEdgeInsetsMake(0, 0, keyboardFrameBeginRect.size.height, 0);
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+  self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
