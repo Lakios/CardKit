@@ -9,14 +9,15 @@
 "title" = "Enter card details";
 "card" = "Card";
 "cardholder" = "Le nom du détenteur";
+"cardholderPlaceholder" = "Nom";
 "Card Number" = "Numéro de la carte";
-"cardholderPlaceholder" = "Numéro";
 "MM/YY" = "MM/YY";
 "doneButton" = "Paiement";
+"scanBackButton" = "Entrez les détails manuellement";
 "expiry" = "Valable jusqu'au";
 "cvc" = "Les trois derniers chiffres du code";
 
-"incorrectLength" = "Card number length should be 16-19 digits";
+"incorrectLength" = "La longueur du numéro de carte doit être de 16 à 19 chiffres";
 "incorrectCardNumber" = "Numéro incorrect";
 "incorrectExpiry" = "Durée de valabilité de la carte incorrecte";
 "incorrectCvc" = "Code de sûreté incorrect";

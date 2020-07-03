@@ -9,14 +9,15 @@
 "title" = "Enter card details";
 "card" = "Karten";
 "cardholder" = "Karteninhaber";
-"cardholderPlaceholder" = "Karteninhaber";
+"cardholderPlaceholder" = "Name";
 "Card Number" = "Card Number";
 "MM/YY" = "MM/YY";
 "doneButton" = "Bezahlen";
+"scanBackButton" = "Geben Sie die Details manuell ein";
 "expiry" = "Ablaufdatum der Karte";
 "cvc" = "Drei Endziffern der Code";
 
-"incorrectLength" = "Card number length should be 16-19 digits";
+"incorrectLength" = "Die Länge der Kartennummer sollte 16 bis 19 Stellen betragen";
 "incorrectCardNumber" = "Kartennummer falsch eingegeben";
 "incorrectExpiry" = "Ablaufdatum der Karte falsch e";
 "incorrectCvc" = "CVC2/CVV2 falsch eingegeben";

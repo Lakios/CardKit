@@ -9,7 +9,7 @@
 "title" = "Введите данные карты";
 "card" = "Карта";
 "cardholder" = "Владелец карты";
-"cardholderPlaceholder" = "ИМЯ ФАМИЛИЯ";
+"cardholderPlaceholder" = "Имя фамилия";
 "Card Number" = "Номер карты";
 "MM/YY" = "ММ/ГГ";
 "doneButton" = "Оплатить";
@@ -25,4 +25,3 @@
 
 "switchViewTitle" = "Сохранить карту";
 "payByCard" = "Новая карта";
-
