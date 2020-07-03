@@ -6,8 +6,8 @@
   Copyright © 2019 AnjLab. All rights reserved.
 */
 
-"title" = "Enter card details";
-"card" = "Card";
+"title" = "Entrez les détails de la carte";
+"card" = "Carte";
 "cardholder" = "Le nom du détenteur";
 "cardholderPlaceholder" = "Nom";
 "Card Number" = "Numéro de la carte";

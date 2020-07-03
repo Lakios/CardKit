@@ -6,11 +6,11 @@
   Copyright © 2019 AnjLab. All rights reserved.
 */
 
-"title" = "Enter card details";
+"title" = "Geben Sie die Kartendetails ein";
 "card" = "Karten";
 "cardholder" = "Karteninhaber";
 "cardholderPlaceholder" = "Name";
-"Card Number" = "Card Number";
+"Card Number" = "Kartennummer";
 "MM/YY" = "MM/YY";
 "doneButton" = "Bezahlen";
 "scanBackButton" = "Geben Sie die Details manuell ein";
