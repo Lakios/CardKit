@@ -10,6 +10,7 @@
 		0CDCE6C0041575C85620EDD3 /* Pods_SampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90E0DAB803DD340C070713CD /* Pods_SampleApp.framework */; };
 		9234CC56247D2157009E3034 /* bindings.json in Resources */ = {isa = PBXBuildFile; fileRef = 9234CC55247D2157009E3034 /* bindings.json */; };
 		9234CC5D247FDA8F009E3034 /* SampleCardKPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9234CC5C247FDA8F009E3034 /* SampleCardKPaymentView.swift */; };
+		92E0D90E24AF4EB000F7846E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 92E0D91024AF4EB000F7846E /* Localizable.strings */; };
 		D245AB97231C444600369747 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D245AB96231C444600369747 /* AppDelegate.swift */; };
 		D245AB99231C444600369747 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D245AB98231C444600369747 /* ViewController.swift */; };
 		D245AB9E231C444700369747 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D245AB9D231C444700369747 /* Assets.xcassets */; };
@@ -50,11 +51,13 @@
 		9234CC55247D2157009E3034 /* bindings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bindings.json; sourceTree = "<group>"; };
 		9234CC57247E90AB009E3034 /* SampleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SampleApp.entitlements; sourceTree = "<group>"; };
 		9234CC5C247FDA8F009E3034 /* SampleCardKPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleCardKPaymentView.swift; sourceTree = "<group>"; };
+		92E0D90224AF3D6800F7846E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		92E0D90F24AF4EB000F7846E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		92E0D91124AF4EC300F7846E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D245AB93231C444600369747 /* SampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D245AB96231C444600369747 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D245AB98231C444600369747 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D245AB9D231C444700369747 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D245ABA0231C444700369747 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D245ABA2231C444700369747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D245ABA7231C444700369747 /* SampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D245ABAB231C444700369747 /* SampleAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleAppTests.swift; sourceTree = "<group>"; };
@@ -134,6 +137,7 @@
 				D245AB9F231C444700369747 /* LaunchScreen.storyboard */,
 				D245ABA2231C444700369747 /* Info.plist */,
 				9234CC5C247FDA8F009E3034 /* SampleCardKPaymentView.swift */,
+				92E0D91024AF4EB000F7846E /* Localizable.strings */,
 			);
 			path = SampleApp;
 			sourceTree = "<group>";
@@ -233,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D245ABA1231C444700369747 /* LaunchScreen.storyboard in Resources */,
+				92E0D90E24AF4EB000F7846E /* Localizable.strings in Resources */,
 				D245AB9E231C444700369747 /* Assets.xcassets in Resources */,
 				9234CC56247D2157009E3034 /* bindings.json in Resources */,
 			);
@@ -302,10 +307,19 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		92E0D91024AF4EB000F7846E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				92E0D90F24AF4EB000F7846E /* en */,
+				92E0D91124AF4EC300F7846E /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		D245AB9F231C444700369747 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D245ABA0231C444700369747 /* Base */,
+				92E0D90224AF3D6800F7846E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -440,7 +454,7 @@
 				CODE_SIGN_ENTITLEMENTS = SampleApp/SampleApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = FD6ZML48V9;
 				INFOPLIST_FILE = SampleApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -468,7 +482,7 @@
 				CODE_SIGN_ENTITLEMENTS = SampleApp/SampleApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = FD6ZML48V9;
 				INFOPLIST_FILE = SampleApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

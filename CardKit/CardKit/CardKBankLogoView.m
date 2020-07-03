@@ -225,8 +225,20 @@
   if (logo == nil) {
     BOOL isLightTheme = [self isLightTheme];
     NSString *folderName = isLightTheme ? @"color" : @"white";
-
-    script = [NSString stringWithFormat:@"__showBankLogo(\"%@%@%@\");", @"./images/bank-logos/", folderName ,@"/ru-unknown.svg"];
+    NSString *langCode = CardKConfig.shared.language;
+    NSString *language = NSBundle.mainBundle.preferredLocalizations.firstObject;
+    
+    if (CardKConfig.shared.language != nil && [CardKConfig.shared.language  isEqual: @"ru"]) {
+      langCode = CardKConfig.shared.language;
+    } else if ([language  isEqual: @"ru"]){
+      langCode = @"ru";
+    } else {
+      langCode = @"en";
+    }
+    
+    NSString *iconName = [[NSString alloc] initWithFormat:@"/%@%@", langCode, @"-unknown.svg"];
+    
+    script = [NSString stringWithFormat:@"__showBankLogo(\"%@%@%@\");", @"./images/bank-logos/", folderName, iconName];
 
   } else {
     script = [NSString stringWithFormat:@"__showBankLogo(\"%@%@\");", CardKConfig.shared.mrBinURL, logo];

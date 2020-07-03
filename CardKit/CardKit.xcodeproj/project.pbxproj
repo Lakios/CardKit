@@ -70,12 +70,12 @@
 		92985C88246BEE1E009B7392 /* CardKKindPaymentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKKindPaymentViewController.m; sourceTree = "<group>"; };
 		92A1461823435C6B002FBCC3 /* CardKConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKConfig.h; sourceTree = "<group>"; };
 		92A1461923435C6B002FBCC3 /* CardKConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKConfig.m; sourceTree = "<group>"; };
+		92E0D90A24AF4B7300F7846E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		92E247F02475481700C2EF6C /* CardKBinding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardKBinding.h; sourceTree = "<group>"; };
 		92E247F12475481700C2EF6C /* CardKBinding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardKBinding.m; sourceTree = "<group>"; };
 		92E247F4247676A900C2EF6C /* ConfirmChoosedCard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmChoosedCard.h; sourceTree = "<group>"; };
 		92E247F5247676A900C2EF6C /* ConfirmChoosedCard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfirmChoosedCard.m; sourceTree = "<group>"; };
 		D20CEBCE232F660400F9407C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		D20CEBD0232F660A00F9407C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D20CEBD1232F660B00F9407C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D20CEBD2232F660C00F9407C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D20CEBD3232F660C00F9407C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -111,8 +111,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2FF0882231F8E5C0015800C /* CocoaLumberjack.framework in Frameworks */,
-				D2FF087A231F8BA60015800C /* SVGKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,17 +194,6 @@
 				D245AB49231C435E00369747 /* Info.plist */,
 			);
 			path = CardKitTests;
-			sourceTree = "<group>";
-		};
-		D2FF0877231F8B6D0015800C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D2FF0880231F8E5C0015800C /* CocoaLumberjack.framework */,
-				D2FF087F231F8E5C0015800C /* CocoaLumberjack.framework.dSYM */,
-				D2FF0878231F8BA50015800C /* SVGKit.framework */,
-				D2FF0879231F8BA60015800C /* SVGKit.framework.dSYM */,
-			);
-			path = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,12 +285,13 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				ru,
 				uk,
 				de,
 				fr,
 				es,
+				"en-GB",
 				Base,
+				ru,
 			);
 			mainGroup = D245AB2F231C435E00369747;
 			productRefGroup = D245AB3A231C435E00369747 /* Products */;
@@ -383,11 +371,11 @@
 			isa = PBXVariantGroup;
 			children = (
 				D20CEBCE232F660400F9407C /* en */,
-				D20CEBD0232F660A00F9407C /* ru */,
 				D20CEBD1232F660B00F9407C /* de */,
 				D20CEBD2232F660C00F9407C /* fr */,
 				D20CEBD3232F660C00F9407C /* es */,
 				D20CEBD4232F660D00F9407C /* uk */,
+				92E0D90A24AF4B7300F7846E /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
