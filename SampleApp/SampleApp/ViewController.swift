@@ -451,11 +451,11 @@ extension ViewController: CardKDelegate {
     
   }
   
-  func willShow(_ controller: CardKViewController) {
+  func didLoad(_ controller: CardKViewController) {
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
     controller.allowSaveBinding = true;
-    controller.isSaveBinding = true;
+    controller.isSaveBinding = false;
     controller.displayCardHolderField = true;
   }
   

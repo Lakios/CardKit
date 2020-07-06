@@ -148,7 +148,7 @@ NSString *CardKFooterID = @"footer";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-  [_cKitDelegate willShowController:self];
+  [super viewWillAppear:YES];
 }
 
 +(UIViewController *) create:(id<CardKDelegate>)cardKViewControllerDelegate controller:(CardKViewController *) controller {
@@ -229,7 +229,8 @@ NSString *CardKFooterID = @"footer";
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
+  [_cKitDelegate didLoadController:self];
+  
   CardKTheme *theme = CardKConfig.shared.theme;
   _bankLogoView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 80);
 
@@ -238,18 +239,7 @@ NSString *CardKFooterID = @"footer";
   self.tableView.backgroundColor = theme.colorTableBackground;
   self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
   self.tableView.cellLayoutMarginsFollowReadableWidth = YES;
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                     selector:@selector(keyboardWillShow:)
-                     name:UIKeyboardWillShowNotification
-                     object:nil];
-  
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                     selector:@selector(keyboardWillHide:)
-                     name:UIKeyboardWillHideNotification
-                     object:nil];
-  
+
   UINavigationBar *bar = [self.navigationController navigationBar];
   bar.barTintColor = theme.colorCellBackground;
   
@@ -361,17 +351,6 @@ NSString *CardKFooterID = @"footer";
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
   return NO;
-}
-
-- (void)keyboardWillShow:(NSNotification *)notification {
-  NSDictionary* keyboardInfo = [notification userInfo];
-  NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
-  CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
-  self.tableView.contentInset = UIEdgeInsetsMake(0, 0, keyboardFrameBeginRect.size.height, 0);
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification {
-  self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {

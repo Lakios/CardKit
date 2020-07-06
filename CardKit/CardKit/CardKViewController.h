@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol CardKDelegate <NSObject>
 
 - (void)cardKitViewController:(UIViewController *)controller didCreateSeToken:(NSString *)seToken allowSaveBinding:(BOOL) allowSaveBinding isNewCard:(BOOL) isNewCard;
-- (void)willShowController:(CardKViewController *) controller;
+- (void)didLoadController:(CardKViewController *) controller;
 
 - (void)willShowPaymentView:(CardKPaymentView *) paymentView;
 - (void)cardKPaymentView:(CardKPaymentView *) paymentView didAuthorizePayment:(PKPayment *) pKPayment;
