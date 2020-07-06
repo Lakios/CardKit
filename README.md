@@ -313,12 +313,12 @@ func cardKitViewController(_ controller: CardKViewController, didCreateSeToken s
 
 ## Настройка CardKViewControler
 
-Для присваивания атрибутов СardKViewControler новыми параметрами необходимо реализовать функцию willShow(\_ controller: CardKViewController)
-В функции `willShow(\_ controller: CardKViewController)` присваиваются атрибуты контроллера `CardKViewController`
+Для присваивания атрибутов СardKViewControler новыми параметрами необходимо реализовать функцию didLoad(\_ controller: CardKViewController)
+В функции `didLoad(\_ controller: CardKViewController)` присваиваются атрибуты контроллера `CardKViewController`
 
 ```swift
 //ViewController.swift
-func willShow(_ controller: CardKViewController) {
+func didLoad(_ controller: CardKViewController) {
   controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
   controller.purchaseButtonTitle = "Custom purchase button";
   controller.allowSaveBinding = true;

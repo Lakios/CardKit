@@ -22,15 +22,15 @@ extension SampleCardKPaymentView: CardKDelegate {
 }
 ```
 
-1.2 Реализовать функцию `willShow(\_ controller: CardKViewController)`
+1.2 Реализовать функцию `didLoad(\_ controller: CardKViewController)`
 
-В функции `willShow(\_ controller: CardKViewController)` присваиваются атрибуты контроллера `CardKViewController`
+В функции `didLoad(\_ controller: CardKViewController)` присваиваются атрибуты контроллера `CardKViewController`
 
 ```swift
 //ViewController.swift
 extension ViewController: CardKDelegate {
   ...
-  func willShow(_ controller: CardKViewController) {
+  func didLoad(_ controller: CardKViewController) {
     controller.allowedCardScaner = CardIOUtilities.canReadCardWithCamera();
     controller.purchaseButtonTitle = "Custom purchase button";
     controller.allowSaveBinding = true;
