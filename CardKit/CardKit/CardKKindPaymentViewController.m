@@ -134,7 +134,6 @@ const NSString *CardKKindPayRows = @"rows";
    cell.backgroundColor = theme.colorCellBackground;
   }
 
-  cell.textLabel.textColor = theme.colorLabel;
   return cell;
 }
 

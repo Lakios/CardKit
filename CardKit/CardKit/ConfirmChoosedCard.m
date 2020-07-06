@@ -199,7 +199,6 @@ NSString *CardKConfirmChoosedCardFooterID = @"footer";
    cell.backgroundColor = theme.colorCellBackground;
   }
 
-  cell.textLabel.textColor = theme.colorLabel;
   return cell;
 }
 
