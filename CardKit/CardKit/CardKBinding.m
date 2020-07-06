@@ -60,10 +60,6 @@
     
     [self addSubview:_cardNumberLabel];
     [self addSubview:_expireDateLabel];
-
-    CardKTheme *theme = CardKConfig.shared.theme;
-    [_cardNumberLabel setTextColor: theme.colorLabel];
-    [_expireDateLabel setTextColor: theme.colorLabel];
   }
   return self;
 }
@@ -110,6 +106,10 @@
   _expireDateLabel.frame = CGRectMake(leftExpireDate, 0, _expireDateLabel.intrinsicContentSize.width, bounds.size.height);
 
   _secureCodeTextField.frame = CGRectMake(CGRectGetMaxX(_expireDateLabel.frame) - 3, 0, _secureCodeTextField.intrinsicContentSize.width, bounds.size.height);
+  
+  CardKTheme *theme = CardKConfig.shared.theme;
+  [_cardNumberLabel setTextColor: theme.colorLabel];
+  [_expireDateLabel setTextColor: theme.colorLabel];
 }
 
 - (void) replaceTextWithCircleBullet {
