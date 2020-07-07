@@ -11,7 +11,7 @@
 "cardholder" = "Власник карти";
 "cardholderPlaceholder" = "Ім'я прізвище";
 "Card Number" = "Номер картки";
-"MM/YY" = "MM/YY";
+"MM/YY" = "MM/PP";
 "doneButton" = "Сплатити";
 "scanBackButton" = "Введіть дані вручну";
 "expiry" = "Термін дії картки";

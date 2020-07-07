@@ -11,7 +11,7 @@
 "cardholder" = "Karteninhaber";
 "cardholderPlaceholder" = "Name";
 "Card Number" = "Kartennummer";
-"MM/YY" = "MM/YY";
+"MM/YY" = "MM/JJ";
 "doneButton" = "Bezahlen";
 "scanBackButton" = "Geben Sie die Details manuell ein";
 "expiry" = "Ablaufdatum der Karte";

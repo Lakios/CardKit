@@ -11,7 +11,7 @@
 "cardholder" = "Tenedor de la tarjeta";
 "cardholderPlaceholder" = "Nombre";
 "Card Number" = "Número de la tarjeta";
-"MM/YY" = "MM/YY";
+"MM/YY" = "MM/AA";
 "doneButton" = "Pagar";
 "scanBackButton" = "Ingrese los detalles manualmente";
 "expiry" = "Validez de la tarjeta";
